@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.json": "json",
+        "cmsis_common.h": "c",
+        "main.h": "c"
+    }
+}
