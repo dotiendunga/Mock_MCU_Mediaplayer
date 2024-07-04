@@ -10,6 +10,12 @@
 #include <termios.h>
 #include <sys/select.h>
 
+enum{
+    
+    SOURCE_UART = 0,
+    SOURCE_KEYBROAD = 1
+}; 
+
 using namespace std;
 
 class UARTInputData{
@@ -29,6 +35,7 @@ class UARTInputData{
         int getFileDescriptor() const { return fd; }
         string userInputString();
         virtual int userInput(); // Thêm từ khóa virtual ở đây
+        int check_source();
 };
 
 #endif
