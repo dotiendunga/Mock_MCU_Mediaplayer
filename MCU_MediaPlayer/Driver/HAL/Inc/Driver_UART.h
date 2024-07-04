@@ -25,18 +25,37 @@
 #define USART_TX                			7U
 #define PIN_MUX_CONTROL_GPIO    			2U
 
+//Data bit
+typedef enum
+{
+	USART_7_bit_Data	= 7,
+	USART_8_bit_Data	= 8,
+	USART_9_bit_Data	= 9,
+	USART_10_bit_Data	= 10,
+} USART_Data_bit_t;
+
 // Parity
-#define ARM_USART_PARITY_NONE               0U
-#define ARM_USART_PARITY_ODD                1U
-#define ARM_USART_PARITY_EVEN               2U
+typedef enum
+{
+	USART_Parity_none	= 0,
+	USART_Parity_Odd	= 1,
+	USART_Parity_Even	= 2,
+} USART_Parity_bit_t;
 
 // First transfer bit
-#define ARM_USART_LSB_FIRST                 0U
-#define ARM_USART_MSB_FIRST                 1U
+typedef enum
+{
+	USART_LSB_FIRST = 0,
+	USART_MSB_FIRST = 1,
+} USART_First_transfer_bit_t;
 
 // Stop bit
-#define ARM_USART_1_STOP_BIT                1U
-#define ARM_USART_2_STOP_BIT                2U
+typedef enum
+{
+	USART_1_Stop_bit = 1,
+	USART_2_Stop_bit = 2,
+} USART_Stopbit_t;
+
 
 // Baudrate
 typedef enum
