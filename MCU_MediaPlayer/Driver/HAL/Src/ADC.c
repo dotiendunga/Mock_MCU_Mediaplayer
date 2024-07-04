@@ -8,40 +8,8 @@
 
 #include "ADC.h"
 
-/*
-* Enable clock
-* Source: Fast IRC through Div2 driver gate
-* Ratio SCG clock divider: 1
-* Ratio ADC clock divider: 1
-*/
 HAL_StatusTypeDef ADC_EnableCLK(ADCx_t ADCx, ADC_CLK_Ratio_t div)
 {
-    uint32_t ADC_index = 0;
-    if(ADCx == ADC0)
-    {
-        ADC_index = 0;
-    }
-    else if(ADCx == ADC1)
-    {
-        ADC_index = 1;
-    }
-    else
-    {
-        return HAL_PARAMETRER_ERROR;
-    }
-    /* Disable ADC0 clock for config */
-	PCC->PCCn[PCC_ADC0_INDEX + ADC_index] &= ~PCC_PCCn_CGC_MASK;
-
-	SCG->FIRCCSR &= ~SCG_FIRCCSR_FIRCEN_MASK;    /* Disable Fast IRC */
-	SCG->FIRCDIV |= SCG_FIRCDIV_FIRCDIV2(1);	 /* Divider = 1 */
-	SCG->FIRCCSR |= SCG_FIRCCSR_FIRCEN(1);       /* Enable Fast IRC */
-	
-    /* ADC0 clock Option = Fast IRC */
-	PCC->PCCn[PCC_ADC0_INDEX + ADC_index] |= PCC_PCCn_PCS(3);
-	
-    /* Enable ADC clock */
-	PCC->PCCn[PCC_ADC0_INDEX + ADC_index] |= PCC_PCCn_CGC(1);
-    
     /* Input clock: Alternate clock 1, Divide ratio = 1 */
 	ADCx->CFG1 &= ~ (ADC_CFG1_ADICLK_MASK | ((uint32_t)div << ADC_CFG1_ADIV_SHIFT));
 	return HAL_OK;

@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.json": "json",
+        "driver_uart.h": "c",
+        "core_interrupt.h": "c",
+        "main.h": "c"
+    }
+}

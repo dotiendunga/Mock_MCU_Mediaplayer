@@ -56,22 +56,14 @@ typedef struct
 	uint8_t     	parity;
 	uint8_t     	stopbit;
 	uint8_t     	direct;
-} USART_Config_t, *pUSART_Config_t;
+} USART_Config_t;
 
 typedef struct 
 {
-	int32_t (*Enable)(void);
-	int32_t (*Uninitialize)(void);
 	int32_t (*Init)(USART_Config_t* usart);
+	int32_t (*Uninitialize)(USART_Config_t* usart);
 	int32_t (*Transmit)(const USART_Config_t* usart, const void *data, uint32_t ln);
 	int32_t (*Receive)(const USART_Config_t* usart, void *data, uint32_t ln);
-	// int32_t (*ReceiveBlocking)(uint8_t *pRxBuffer, uint8_t len);
-	// int32_t (*SetBaudrate)(USART_Config_t* usart);
-	// int32_t (*SetData)(USART_Config_t* usart);
-	// int32_t (*SetParity)(USART_Config_t* usart);
-	// int32_t (*SetDirection)(USART_Config_t* usart);
-	// int32_t (*SetStopBit)(USART_Config_t* usart);
-	// int32_t (*SendString)(uint8_t * data);
 } const ARM_DRIVER_USART;
 
 #endif /* DRIVER_USART_H_ */

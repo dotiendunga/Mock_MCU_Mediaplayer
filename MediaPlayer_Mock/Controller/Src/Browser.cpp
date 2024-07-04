@@ -130,7 +130,8 @@ int Browser::userInput()
     } else if (ret == 0) {
         // cout << "No data within five seconds." << endl;
     } else {
-        if (FD_ISSET(fd, &readfds)) {
+        if (FD_ISSET(fd, &readfds))
+        {
             int n = read(fd, buf, sizeof buf - 1);
             if (n > 0) {
                 buf[n] = '\0';
@@ -139,7 +140,8 @@ int Browser::userInput()
                 return (int)std::stoi(shared_variable);
             }
         }
-        if (FD_ISSET(STDIN_FILENO, &readfds)) {
+        if (FD_ISSET(STDIN_FILENO, &readfds))
+        {
             int choice;
             cin >> choice;
             if (std::cin.fail())

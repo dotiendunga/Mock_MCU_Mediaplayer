@@ -10,23 +10,42 @@
 
 #include "HAL_Common.h"
 
+// Gate for LPIT, LPSPI, FLEXIO, LPI2C, LPUART, ADC, FTM, LPTMR, ENET
+#define SOSCDIV2_CLK                0x01
+#define SIRCDIV2_CLK                0x02
+#define FIRCDIV2_CLK                0x03
+#define SPLLDIV2_CLK                0x06
+
+// Clock divide
+typedef enum
+{
+    CLK_DIVIDE_DISABLE = 0,
+    CLK_DIVIDE_BY_1,
+    CLK_DIVIDE_BY_2,
+    CLK_DIVIDE_BY_4,
+    CLK_DIVIDE_BY_8,
+    CLK_DIVIDE_BY_16,
+    CLK_DIVIDE_BY_32,
+    CLK_DIVIDE_BY_64
+} CLOCK_Divide_t;
+
+/* GPIO */
 #define _ENABLE_PORTA_CLK()			PCC->PCCn[PCC_PORTA_INDEX] |= PCC_PCCn_CGC_MASK;
 #define _ENABLE_PORTB_CLK()			PCC->PCCn[PCC_PORTB_INDEX] |= PCC_PCCn_CGC_MASK;
 #define _ENABLE_PORTC_CLK()			PCC->PCCn[PCC_PORTC_INDEX] |= PCC_PCCn_CGC_MASK;
 #define _ENABLE_PORTD_CLK()			PCC->PCCn[PCC_PORTD_INDEX] |= PCC_PCCn_CGC_MASK;
 #define _ENABLE_PORTE_CLK()			PCC->PCCn[PCC_PORTE_INDEX] |= PCC_PCCn_CGC_MASK;
 
-void Clock_Enable_FastIRC(/*uint32_t div*/)
+/* FastIRC */
+typedef enum
 {
-    SCG->FIRCCSR &= ~SCG_FIRCCSR_FIRCEN_MASK;    /* Disable Fast IRC */
-	SCG->FIRCDIV |= SCG_FIRCDIV_FIRCDIV2(1u);	 /* Divider = 1 */
-	SCG->FIRCCSR |= SCG_FIRCCSR_FIRCEN(1u);       /* Enable Fast IRC */
-}
-void Clock_Enable_USART()
-{
-    /*Select clock source and enable clock for LPUART1 module*/
-	PCC->PCCn[PCC_LPUART1_INDEX] |= PCC_PCCn_PCS(3u); //Select FIRCDIV2_CLK
-	PCC->PCCn[PCC_LPUART1_INDEX] |= PCC_PCCn_CGC_MASK;//Enable clock for LPUART1 module
-}
+    FAST_IRC_GATE_1 = 0,
+    FAST_IRC_GATE_2
+} FAST_IRC_Gate_t;
+
+void Clock_Enable_FastIRC(FAST_IRC_Gate_t gate, CLOCK_Divide_t div);
+
+/* Enable module clock */
+void Clock_Enable_Module(uint32_t moduleid, uint32_t gate);
 
 #endif /* HAL_INC_CLOCK_H_ */

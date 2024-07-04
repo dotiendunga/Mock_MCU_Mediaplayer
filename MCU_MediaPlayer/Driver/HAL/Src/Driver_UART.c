@@ -8,7 +8,7 @@
 
 #include "Driver_UART.h"
 
-static int32_t ARM_USART_Enable(void)
+static int32_t ARM_USART_Pin(void)
 {
 	//Pin 6 RX
 	PORTC->PCR[USART_RX] &= ~PORT_PCR_MUX_MASK;
@@ -143,7 +143,7 @@ static int32_t ARM_USART_SetStopBit(const USART_Config_t* usart)
 }
 
 
-static int32_t ARM_USART_Uninitialize(void)
+static int32_t ARM_USART_Uninitialize(USART_Config_t* usart)
 {
     //Disable UART
 	return ARM_DRIVER_OK;
@@ -221,6 +221,7 @@ static int32_t ARM_USART_Receive(const USART_Config_t* usart, void *data, uint32
 
 static int32_t ARM_USART_Init(USART_Config_t* usart)
 {
+	if(ARM_USART_Pin())	return ARM_USART_ERROR_MODE;
 	if(ARM_USART_SetBaudrate(usart)) return ARM_USART_ERROR_BAUDRATE;
 	if(ARM_USART_SetDataLength(usart)) return ARM_USART_ERROR_DATA_BITS;
 	if(ARM_USART_SetParity(usart)) return ARM_USART_ERROR_PARITY;
@@ -231,9 +232,8 @@ static int32_t ARM_USART_Init(USART_Config_t* usart)
 
 ARM_DRIVER_USART Driver_UART = 
 {
-	.Enable = ARM_USART_Enable,
-	.Uninitialize = ARM_USART_Uninitialize,
 	.Init = ARM_USART_Init,
+	.Uninitialize = ARM_USART_Uninitialize,
 	.Transmit = ARM_USART_Transmit,
 	.Receive = ARM_USART_Receive,
 };
