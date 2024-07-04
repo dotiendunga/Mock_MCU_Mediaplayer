@@ -5,10 +5,10 @@
 
 enum MenuChoices
 {
-    EXIT = 0,
-    MEDIA_LIST,
-    PLAY_LIST,
-    PLAY_MUSIC
+    EXIT        =   0,
+    MEDIA_LIST  =   1,
+    PLAY_LIST   =   2,
+    PLAY_MUSIC  =   3
 };
 
 using namespace std;
