@@ -27,6 +27,7 @@ static void UART_Setup();
 int main(void)
 {
 	SysTick_Config(SYSTICK_PERIOD_1MS);
+	Clock_Setup();
 	GPIO_Setup();
 	ADC_Setup();
 	UART_Setup();
@@ -35,7 +36,6 @@ int main(void)
 	while (1)
     {
 		a = (uint8_t)data;
-//		Driver_UART.Receive(&UART1, &a, 1);
 		Driver_UART.Transmit(pUART1, &a, 1);
 		Delay_ms(1000);
     }
@@ -46,7 +46,8 @@ static void Clock_Setup()
 {
 	/* GPIO, UART */
 	_ENABLE_PORTC_CLK();
-
+	Clock_Enable_FastIRC();
+	Clock_Enable_USART();
 }
 
 void UART_Setup()

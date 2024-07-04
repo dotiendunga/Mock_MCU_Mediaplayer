@@ -1,5 +1,5 @@
 -T
-"D:/Embedded/workspaceS32DS.3.5/MCU_MediaPlayer/Project_Settings/Linker_Files/S32K144_64_flash.ld"
+"D:/Git_workspace/Mock_MCU_Mediaplayer/MCU_MediaPlayer/Project_Settings/Linker_Files/S32K144_64_flash.ld"
 -Wl,-Map,"MCU_MediaPlayer.map"
 -Xlinker
 --gc-sections
@@ -11,6 +11,7 @@
 "./Driver/CMSIS/Src/Core_Systick.o"
 "./Driver/CMSIS/Src/Driver_GPIO.o"
 "./Driver/HAL/Src/ADC.o"
+"./Driver/HAL/Src/Clock.o"
 "./Driver/HAL/Src/Driver_UART.o"
 "./Driver/HAL/Src/Timer.o"
 "./Project_Settings/Startup_Code/startup.o"

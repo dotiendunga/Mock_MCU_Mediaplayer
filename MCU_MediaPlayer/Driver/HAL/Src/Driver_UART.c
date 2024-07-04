@@ -10,23 +10,13 @@
 
 static int32_t ARM_USART_Enable(void)
 {
-    //Enable clock for Port C
-	// PCC->PCCn[PCC_PORTC_INDEX] |= PCC_PCCn_CGC_MASK;
 	//Pin 6 RX
 	PORTC->PCR[USART_RX] &= ~PORT_PCR_MUX_MASK;
 	PORTC->PCR[USART_RX] |= PORT_PCR_MUX(PIN_MUX_CONTROL_GPIO);			//Mux uart
 	//Pin 7 TX
 	PORTC->PCR[USART_TX] &= ~PORT_PCR_MUX_MASK;
 	PORTC->PCR[USART_TX] |= PORT_PCR_MUX(PIN_MUX_CONTROL_GPIO);			//Mux uart
-	/*Clock for UART module*/
-	/*Clock source*/
-	SCG->FIRCCSR &= ~SCG_FIRCCSR_FIRCEN_MASK;    /* Disable Fast IRC */
-	SCG->FIRCDIV |= SCG_FIRCDIV_FIRCDIV2(1u);	 /* Divider = 1 */
-	SCG->FIRCCSR |= SCG_FIRCCSR_FIRCEN(1u);       /* Enable Fast IRC */
-	/*Select clock source and enable clock for LPUART1 module*/
-	PCC->PCCn[PCC_LPUART1_INDEX] |= PCC_PCCn_PCS(3u); //Select FIRCDIV2_CLK
-	PCC->PCCn[PCC_LPUART1_INDEX] |= PCC_PCCn_CGC_MASK;//Enable clock for LPUART1 module
-	/*clock = 48MHz*/
+
 	return ARM_DRIVER_OK;
 }
 

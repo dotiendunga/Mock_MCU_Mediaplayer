@@ -5,16 +5,19 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Driver/HAL/Src/ADC.c \
+../Driver/HAL/Src/Clock.c \
 ../Driver/HAL/Src/Driver_UART.c \
 ../Driver/HAL/Src/Timer.c 
 
 OBJS += \
 ./Driver/HAL/Src/ADC.o \
+./Driver/HAL/Src/Clock.o \
 ./Driver/HAL/Src/Driver_UART.o \
 ./Driver/HAL/Src/Timer.o 
 
 C_DEPS += \
 ./Driver/HAL/Src/ADC.d \
+./Driver/HAL/Src/Clock.d \
 ./Driver/HAL/Src/Driver_UART.d \
 ./Driver/HAL/Src/Timer.d 
 

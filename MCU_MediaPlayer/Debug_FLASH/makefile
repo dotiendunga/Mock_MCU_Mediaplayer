@@ -32,7 +32,7 @@ MCU_MediaPlayer.siz \
 all: MCU_MediaPlayer.elf secondary-outputs
 
 # Tool invocations
-MCU_MediaPlayer.elf: $(OBJS) D:/Embedded/workspaceS32DS.3.5/MCU_MediaPlayer/Project_Settings/Linker_Files/S32K144_64_flash.ld $(USER_OBJS)
+MCU_MediaPlayer.elf: $(OBJS) D:/Git_workspace/Mock_MCU_Mediaplayer/MCU_MediaPlayer/Project_Settings/Linker_Files/S32K144_64_flash.ld $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Standard S32DS C Linker'
 	arm-none-eabi-gcc -o "MCU_MediaPlayer.elf" "@MCU_MediaPlayer.args"  $(USER_OBJS) $(LIBS)

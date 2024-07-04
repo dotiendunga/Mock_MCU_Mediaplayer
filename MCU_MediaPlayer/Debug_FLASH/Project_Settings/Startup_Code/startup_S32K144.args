@@ -1,5 +1,5 @@
 -c
--I"D:/Embedded/workspaceS32DS.3.5/MCU_MediaPlayer/include"
+-I"D:/Git_workspace/Mock_MCU_Mediaplayer/MCU_MediaPlayer/include"
 -x assembler-with-cpp
 -DSTART_FROM_FLASH
 -g3
