@@ -15,10 +15,11 @@ extern ARM_DRIVER_GPIO Driver_GPIO;
 extern ADC_Handler_t ADC_Handle;
 extern ARM_DRIVER_USART Driver_UART;
 
-USART_Config_t UART1;
+pUSART_Config_t pUART1;
 
 volatile uint32_t data = 0;
 
+static void Clock_Setup();
 static void GPIO_Setup();
 static void ADC_Setup();
 static void UART_Setup();
@@ -35,29 +36,33 @@ int main(void)
     {
 		a = (uint8_t)data;
 //		Driver_UART.Receive(&UART1, &a, 1);
-		Driver_UART.Transmit(&UART1, &a, 1);
+		Driver_UART.Transmit(pUART1, &a, 1);
 		Delay_ms(1000);
     }
     return 0;
 }
 
+static void Clock_Setup()
+{
+	/* GPIO, UART */
+	_ENABLE_PORTC_CLK();
+
+}
+
 void UART_Setup()
 {
 	Driver_UART.Enable();
-
-	UART1.instance = LPUART1;
-	UART1.baudrate = USART_Baurate_9600;
-	UART1.datalength = 8;
-	UART1.direct = ARM_USART_LSB_FIRST;
-	UART1.parity = ARM_USART_PARITY_NONE;
-	UART1.stopbit = ARM_USART_1_STOP_BIT;
-
-	Driver_UART.Init(&UART1);
+	pUART1->instance = LPUART1;
+	pUART1->baudrate = USART_Baurate_9600;
+	pUART1->datalength = 8;
+	pUART1->direct = ARM_USART_LSB_FIRST;
+	pUART1->parity = ARM_USART_PARITY_NONE;
+	pUART1->stopbit = ARM_USART_1_STOP_BIT;
+	Driver_UART.Init(pUART1);
 }
 
 void ADC_Setup()
 {
-	_ENABLE_PORTC_CLK();
 	ADC_Handle.EnableCLK(ADC0, ADC_DIVIDE_1);
 	ADC_Handle.SetResolution(ADC0, ADC_RESOLUTION_12BIT);
 	ADC_Handle.SetTrigger(ADC0, ADC_Trigger_Sorfware);

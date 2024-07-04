@@ -1,3 +1,11 @@
+/***********************************************************************************
+*
+* Name 					      : Driver_UART.h
+* Author				      : Group 3
+* Created date			      : July 4 2024
+*
+************************************************************************************/
+
 #ifndef DRIVER_USART_H_
 #define DRIVER_USART_H_
 
@@ -48,7 +56,7 @@ typedef struct
 	uint8_t     	parity;
 	uint8_t     	stopbit;
 	uint8_t     	direct;
-} USART_Config_t;
+} USART_Config_t, *pUSART_Config_t;
 
 typedef struct 
 {

@@ -1,9 +1,17 @@
+/***********************************************************************************
+*
+* Name 					: Driver_UART.c
+* Author				: Group 3
+* Created date			: July 4 2024
+*
+************************************************************************************/
+
 #include "Driver_UART.h"
 
 static int32_t ARM_USART_Enable(void)
 {
     //Enable clock for Port C
-	PCC->PCCn[PCC_PORTC_INDEX] |= PCC_PCCn_CGC_MASK;
+	// PCC->PCCn[PCC_PORTC_INDEX] |= PCC_PCCn_CGC_MASK;
 	//Pin 6 RX
 	PORTC->PCR[USART_RX] &= ~PORT_PCR_MUX_MASK;
 	PORTC->PCR[USART_RX] |= PORT_PCR_MUX(PIN_MUX_CONTROL_GPIO);			//Mux uart
@@ -221,30 +229,14 @@ static int32_t ARM_USART_Receive(const USART_Config_t* usart, void *data, uint32
     return ARM_DRIVER_OK;
 }
 
-
-// static int32_t ARM_USART_SendString(uint8_t * data)
-// {
-// 	/* Enable Transmit */
-// 	LPUART1->CTRL |= LPUART_CTRL_TE(1u);
-// 	while (*data != '\0')
-// 	{
-// 		while(!(LPUART1->STAT & LPUART_STAT_TDRE_MASK));
-// 		LPUART1->DATA = *(data++);
-// 	}
-// 	/* Disable Transmit */
-// 	while(!(LPUART1->STAT & LPUART_STAT_TC_MASK));
-// 	LPUART1->CTRL &= ~LPUART_CTRL_TE_MASK;
-// 	return ARM_DRIVER_OK;
-// }
-
-
 static int32_t ARM_USART_Init(USART_Config_t* usart)
 {
-	if(ARM_USART_SetBaudrate(usart)) return ;
-	if(ARM_USART_SetDataLength(usart)) return ;
-	if(ARM_USART_SetParity(usart)) return ;
-	if(ARM_USART_SetShiftDirection(usart)) return ;
-	if(ARM_USART_SetStopBit(usart)) return ;
+	if(ARM_USART_SetBaudrate(usart)) return ARM_USART_ERROR_BAUDRATE;
+	if(ARM_USART_SetDataLength(usart)) return ARM_USART_ERROR_DATA_BITS;
+	if(ARM_USART_SetParity(usart)) return ARM_USART_ERROR_PARITY;
+	if(ARM_USART_SetShiftDirection(usart)) return ARM_USART_ERROR_MODE;
+	if(ARM_USART_SetStopBit(usart)) return ARM_USART_ERROR_MODE;
+	return ARM_DRIVER_OK;
 }
 
 ARM_DRIVER_USART Driver_UART = 
@@ -254,11 +246,4 @@ ARM_DRIVER_USART Driver_UART =
 	.Init = ARM_USART_Init,
 	.Transmit = ARM_USART_Transmit,
 	.Receive = ARM_USART_Receive,
-	// .ReceiveBlocking = ARM_USART_ReceiveBlocking
-	// .SetBaudrate = ARM_USART_SetBaudrate,
-    // .SetData = ARM_USART_SetDataLength,
-    // .SetParity = ARM_USART_ConfigParity,
-    // .SetDirection = ARM_USART_Configdirection,
-	// .SetStopBit = ARM_USART_Configstopbit,
-	// .SendString = ARM_USART_SendString,
 };
