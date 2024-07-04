@@ -28,18 +28,18 @@
 //Data bit
 typedef enum
 {
-	USART_7_bit_Data	= 7,
-	USART_8_bit_Data	= 8,
-	USART_9_bit_Data	= 9,
-	USART_10_bit_Data	= 10,
+	USART_7_BIT_DATA	= 7,
+	USART_8_BIT_DATA	= 8,
+	USART_9_BIT_DATA	= 9,
+	USART_10_BIT_DATA	= 10,
 } USART_Data_bit_t;
 
 // Parity
 typedef enum
 {
-	USART_Parity_none	= 0,
-	USART_Parity_Odd	= 1,
-	USART_Parity_Even	= 2,
+	USART_PARITY_NONE	= 0,
+	USART_PARITY_ODD	= 1,
+	USART_PARITY_EVEN	= 2,
 } USART_Parity_bit_t;
 
 // First transfer bit
@@ -52,16 +52,16 @@ typedef enum
 // Stop bit
 typedef enum
 {
-	USART_1_Stop_bit = 1,
-	USART_2_Stop_bit = 2,
+	USART_1_STOP_BIT = 1,
+	USART_2_STOP_BIT = 2,
 } USART_Stopbit_t;
 
 
 // Baudrate
 typedef enum
 {
-	USART_Baurate_9600 = 0,
-	USART_Baurate_112500,
+	USART_BAURATE_9600 = 0,
+	USART_BAURATE_112500,
 } USART_Baurate_t;
 
 

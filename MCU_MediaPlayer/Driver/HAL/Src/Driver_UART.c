@@ -26,11 +26,11 @@ static int32_t ARM_USART_SetBaudrate(USART_Config_t* usart)
 	usart->instance->CTRL &= ~(LPUART_CTRL_TE_MASK|LPUART_CTRL_RE_MASK);
 	switch (usart->baudrate)
 	{
-	case USART_Baurate_9600:
+	case USART_BAURATE_9600:
 		usart->instance->BAUD &= ~LPUART_BAUD_SBR_MASK;
 		usart->instance->BAUD |= LPUART_BAUD_SBR(312U);
 		break;
-	case USART_Baurate_112500:
+	case USART_BAURATE_112500:
 		usart->instance->BAUD &= ~LPUART_BAUD_SBR_MASK;
 		usart->instance->BAUD |= LPUART_BAUD_SBR(27U);
 		break;
@@ -47,13 +47,13 @@ static int32_t ARM_USART_SetDataLength(USART_Config_t* usart)
 	/* Configure data */
 	switch (usart->datalength)
 	{
-	case USART_7_bit_Data:
+	case USART_7_BIT_DATA:
 		//Set bit M10 to 0 to choose 7 to 9 bit data
 		usart->instance->BAUD &= ~LPUART_BAUD_M10_MASK;
 		//Select 7-bit data characters
 		usart->instance->CTRL |= LPUART_CTRL_M7(1u);
         break;
-	case USART_8_bit_Data:
+	case USART_8_BIT_DATA:
 		//Set bit M10 to 0 to choose 7 to 9 bit data
 		usart->instance->BAUD &= ~LPUART_BAUD_M10_MASK;
 		//Clear bit M7 to 0 to select 8to 10-bit data
@@ -61,7 +61,7 @@ static int32_t ARM_USART_SetDataLength(USART_Config_t* usart)
 		//Select 8-bit data characters
 		usart->instance->CTRL &= ~LPUART_CTRL_M_MASK;
 		break;
-	case USART_9_bit_Data:
+	case USART_9_BIT_DATA:
 		//Set bit M10 to 0 to choose 7 to 9 bit data
 		usart->instance->BAUD &= ~LPUART_BAUD_M10_MASK;
 		//Clear bit M7 to 0 to select 8to 10-bit data
@@ -69,7 +69,7 @@ static int32_t ARM_USART_SetDataLength(USART_Config_t* usart)
 		//Select 9-bit data characters
 		usart->instance->CTRL |= LPUART_CTRL_M(1u);
 		break;
-	case USART_10_bit_Data:
+	case USART_10_BIT_DATA:
 		//Clear bit M7 to 0 to select 8to 10-bit data
 		usart->instance->CTRL &= ~LPUART_CTRL_M7_MASK;
 		//Select 10-bit data characters
@@ -87,15 +87,15 @@ static int32_t ARM_USART_SetParity(const USART_Config_t* usart)
 	usart->instance->CTRL &= ~LPUART_CTRL_PE_MASK;
     switch (usart->parity)
     {
-    case USART_Parity_Odd:
+    case USART_PARITY_ODD:
         usart->instance->CTRL |= LPUART_CTRL_PE_MASK;
         usart->instance->CTRL |= LPUART_CTRL_PT_MASK;
         break;
-    case USART_Parity_Even:
+    case USART_PARITY_EVEN:
         usart->instance->CTRL |= LPUART_CTRL_PE_MASK;
         usart->instance->CTRL &= ~LPUART_CTRL_PT_MASK;
         break;
-    case USART_Parity_none:
+    case USART_PARITY_NONE:
 		usart->instance->CTRL &= ~LPUART_CTRL_PE_MASK;
         usart->instance->CTRL &= ~LPUART_CTRL_PT_MASK;
         break;
@@ -129,10 +129,10 @@ static int32_t ARM_USART_SetStopBit(const USART_Config_t* usart)
 	/* Configure stop bit*/
 	switch (usart->stopbit)
 	{
-	case USART_1_Stop_bit:
+	case USART_1_STOP_BIT:
 		usart->instance->BAUD &= ~LPUART_BAUD_SBNS_MASK;
 		break;
-	case USART_2_Stop_bit:
+	case USART_2_STOP_BIT:
 		usart->instance->BAUD |= LPUART_BAUD_SBNS_MASK;
 		break;
 	default:

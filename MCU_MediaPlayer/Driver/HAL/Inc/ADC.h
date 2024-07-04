@@ -66,8 +66,8 @@ typedef enum
 
 typedef enum
 {
-	ADC_Mode_Oneshot = 0,
-	ADC_Mode_Continuous
+	ADC_MODE_ONESHOT = 0,
+	ADC_MODE_CONTINUOUS
 } ADC_Mode_t;
 
 typedef enum
