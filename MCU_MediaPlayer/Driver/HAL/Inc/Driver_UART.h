@@ -63,7 +63,9 @@ typedef struct
 	int32_t (*Init)(USART_Config_t* usart);
 	int32_t (*Uninitialize)(USART_Config_t* usart);
 	int32_t (*Transmit)(const USART_Config_t* usart, const void *data, uint32_t ln);
+	int32_t (*Transmit_IT)(const USART_Config_t* usart, const void *data, uint32_t ln);
 	int32_t (*Receive)(const USART_Config_t* usart, void *data, uint32_t ln);
+	int32_t (*Receive_IT)(const USART_Config_t* usart, void *data, uint32_t ln);
 } const ARM_DRIVER_USART;
 
 #endif /* DRIVER_USART_H_ */

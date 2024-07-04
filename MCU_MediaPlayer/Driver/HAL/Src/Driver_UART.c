@@ -186,6 +186,17 @@ static int32_t ARM_USART_Transmit(const USART_Config_t* usart, const void *data,
     return ARM_DRIVER_OK;
 }
 
+static int32_t ARM_USART_Transmit_IT(const USART_Config_t* usart, const void *data, uint32_t ln)
+{
+    if (data == NULL || ln == 0)
+    {
+        return ARM_DRIVER_ERROR_PARAMETER;
+    }
+
+
+
+    return ARM_DRIVER_OK;
+}
 static int32_t ARM_USART_Receive(const USART_Config_t* usart, void *data, uint32_t ln)
 {
     if (data == NULL || ln == 0)
@@ -218,6 +229,10 @@ static int32_t ARM_USART_Receive(const USART_Config_t* usart, void *data, uint32
     LPUART1->CTRL &= ~LPUART_CTRL_RE_MASK;
     return ARM_DRIVER_OK;
 }
+static int32_t ARM_USART_Receive_IT(const USART_Config_t* usart, void *data, uint32_t ln)
+{
+
+}
 
 static int32_t ARM_USART_Init(USART_Config_t* usart)
 {
@@ -235,5 +250,7 @@ ARM_DRIVER_USART Driver_UART =
 	.Init = ARM_USART_Init,
 	.Uninitialize = ARM_USART_Uninitialize,
 	.Transmit = ARM_USART_Transmit,
+	.Transmit_IT = ARM_USART_Transmit_IT,
 	.Receive = ARM_USART_Receive,
+	.Receive_IT = ARM_USART_Receive_IT,
 };

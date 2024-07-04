@@ -17,12 +17,20 @@ extern ARM_DRIVER_USART Driver_UART;
 
 USART_Config_t UART1;
 
-volatile uint32_t data = 0;
+volatile uint32_t ADC_value = 0;
 
+/* Init function */
 static void Clock_Setup();
 static void GPIO_Setup();
 static void ADC_Setup();
 static void UART_Setup();
+
+/* App */
+void sentVolume()
+{
+	uint32_t volume = ADC_value / 128 * 100;
+	Driver_UART.Transmit(&UART1, &volume, 1);
+}
 
 int main(void)
 {
@@ -31,13 +39,16 @@ int main(void)
 	GPIO_Setup();
 	ADC_Setup();
 	UART_Setup();
-	uint8_t a;
 	ADC_Handle.Start(ADC0, ADC_CHANNEL_0, 12);
-	while (1)
+	while(1)
     {
-		a = (uint8_t)data;
-		Driver_UART.Transmit(&UART1, &a, 1);
-		Delay_ms(1000);
+		if(ADC_Handle.IsConversionDone(ADC0, ADC_CHANNEL_0, 100) == HAL_OK)
+		{
+			ADC_value = ADC_Handle.Read(ADC0, ADC_CHANNEL_0);
+			sentVolume();
+			ADC_Handle.Start(ADC0, ADC_CHANNEL_0, 12);
+		}
+		Delay_ms(500);
     }
     return 0;
 }
@@ -62,6 +73,7 @@ void UART_Setup()
 	UART1.direct = ARM_USART_LSB_FIRST;
 	UART1.parity = ARM_USART_PARITY_NONE;
 	UART1.stopbit = ARM_USART_1_STOP_BIT;
+	/* Init uart1 */
 	Driver_UART.Init(&UART1);
 }
 
@@ -72,7 +84,7 @@ void ADC_Setup()
 	ADC_Handle.SetTrigger(ADC0, ADC_Trigger_Sorfware);
 	ADC_Handle.SetMode(ADC0, ADC_Mode_Oneshot);
 	ADC_Handle.SetReference(ADC0, ADC_Ref_External);
-	ADC_Handle.InterruptEnable(ADC0, ADC_CHANNEL_0, ADC_IT_ENABLE);
+	ADC_Handle.InterruptEnable(ADC0, ADC_CHANNEL_0, ADC_IT_DISABLE);
 	NVIC_EnableIRQ(ADC0_IRQn);
 }
 
@@ -86,6 +98,6 @@ void GPIO_Setup()
 
 void ADC0_IRQHandler()
 {
-	data = ADC_Handle.Read(ADC0, ADC_CHANNEL_0);
+	ADC_value = ADC_Handle.Read(ADC0, ADC_CHANNEL_0);
 	ADC_Handle.Start(ADC0, ADC_CHANNEL_0, 12);
 }
