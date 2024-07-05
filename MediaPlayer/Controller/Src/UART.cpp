@@ -90,7 +90,7 @@ string UARTInputData::userInputString()
     string shared_variable;
     fd_set readfds;
     char buf[100];
-    // while (true) {
+    while (true) {
         FD_ZERO(&readfds);
         FD_SET(fd, &readfds);
         FD_SET(STDIN_FILENO, &readfds); // Thêm stdin vào tập tệp mô tả cần kiểm tra
@@ -126,6 +126,6 @@ string UARTInputData::userInputString()
                 return input;
             }
         }
-        return "\0";
+        // return "\0";
     }
-// }
+}
