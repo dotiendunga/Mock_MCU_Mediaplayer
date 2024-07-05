@@ -18,7 +18,7 @@ void MenuView::display_menu()
         << left << setw(tableWidth/4) << "3. Play music"
         << left << setw(tableWidth/4) << "0. Exit\n"<<endl;
     cout<< string(tableWidth, '=')<<endl;
-    cout << "Choose option:";
+    cout << "Choose option:"<<endl;
 } 
 
 void MenuView::InvalidChoiceInterface()
