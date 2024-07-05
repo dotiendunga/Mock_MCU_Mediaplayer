@@ -1,20 +1,6 @@
 #include "UART.hpp"
 
 
-// #define END_BYTE 0x00
-// #define    BTN1  0x01
-// #define    BTN2  0x02
-// #define    KEYBROAD 0x03
-
-
-enum 
-{
-    END_BYTE = 0x00,
-    BTN1    = 0x01,
-    BTN2   = 0x02,
-    KEYBROAD =0x03
-
-};
 
 UARTInputData::UARTInputData()
 {
@@ -38,6 +24,7 @@ int UARTInputData::setInterfaceAttribs(int fd, int speed)
         cerr << "Error " << errno << " from tcgetattr: " << strerror(errno) << endl;
         return -1;
     }
+
     cfsetospeed(&tty, speed);
     cfsetispeed(&tty, speed);
 
@@ -97,45 +84,6 @@ int UARTInputData::userInput()
 {
     return 0;
 }
-
-string UARTInputData::userInputString()
-{
-    string shared_variable;
-    fd_set readfds;
-    char buf[100];
-    while (true) {
-        FD_ZERO(&readfds);
-        FD_SET(fd, &readfds);
-        FD_SET(STDIN_FILENO, &readfds); // Thêm stdin vào tập tệp mô tả cần kiểm tra
-        // Đặt thời gian chờ
-        struct timeval tv;
-        tv.tv_sec = 5; // Thời gian chờ tối đa là 5 giây
-        tv.tv_usec = 0;
-
-        int max_fd = max(fd, STDIN_FILENO) + 1;
-        int ret = select(max_fd, &readfds, NULL, NULL, &tv);
-
-        if (ret == -1) {
-            cerr << "Error in select: " << strerror(errno) << endl;
-            // break;
-        } else if (ret == 0) {
-            // cout << "No data within five seconds." << endl;
-
-        } else {
-            if (FD_ISSET(fd, &readfds)) {
-                int n = read(fd, buf, sizeof buf - 1);
-                if (n > 0) {
-                    buf[n] = '\0';
-                    shared_variable = string(buf);
-                    cout << "UART event: " << shared_variable << endl;
-                    // cin.ignore();
-                    return shared_variable; 
-                }
-            }
-    }
-}
-}
-
 int UARTInputData::check_source()
 {
     // string shared_variable;
@@ -170,11 +118,44 @@ int UARTInputData::check_source()
                 return SOURCE_KEYBROAD;
             }
         }
-<<<<<<< HEAD
-        // return "\0";
-    }
-=======
     // return "\0";
+    }
 }
->>>>>>> 0c8a0ce294171941dcd85d63308e59ea592b491b
+
+string UARTInputData::userInputString()
+{
+    string shared_variable;
+    fd_set readfds;
+    char buf[100];
+    while (true) {
+        FD_ZERO(&readfds);
+        FD_SET(fd, &readfds);
+        FD_SET(STDIN_FILENO, &readfds); // Thêm stdin vào tập tệp mô tả cần kiểm tra
+        // Đặt thời gian chờ
+        struct timeval tv;
+        tv.tv_sec = 5; // Thời gian chờ tối đa là 5 giây
+        tv.tv_usec = 0;
+
+        int max_fd = max(fd, STDIN_FILENO) + 1;
+        int ret = select(max_fd, &readfds, NULL, NULL, &tv);
+
+        if (ret == -1) {
+            cerr << "Error in select: " << strerror(errno) << endl;
+            // break;
+        } else if (ret == 0) {
+            // cout << "No data within five seconds." << endl;
+
+        } else {
+            if (FD_ISSET(fd, &readfds)) {
+                int n = read(fd, buf, sizeof buf - 1);
+                if (n > 0) {
+                    buf[n] = '\0';
+                    shared_variable = string(buf);
+                    cout << "UART event: " << shared_variable << endl;
+                    return shared_variable; 
+                }
+            }
+        }
+        return "\0";
+    }
 }

@@ -15,7 +15,6 @@ enum{
     SOURCE_UART = 0,
     SOURCE_KEYBROAD = 1
 }; 
-
 using namespace std;
 
 class UARTInputData{

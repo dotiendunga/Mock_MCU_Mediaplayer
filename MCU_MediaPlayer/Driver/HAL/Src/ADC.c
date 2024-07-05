@@ -157,14 +157,14 @@ static HAL_StatusTypeDef ADC_IsConversionDone(ADCx_t ADCx, ADC_Channel_t channel
 
 ADC_Handler_t ADC_Handle =
 {
-	.EnableCLK = ADC_EnableCLK,
-	.SetResolution = ADC_SetResolution,
-	.SetResolution = ADC_SetResolution,
-	.SetTrigger = ADC_SetTrigger,
-	.SetMode = ADC_SetMode,
-	.SetReference = ADC_SetRef,
-	.InterruptEnable = ADC_InterruptEnable,
-	.Start = ADC_Start,
-	.IsConversionDone = ADC_IsConversionDone,
-	.Read = ADC_Read
+	.EnableCLK                      = ADC_EnableCLK,
+	.SetResolution                  = ADC_SetResolution,
+	.SetResolution                  = ADC_SetResolution,
+	.SetTrigger                     = ADC_SetTrigger,
+	.SetMode                        = ADC_SetMode,
+	.SetReference                   = ADC_SetRef,
+	.InterruptEnable                = ADC_InterruptEnable,
+	.Start                          = ADC_Start,
+	.IsConversionDone               = ADC_IsConversionDone,
+	.Read                           = ADC_Read
 };
