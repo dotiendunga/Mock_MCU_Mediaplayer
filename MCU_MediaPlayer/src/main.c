@@ -67,12 +67,12 @@ static void Clock_Setup()
 
 void UART_Setup()
 {
-	UART1.instance = LPUART1;
-	UART1.baudrate = USART_Baurate_9600;
-	UART1.datalength = 8;
-	UART1.direct = ARM_USART_LSB_FIRST;
-	UART1.parity = ARM_USART_PARITY_NONE;
-	UART1.stopbit = ARM_USART_1_STOP_BIT;
+	UART1.Instance = LPUART1;
+	UART1.Baudrate = 9600;
+	UART1.Datalength = 8;
+	UART1.Direct = ARM_USART_LSB_FIRST;
+	UART1.Parity = ARM_USART_PARITY_NONE;
+	UART1.Stopbit = ARM_USART_1_STOP_BIT;
 	/* Init uart1 */
 	Driver_UART.Init(&UART1);
 }

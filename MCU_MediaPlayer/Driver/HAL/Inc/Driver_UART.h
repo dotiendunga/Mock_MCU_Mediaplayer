@@ -57,24 +57,18 @@ typedef enum
 } USART_Stopbit_t;
 
 
-// Baudrate
-typedef enum
-{
-	USART_Baurate_9600 = 0,
-	USART_Baurate_112500,
-} USART_Baurate_t;
 
 
 typedef void (*ARM_USART_SignalEvent_t) (uint32_t event);
 
 typedef struct
 {
-	LPUART_Type 	*instance;
-	uint32_t    	baudrate;
-	uint8_t     	datalength;
-	uint8_t     	parity;
-	uint8_t     	stopbit;
-	uint8_t     	direct;
+	LPUART_Type 	*Instance;
+	uint32_t    	Baudrate;
+	uint8_t     	Datalength;
+	uint8_t     	Parity;
+	uint8_t     	Stopbit;
+	uint8_t     	Direct;
 } USART_Config_t;
 
 typedef struct 
