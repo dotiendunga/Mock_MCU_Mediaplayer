@@ -34,7 +34,7 @@ void USART_send_messsage_button(uint8_t Peripheral_type, uint8_t Button_Pressed_
     // Tạo frame
     Frame_UART[0] = START_BYTE;     						// 1 byte start
     Frame_UART[1] = Peripheral_type;    					// 1 byte phân loại button
-    Frame_UART[2] = Button_Pressed_counter;        		// 1 byte đếm counter số lần nhấn button
+    Frame_UART[2] = Button_Pressed_counter;        			// 1 byte đếm counter số lần nhấn button
 
     //Caculate checksum (XOR all byte)
     check_sum = Frame_UART[0] ^ Frame_UART[1] ^ Frame_UART[2];

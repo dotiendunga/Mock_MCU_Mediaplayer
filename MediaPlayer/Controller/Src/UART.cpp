@@ -159,3 +159,37 @@ string UARTInputData::userInputString()
         return "\0";
     }
 }
+
+void UARTInputData::userInputBuffer(uint8_t* buffer)
+{
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(fd, &readfds);
+
+    // Đặt thời gian chờ
+    struct timeval tv;
+    tv.tv_sec = 5; // Thời gian chờ tối đa là 5 giây
+    tv.tv_usec = 0;
+
+    int max_fd = fd + 1; // Chỉ sử dụng fd của UART
+    int ret = select(max_fd, &readfds, NULL, NULL, &tv);
+    if (ret == -1) {
+        cerr << "Error in select: " << strerror(errno) << endl;
+        return;
+    } else if (ret == 0) {
+        cout << "No data within five seconds." << endl;
+        return;
+    } else {
+        if (FD_ISSET(fd, &readfds)) {
+            ssize_t bytes_read = read(fd, buffer, sizeof buffer);
+            if (bytes_read < 0) {
+                cerr << "Error reading from UART: " << strerror(errno) << endl;
+            } else {
+                cout << "Read " << bytes_read << " bytes from UART." << endl;
+                // Xử lý dữ liệu trong buffer nếu cần
+            }
+        }
+    }
+}
+
+

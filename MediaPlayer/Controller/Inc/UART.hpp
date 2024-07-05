@@ -35,6 +35,7 @@ class UARTInputData{
         string userInputString();
         virtual int userInput(); // Thêm từ khóa virtual ở đây
         int check_source();
+        void userInputBuffer(uint8_t* buffer);
 };
 
 #endif
