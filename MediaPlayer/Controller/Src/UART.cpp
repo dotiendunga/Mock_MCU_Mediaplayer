@@ -118,7 +118,6 @@ int UARTInputData::check_source()
                 return SOURCE_KEYBROAD;
             }
         }
-    // return "\0";
     }
 }
 
@@ -159,7 +158,6 @@ string UARTInputData::userInputString()
         return "\0";
     }
 }
-
 void UARTInputData::userInputBuffer(uint8_t* buffer)
 {
     fd_set readfds;
@@ -174,19 +172,31 @@ void UARTInputData::userInputBuffer(uint8_t* buffer)
     int max_fd = fd + 1; // Chỉ sử dụng fd của UART
     int ret = select(max_fd, &readfds, NULL, NULL, &tv);
     if (ret == -1) {
-        cerr << "Error in select: " << strerror(errno) << endl;
+        std::cerr << "Error in select: " << strerror(errno) << std::endl;
         return;
     } else if (ret == 0) {
-        cout << "No data within five seconds." << endl;
+        std::cout << "No data within five seconds." << std::endl;
         return;
     } else {
         if (FD_ISSET(fd, &readfds)) {
-            ssize_t bytes_read = read(fd, buffer, sizeof buffer);
-            if (bytes_read < 0) {
-                cerr << "Error reading from UART: " << strerror(errno) << endl;
-            } else {
-                cout << "Read " << bytes_read << " bytes from UART." << endl;
-                // Xử lý dữ liệu trong buffer nếu cần
+            int count = 0;
+            while (count < 3) {
+                ssize_t bytes_read = read(fd, buffer + count, 1); // Đọc từng byte vào buffer
+
+                if (bytes_read < 0) {
+                    std::cerr << "Error reading from UART: " << strerror(errno) << std::endl;
+                    return;
+                } else if (bytes_read == 0) {
+                    std::cerr << "UART has been closed." << std::endl;
+                    return;
+                } else {
+                    std::cout << "Read " << bytes_read << " byte(s) from UART." << std::endl;
+                    count++;
+                    // Thoát khỏi vòng lặp nếu đã nhận đủ 3 giá trị
+                    if (count == 3) {
+                        return;
+                    }
+                }
             }
         }
     }

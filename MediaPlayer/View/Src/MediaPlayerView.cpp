@@ -234,6 +234,10 @@ void PlayMusicView::Update_Time_Volume(size_t timelapse, size_t duration, const 
     cout << "\033[K"<<string(tableWidth/6,' ')<<"Volume: "
          << left <<setw(6) <<" "<<"<  "<< (volume*100)/128 << "%  >"<<"\n"<<std::flush<<endl;;
     cout << "\033[" << PAGE_SONG_SIZE+25<< ";0H"<<std::flush<<endl;; // Di chuyển đến dòng cụ thể, cột 0
+    // cout << "\033[K" << PAGE_SONG_SIZE+26<<std::flush<<endl;; // Di chuyển đến dòng cụ thể, cột 0
+    cout << "\033[" << PAGE_SONG_SIZE+26<< ";0H"<<"\033[K"<<std::flush<<endl;; // Di chuyển đến dòng cụ thể, cột 0
+    // cout <<"\033[K";
+    cout << "\033[" << PAGE_SONG_SIZE+25<< ";0H"<<std::flush<<endl;; // Di chuyển đến dòng cụ thể, cột 0
 }
 
 string PlayMusicView::format_time(size_t total_seconds) const
@@ -354,28 +358,22 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
         int source = check_source();
         if(source==SOURCE_UART)
         {
-            uint8_t buffer[8];
+            uint8_t buffer[4];
             userInputBuffer(buffer);
-            for(int i = 0; i < 8; i++) {
-                cout << "0x" << hex << setw(2) << setfill('0') << (int)buffer[i] << " ";
-            }
-            if (userInput[0] == BTN1)
+            if (buffer[0] == BTN1)
             {
-                size_t MusicChoice = (size_t)userInput[1];
+                size_t MusicChoice = (size_t)buffer[1];
     
                     if (MusicChoice > 0 && MusicChoice <= lists_name.size())
                     {
                         return MusicChoice;
                     }else{
                         cout << "Invalid choice. Please enter a valid option." << endl;
-                        // return -7;
+                        return -7;
                     }
-            }else if (userInput[0] == BTN2)
+            }else if (buffer[0] == BTN2)
             {
-                stringstream ss(userInput);
-                size_t handleChoice;
-                if (ss >> handleChoice)
-                {
+                size_t handleChoice = (size_t)buffer[1];
                     switch (handleChoice)
                     {
                         case 1:
@@ -408,27 +406,27 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                             // break;
                         default:
                             cout << "Invalid choice. Please enter a valid option." << endl;
-                            // return -7;
-                }
+                            return -7;
+                
             }
         }
         }
         else if (source == SOURCE_KEYBROAD)
         {
             getline(cin, userInput);
-            cout<<userInput<<endl;
+            // cout<<userInput<<endl;
             if (!userInput.empty()) {
                 stringstream ss(userInput);
                 size_t MusicChoice;
                 if (ss >> MusicChoice)
                 {
-                    cout<<userInput<<endl;
+                    // cout<<userInput<<endl;
                     if (MusicChoice > 0 && MusicChoice <= lists_name.size())
                     {
                         return MusicChoice;
                     }else{
                         cout << "Invalid choice. Please enter a valid option." << endl;
-                        // return -7;
+                        return -7;
                     }
                 }
                 else
@@ -475,18 +473,18 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                                 // break;
                             default:
                                 cout << "Invalid choice. Please enter a valid option." << endl;
-                                // return -7;
+                                return -7;
                         }
                 }else{
                             cout << "Invalid choice. Please enter a valid option." << endl;
-                            // return -7;
+                            return -7;
                         }
                 } 
             }else{
                 // system("clear");
                 // display_ShowPlay(lists_name,currentPage);
                 cout << "Invalid choice. Please enter a valid option." << endl;
-                // return -7;
+                return -7;
             }
     }
     
