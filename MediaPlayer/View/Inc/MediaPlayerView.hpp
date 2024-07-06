@@ -11,7 +11,8 @@
 class PlayMusicView:public PlaylistView
 {
     private:
-        
+        const char* portname = getPortname();
+        int fd = getFileDescriptor();
     public:
         PlayMusicView()=default;
         ~PlayMusicView()=default;

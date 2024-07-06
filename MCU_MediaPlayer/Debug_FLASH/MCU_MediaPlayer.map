@@ -76,8 +76,6 @@ Discarded input sections
  .text          0x00000000        0x0 ./Driver/CMSIS/Src/Driver_GPIO.o
  .data          0x00000000        0x0 ./Driver/CMSIS/Src/Driver_GPIO.o
  .bss           0x00000000        0x0 ./Driver/CMSIS/Src/Driver_GPIO.o
- .text.GPIO_Check_IRQs
-                0x00000000       0x9c ./Driver/CMSIS/Src/Driver_GPIO.o
  .text.ARM_GPIO_SignalEvent
                 0x00000000       0x14 ./Driver/CMSIS/Src/Driver_GPIO.o
  .debug_macro   0x00000000      0x8d4 ./Driver/CMSIS/Src/Driver_GPIO.o
@@ -164,17 +162,14 @@ Discarded input sections
  .group         0x00000000        0xc ./Driver/HAL/Src/Timer.o
  .group         0x00000000        0xc ./Driver/HAL/Src/Timer.o
  .group         0x00000000        0xc ./Driver/HAL/Src/Timer.o
+ .group         0x00000000        0xc ./Driver/HAL/Src/Timer.o
  .text          0x00000000        0x0 ./Driver/HAL/Src/Timer.o
  .data          0x00000000        0x0 ./Driver/HAL/Src/Timer.o
  .bss           0x00000000        0x0 ./Driver/HAL/Src/Timer.o
- .text.Init_LPIT
-                0x00000000       0x1c ./Driver/HAL/Src/Timer.o
- .debug_info    0x00000000      0x1a7 ./Driver/HAL/Src/Timer.o
- .debug_abbrev  0x00000000       0xa8 ./Driver/HAL/Src/Timer.o
- .debug_aranges
-                0x00000000       0x20 ./Driver/HAL/Src/Timer.o
- .debug_ranges  0x00000000       0x10 ./Driver/HAL/Src/Timer.o
- .debug_macro   0x00000000       0x85 ./Driver/HAL/Src/Timer.o
+ .text.LPIT_ReadCurrentValue
+                0x00000000       0x28 ./Driver/HAL/Src/Timer.o
+ .text.LPIT_CheckIRQs
+                0x00000000       0x38 ./Driver/HAL/Src/Timer.o
  .debug_macro   0x00000000      0x8d4 ./Driver/HAL/Src/Timer.o
  .debug_macro   0x00000000       0x22 ./Driver/HAL/Src/Timer.o
  .debug_macro   0x00000000       0x8e ./Driver/HAL/Src/Timer.o
@@ -184,12 +179,6 @@ Discarded input sections
  .debug_macro   0x00000000      0x1df ./Driver/HAL/Src/Timer.o
  .debug_macro   0x00000000     0xeea5 ./Driver/HAL/Src/Timer.o
  .debug_macro   0x00000000       0x10 ./Driver/HAL/Src/Timer.o
- .debug_line    0x00000000      0x2e7 ./Driver/HAL/Src/Timer.o
- .debug_str     0x00000000    0x638f0 ./Driver/HAL/Src/Timer.o
- .comment       0x00000000       0x7f ./Driver/HAL/Src/Timer.o
- .debug_frame   0x00000000       0x30 ./Driver/HAL/Src/Timer.o
- .ARM.attributes
-                0x00000000       0x33 ./Driver/HAL/Src/Timer.o
  .group         0x00000000        0xc ./Project_Settings/Startup_Code/startup.o
  .group         0x00000000        0xc ./Project_Settings/Startup_Code/startup.o
  .group         0x00000000        0xc ./Project_Settings/Startup_Code/startup.o
@@ -216,6 +205,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x6a ./Project_Settings/Startup_Code/startup.o
  .debug_macro   0x00000000      0x1df ./Project_Settings/Startup_Code/startup.o
  .debug_macro   0x00000000     0xeea5 ./Project_Settings/Startup_Code/startup.o
+ .debug_macro   0x00000000       0x22 ./Project_Settings/Startup_Code/startup.o
  .data          0x00000000        0x0 ./Project_Settings/Startup_Code/startup_S32K144.o
  .bss           0x00000000        0x0 ./Project_Settings/Startup_Code/startup_S32K144.o
  .group         0x00000000        0xc ./Project_Settings/Startup_Code/system_S32K144.o
@@ -273,19 +263,14 @@ Discarded input sections
  .group         0x00000000        0xc ./src/S32K144_IT.o
  .group         0x00000000        0xc ./src/S32K144_IT.o
  .group         0x00000000        0xc ./src/S32K144_IT.o
+ .group         0x00000000        0xc ./src/S32K144_IT.o
+ .group         0x00000000        0xc ./src/S32K144_IT.o
+ .group         0x00000000        0xc ./src/S32K144_IT.o
  .text          0x00000000        0x0 ./src/S32K144_IT.o
  .data          0x00000000        0x0 ./src/S32K144_IT.o
  .bss           0x00000000        0x0 ./src/S32K144_IT.o
- .text.PORTC_IRQHandler
-                0x00000000        0xc ./src/S32K144_IT.o
  .text.ADC0_IRQHandler
                 0x00000000        0xc ./src/S32K144_IT.o
- .debug_info    0x00000000       0x99 ./src/S32K144_IT.o
- .debug_abbrev  0x00000000       0x43 ./src/S32K144_IT.o
- .debug_aranges
-                0x00000000       0x28 ./src/S32K144_IT.o
- .debug_ranges  0x00000000       0x18 ./src/S32K144_IT.o
- .debug_macro   0x00000000      0x112 ./src/S32K144_IT.o
  .debug_macro   0x00000000      0x8d4 ./src/S32K144_IT.o
  .debug_macro   0x00000000       0x19 ./src/S32K144_IT.o
  .debug_macro   0x00000000       0x22 ./src/S32K144_IT.o
@@ -302,13 +287,8 @@ Discarded input sections
  .debug_macro   0x00000000      0xbbe ./src/S32K144_IT.o
  .debug_macro   0x00000000       0x22 ./src/S32K144_IT.o
  .debug_macro   0x00000000       0x3a ./src/S32K144_IT.o
- .debug_macro   0x00000000       0x4c ./src/S32K144_IT.o
- .debug_line    0x00000000      0x3dc ./src/S32K144_IT.o
- .debug_str     0x00000000    0x69788 ./src/S32K144_IT.o
- .comment       0x00000000       0x7f ./src/S32K144_IT.o
- .debug_frame   0x00000000       0x50 ./src/S32K144_IT.o
- .ARM.attributes
-                0x00000000       0x33 ./src/S32K144_IT.o
+ .debug_macro   0x00000000       0x70 ./src/S32K144_IT.o
+ .debug_macro   0x00000000       0x46 ./src/S32K144_IT.o
  .group         0x00000000        0xc ./src/main.o
  .group         0x00000000        0xc ./src/main.o
  .group         0x00000000        0xc ./src/main.o
@@ -348,8 +328,10 @@ Discarded input sections
  .debug_macro   0x00000000      0xbbe ./src/main.o
  .debug_macro   0x00000000       0x22 ./src/main.o
  .debug_macro   0x00000000       0x3a ./src/main.o
- .debug_macro   0x00000000       0x4c ./src/main.o
+ .debug_macro   0x00000000       0x10 ./src/main.o
  .debug_macro   0x00000000       0x70 ./src/main.o
+ .debug_macro   0x00000000       0x46 ./src/main.o
+ .debug_macro   0x00000000       0x64 ./src/main.o
  .text          0x00000000        0x0 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-exit.o)
  .data          0x00000000        0x0 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-exit.o)
  .bss           0x00000000        0x0 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-exit.o)
@@ -445,7 +427,7 @@ LOAD d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bi
  .FlashConfig   0x00000400       0x10 ./Project_Settings/Startup_Code/startup_S32K144.o
                 0x00000410                . = ALIGN (0x4)
 
-.text           0x00000410     0x13dc
+.text           0x00000410     0x1754
                 0x00000410                . = ALIGN (0x4)
  *(.text)
  .text          0x00000410       0xa4 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtbegin.o
@@ -472,7 +454,6 @@ LOAD d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bi
                 0x00000598                ERM_double_fault_IRQHandler
                 0x00000598                DMA2_IRQHandler
                 0x00000598                Reserved59_IRQHandler
-                0x00000598                LPIT0_Ch0_IRQHandler
                 0x00000598                Reserved99_IRQHandler
                 0x00000598                FTM3_Ch6_Ch7_IRQHandler
                 0x00000598                CAN2_ORed_0_15_MB_IRQHandler
@@ -580,7 +561,6 @@ LOAD d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bi
                 0x00000598                CAN0_Wake_Up_IRQHandler
                 0x00000598                CMP0_IRQHandler
                 0x00000598                Reserved52_IRQHandler
-                0x00000598                PORTC_IRQHandler
                 0x00000598                DMA6_IRQHandler
                 0x00000598                FTM1_Ch0_Ch1_IRQHandler
                 0x00000598                FLEXIO_IRQHandler
@@ -629,182 +609,216 @@ LOAD d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bi
  .text.ARM_GPIO_GetInput
                 0x00000a58       0x4e ./Driver/CMSIS/Src/Driver_GPIO.o
                 0x00000a58                ARM_GPIO_GetInput
+ *fill*         0x00000aa6        0x2 
+ .text.GPIO_Check_IRQs
+                0x00000aa8       0x9c ./Driver/CMSIS/Src/Driver_GPIO.o
+                0x00000aa8                GPIO_Check_IRQs
  .text.ADC_EnableCLK
-                0x00000aa6       0x2c ./Driver/HAL/Src/ADC.o
-                0x00000aa6                ADC_EnableCLK
+                0x00000b44       0x2c ./Driver/HAL/Src/ADC.o
+                0x00000b44                ADC_EnableCLK
  .text.ADC_SetResolution
-                0x00000ad2       0x3e ./Driver/HAL/Src/ADC.o
+                0x00000b70       0x3e ./Driver/HAL/Src/ADC.o
  .text.ADC_SetTrigger
-                0x00000b10       0x58 ./Driver/HAL/Src/ADC.o
+                0x00000bae       0x58 ./Driver/HAL/Src/ADC.o
  .text.ADC_SetRef
-                0x00000b68       0x56 ./Driver/HAL/Src/ADC.o
+                0x00000c06       0x56 ./Driver/HAL/Src/ADC.o
  .text.ADC_SetMode
-                0x00000bbe       0x58 ./Driver/HAL/Src/ADC.o
+                0x00000c5c       0x58 ./Driver/HAL/Src/ADC.o
  .text.ADC_InterruptEnable
-                0x00000c16       0x68 ./Driver/HAL/Src/ADC.o
+                0x00000cb4       0x68 ./Driver/HAL/Src/ADC.o
  .text.ADC_Start
-                0x00000c7e       0x5a ./Driver/HAL/Src/ADC.o
+                0x00000d1c       0x5a ./Driver/HAL/Src/ADC.o
  .text.ADC_Read
-                0x00000cd8       0x2c ./Driver/HAL/Src/ADC.o
+                0x00000d76       0x2c ./Driver/HAL/Src/ADC.o
  .text.ADC_IsConversionDone
-                0x00000d04       0x4c ./Driver/HAL/Src/ADC.o
+                0x00000da2       0x4c ./Driver/HAL/Src/ADC.o
+ *fill*         0x00000dee        0x2 
  .text.Clock_Enable_FastIRC
-                0x00000d50       0x78 ./Driver/HAL/Src/Clock.o
-                0x00000d50                Clock_Enable_FastIRC
+                0x00000df0       0x78 ./Driver/HAL/Src/Clock.o
+                0x00000df0                Clock_Enable_FastIRC
  .text.Clock_Enable_Module
-                0x00000dc8       0x48 ./Driver/HAL/Src/Clock.o
-                0x00000dc8                Clock_Enable_Module
+                0x00000e68       0x48 ./Driver/HAL/Src/Clock.o
+                0x00000e68                Clock_Enable_Module
  .text.ARM_USART_Pin
-                0x00000e10       0x44 ./Driver/HAL/Src/Driver_UART.o
+                0x00000eb0       0x44 ./Driver/HAL/Src/Driver_UART.o
  .text.ARM_USART_SetBaudrate
-                0x00000e54       0x88 ./Driver/HAL/Src/Driver_UART.o
+                0x00000ef4       0x90 ./Driver/HAL/Src/Driver_UART.o
  .text.ARM_USART_SetDataLength
-                0x00000edc       0xf8 ./Driver/HAL/Src/Driver_UART.o
+                0x00000f84       0xf8 ./Driver/HAL/Src/Driver_UART.o
  .text.ARM_USART_SetParity
-                0x00000fd4       0xa6 ./Driver/HAL/Src/Driver_UART.o
+                0x0000107c       0xa6 ./Driver/HAL/Src/Driver_UART.o
  .text.ARM_USART_SetShiftDirection
-                0x0000107a       0x4e ./Driver/HAL/Src/Driver_UART.o
+                0x00001122       0x4e ./Driver/HAL/Src/Driver_UART.o
  .text.ARM_USART_SetStopBit
-                0x000010c8       0x6c ./Driver/HAL/Src/Driver_UART.o
+                0x00001170       0x6c ./Driver/HAL/Src/Driver_UART.o
  .text.ARM_USART_Uninitialize
-                0x00001134       0x14 ./Driver/HAL/Src/Driver_UART.o
+                0x000011dc       0x14 ./Driver/HAL/Src/Driver_UART.o
  .text.ARM_USART_Transmit
-                0x00001148       0x98 ./Driver/HAL/Src/Driver_UART.o
+                0x000011f0       0x98 ./Driver/HAL/Src/Driver_UART.o
+ .text.ARM_USART_Transmit_IT
+                0x00001288       0x2a ./Driver/HAL/Src/Driver_UART.o
+ *fill*         0x000012b2        0x2 
  .text.ARM_USART_Receive
-                0x000011e0       0x84 ./Driver/HAL/Src/Driver_UART.o
+                0x000012b4       0x84 ./Driver/HAL/Src/Driver_UART.o
+ .text.ARM_USART_Receive_IT
+                0x00001338       0x18 ./Driver/HAL/Src/Driver_UART.o
  .text.ARM_USART_Init
-                0x00001264       0x7c ./Driver/HAL/Src/Driver_UART.o
+                0x00001350       0x7c ./Driver/HAL/Src/Driver_UART.o
+ .text.LPIT_Init
+                0x000013cc       0x50 ./Driver/HAL/Src/Timer.o
+                0x000013cc                LPIT_Init
+ .text.LPIT_Reset
+                0x0000141c       0x2c ./Driver/HAL/Src/Timer.o
+                0x0000141c                LPIT_Reset
+ .text.LPIT_Start
+                0x00001448       0x2c ./Driver/HAL/Src/Timer.o
+                0x00001448                LPIT_Start
+ .text.LPIT_SetInterrupt
+                0x00001474       0x2c ./Driver/HAL/Src/Timer.o
+                0x00001474                LPIT_SetInterrupt
  .text.init_data_bss
-                0x000012e0      0x128 ./Project_Settings/Startup_Code/startup.o
-                0x000012e0                init_data_bss
+                0x000014a0      0x128 ./Project_Settings/Startup_Code/startup.o
+                0x000014a0                init_data_bss
  .text.SystemInit
-                0x00001408       0x30 ./Project_Settings/Startup_Code/system_S32K144.o
-                0x00001408                SystemInit
- .text.sentVolume
-                0x00001438       0x34 ./src/main.o
-                0x00001438                sentVolume
- .text.main     0x0000146c       0x70 ./src/main.o
-                0x0000146c                main
+                0x000015c8       0x30 ./Project_Settings/Startup_Code/system_S32K144.o
+                0x000015c8                SystemInit
+ .text.PORTC_IRQHandler
+                0x000015f8       0x14 ./src/S32K144_IT.o
+                0x000015f8                PORTC_IRQHandler
+ .text.LPIT0_Ch0_IRQHandler
+                0x0000160c       0x30 ./src/S32K144_IT.o
+                0x0000160c                LPIT0_Ch0_IRQHandler
+ .text.main     0x0000163c       0x74 ./src/main.o
+                0x0000163c                main
  .text.Clock_Setup
-                0x000014dc       0x34 ./src/main.o
+                0x000016b0       0x3c ./src/main.o
  .text.UART_Setup
-                0x00001510       0x40 ./src/main.o
+                0x000016ec       0x44 ./src/main.o
  .text.ADC_Setup
-                0x00001550       0x54 ./src/main.o
+                0x00001730       0x54 ./src/main.o
  .text.GPIO_Setup
-                0x000015a4       0x2c ./src/main.o
+                0x00001784       0x98 ./src/main.o
  .text.ADC0_IRQHandler
-                0x000015d0       0x30 ./src/main.o
-                0x000015d0                ADC0_IRQHandler
- .text.exit     0x00001600       0x20 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-exit.o)
-                0x00001600                exit
+                0x0000181c       0x30 ./src/main.o
+                0x0000181c                ADC0_IRQHandler
+ .text.ARM_GPIO_SignalEvent
+                0x0000184c       0x68 ./src/main.o
+                0x0000184c                ARM_GPIO_SignalEvent
+ .text.USART_send_messsage_button
+                0x000018b4       0x4c ./src/main.o
+                0x000018b4                USART_send_messsage_button
+ .text.USART_send_messsage_ADC
+                0x00001900       0x70 ./src/main.o
+                0x00001900                USART_send_messsage_ADC
+ .text.exit     0x00001970       0x20 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-exit.o)
+                0x00001970                exit
  .text.__libc_init_array
-                0x00001620       0x48 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-init.o)
-                0x00001620                __libc_init_array
- .text.memset   0x00001668       0x10 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-memset.o)
-                0x00001668                memset
+                0x00001990       0x48 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-init.o)
+                0x00001990                __libc_init_array
+ .text.memset   0x000019d8       0x10 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-memset.o)
+                0x000019d8                memset
  .text.startup.register_fini
-                0x00001678       0x14 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__call_atexit.o)
+                0x000019e8       0x14 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__call_atexit.o)
  .text.__call_exitprocs
-                0x0000168c       0x98 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__call_atexit.o)
-                0x0000168c                __call_exitprocs
+                0x000019fc       0x98 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__call_atexit.o)
+                0x000019fc                __call_exitprocs
  .text.__libc_fini_array
-                0x00001724       0x28 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-fini.o)
-                0x00001724                __libc_fini_array
- .text.atexit   0x0000174c        0xc D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-atexit.o)
-                0x0000174c                atexit
+                0x00001a94       0x28 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-fini.o)
+                0x00001a94                __libc_fini_array
+ .text.atexit   0x00001abc        0xc D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-atexit.o)
+                0x00001abc                atexit
  .text.__register_exitproc
-                0x00001758       0x64 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__atexit.o)
-                0x00001758                __register_exitproc
- .text._exit    0x000017bc        0x2 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libnosys.a(_exit.o)
-                0x000017bc                _exit
+                0x00001ac8       0x64 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__atexit.o)
+                0x00001ac8                __register_exitproc
+ .text._exit    0x00001b2c        0x2 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libnosys.a(_exit.o)
+                0x00001b2c                _exit
  *(.rodata)
  *(.rodata*)
- *fill*         0x000017be        0x2 
+ *fill*         0x00001b2e        0x2 
  .rodata.Driver_UART
-                0x000017c0       0x10 ./Driver/HAL/Src/Driver_UART.o
-                0x000017c0                Driver_UART
+                0x00001b30       0x18 ./Driver/HAL/Src/Driver_UART.o
+                0x00001b30                Driver_UART
  .rodata._global_impure_ptr
-                0x000017d0        0x4 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-impure.o)
-                0x000017d0                _global_impure_ptr
+                0x00001b48        0x4 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-impure.o)
+                0x00001b48                _global_impure_ptr
  *(.glue_7)
- .glue_7        0x000017d4        0x0 linker stubs
+ .glue_7        0x00001b4c        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x000017d4        0x0 linker stubs
+ .glue_7t       0x00001b4c        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x000017d4        0x0 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtbegin.o
+ .eh_frame      0x00001b4c        0x0 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtbegin.o
  *(.init)
- .init          0x000017d4        0x4 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crti.o
-                0x000017d4                _init
- .init          0x000017d8        0x8 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtn.o
+ .init          0x00001b4c        0x4 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crti.o
+                0x00001b4c                _init
+ .init          0x00001b50        0x8 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtn.o
  *(.fini)
- .fini          0x000017e0        0x4 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crti.o
-                0x000017e0                _fini
- .fini          0x000017e4        0x8 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtn.o
-                0x000017ec                . = ALIGN (0x4)
+ .fini          0x00001b58        0x4 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crti.o
+                0x00001b58                _fini
+ .fini          0x00001b5c        0x8 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtn.o
+                0x00001b64                . = ALIGN (0x4)
 
-.vfp11_veneer   0x000017ec        0x0
- .vfp11_veneer  0x000017ec        0x0 linker stubs
+.vfp11_veneer   0x00001b64        0x0
+ .vfp11_veneer  0x00001b64        0x0 linker stubs
 
-.v4_bx          0x000017ec        0x0
- .v4_bx         0x000017ec        0x0 linker stubs
+.v4_bx          0x00001b64        0x0
+ .v4_bx         0x00001b64        0x0 linker stubs
 
-.iplt           0x000017ec        0x0
- .iplt          0x000017ec        0x0 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtbegin.o
+.iplt           0x00001b64        0x0
+ .iplt          0x00001b64        0x0 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtbegin.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM            0x000017ec        0x8
-                0x000017ec                __exidx_start = .
+.ARM            0x00001b64        0x8
+                0x00001b64                __exidx_start = .
  *(.ARM.exidx*)
- .ARM.exidx     0x000017ec        0x8 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m/crt0.o
+ .ARM.exidx     0x00001b64        0x8 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m/crt0.o
                                  0x10 (size before relaxing)
-                0x000017f4                __exidx_end = .
+                0x00001b6c                __exidx_end = .
 
-.rel.dyn        0x000017f4        0x0
- .rel.iplt      0x000017f4        0x0 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtbegin.o
+.rel.dyn        0x00001b6c        0x0
+ .rel.iplt      0x00001b6c        0x0 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtbegin.o
 
-.ctors          0x000017f4        0x0
-                0x000017f4                __CTOR_LIST__ = .
+.ctors          0x00001b6c        0x0
+                0x00001b6c                __CTOR_LIST__ = .
  *crtbegin.o(.ctors)
  *crtbegin?.o(.ctors)
  *(EXCLUDE_FILE(*crtend.o *crtend?.o) .ctors)
  *(SORT_BY_NAME(.ctors.*))
  *(.ctors)
-                0x000017f4                __CTOR_END__ = .
+                0x00001b6c                __CTOR_END__ = .
 
-.dtors          0x000017f4        0x0
-                0x000017f4                __DTOR_LIST__ = .
+.dtors          0x00001b6c        0x0
+                0x00001b6c                __DTOR_LIST__ = .
  *crtbegin.o(.dtors)
  *crtbegin?.o(.dtors)
  *(EXCLUDE_FILE(*crtend.o *crtend?.o) .dtors)
  *(SORT_BY_NAME(.dtors.*))
  *(.dtors)
-                0x000017f4                __DTOR_END__ = .
+                0x00001b6c                __DTOR_END__ = .
 
-.preinit_array  0x000017f4        0x0
-                0x000017f4                PROVIDE (__preinit_array_start = .)
+.preinit_array  0x00001b6c        0x0
+                0x00001b6c                PROVIDE (__preinit_array_start = .)
  *(.preinit_array*)
-                0x000017f4                PROVIDE (__preinit_array_end = .)
+                0x00001b6c                PROVIDE (__preinit_array_end = .)
 
-.init_array     0x000017f4        0x8
-                0x000017f4                PROVIDE (__init_array_start = .)
+.init_array     0x00001b6c        0x8
+                0x00001b6c                PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  .init_array.00000
-                0x000017f4        0x4 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__call_atexit.o)
+                0x00001b6c        0x4 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__call_atexit.o)
  *(.init_array*)
- .init_array    0x000017f8        0x4 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtbegin.o
-                0x000017fc                PROVIDE (__init_array_end = .)
+ .init_array    0x00001b70        0x4 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtbegin.o
+                0x00001b74                PROVIDE (__init_array_end = .)
 
-.fini_array     0x000017fc        0x4
-                0x000017fc                PROVIDE (__fini_array_start = .)
+.fini_array     0x00001b74        0x4
+                0x00001b74                PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x000017fc        0x4 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtbegin.o
-                0x00001800                PROVIDE (__fini_array_end = .)
-                0x00001800                __etext = .
-                0x00001800                __DATA_ROM = .
+ .fini_array    0x00001b74        0x4 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtbegin.o
+                0x00001b78                PROVIDE (__fini_array_end = .)
+                0x00001b78                __etext = .
+                0x00001b78                __DATA_ROM = .
 
 .interrupts_ram
                 0x1fff8000      0x400
@@ -820,7 +834,7 @@ LOAD d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bi
                 0x1fff8000                __VECTOR_RAM = DEFINED (__flash_vector_table__)?ORIGIN (m_interrupts):__VECTOR_RAM__
                 0x00000400                __RAM_VECTOR_TABLE_SIZE = DEFINED (__flash_vector_table__)?0x0:(__interrupts_ram_end__ - __interrupts_ram_start__)
 
-.data           0x1fff8400      0x464 load address 0x00001800
+.data           0x1fff8400      0x464 load address 0x00001b78
                 0x1fff8400                . = ALIGN (0x4)
                 0x1fff8400                __DATA_RAM = .
                 0x1fff8400                __data_start__ = .
@@ -840,20 +854,20 @@ LOAD d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bi
  .jcr           0x1fff8860        0x4 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtend.o
                 0x1fff8864                . = ALIGN (0x4)
                 0x1fff8864                __data_end__ = .
-                0x00001c64                __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
-                0x00001c64                __CODE_ROM = __DATA_END
+                0x00001fdc                __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
+                0x00001fdc                __CODE_ROM = __DATA_END
 
 .tm_clone_table
-                0x1fff8864        0x0 load address 0x00001c64
+                0x1fff8864        0x0 load address 0x00001fdc
  .tm_clone_table
                 0x1fff8864        0x0 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtbegin.o
  .tm_clone_table
                 0x1fff8864        0x0 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtend.o
 
-.igot.plt       0x1fff8864        0x0 load address 0x00001c64
+.igot.plt       0x1fff8864        0x0 load address 0x00001fdc
  .igot.plt      0x1fff8864        0x0 d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtbegin.o
 
-.code           0x1fff8864        0x0 load address 0x00001c64
+.code           0x1fff8864        0x0 load address 0x00001fdc
                 0x1fff8864                . = ALIGN (0x4)
                 0x1fff8864                __CODE_RAM = .
                 0x1fff8864                __code_start__ = .
@@ -862,17 +876,17 @@ LOAD d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bi
                 0x1fff8864                . = ALIGN (0x4)
                 0x1fff8864                __code_end__ = .
                 0x1fff8864                __code_ram_end__ = .
-                0x00001c64                __CODE_END = (__CODE_ROM + (__code_end__ - __code_start__))
-                0x00001c64                __CUSTOM_ROM = __CODE_END
+                0x00001fdc                __CODE_END = (__CODE_ROM + (__code_end__ - __code_start__))
+                0x00001fdc                __CUSTOM_ROM = __CODE_END
 
 .customSectionBlock
-                0x20000000        0x0 load address 0x00001c64
+                0x20000000        0x0 load address 0x00001fdc
                 0x20000000                __customSection_start__ = .
  *(.customSection)
                 0x20000000                __customSection_end__ = .
-                0x00001c64                __CUSTOM_END = (__CUSTOM_ROM + (__customSection_end__ - __customSection_start__))
+                0x00001fdc                __CUSTOM_END = (__CUSTOM_ROM + (__customSection_end__ - __customSection_start__))
 
-.bss            0x20000000       0x34
+.bss            0x20000000       0x38
                 0x20000000                . = ALIGN (0x4)
                 0x20000000                __BSS_START = .
                 0x20000000                __bss_start__ = .
@@ -888,14 +902,17 @@ LOAD d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bi
  .bss.ADC_value
                 0x20000030        0x4 ./src/main.o
                 0x20000030                ADC_value
+ .bss.Button_Counter
+                0x20000034        0x1 ./src/main.o
+                0x20000034                Button_Counter
  *(COMMON)
-                0x20000034                . = ALIGN (0x4)
-                0x20000034                __bss_end__ = .
-                0x20000034                __BSS_END = .
+                0x20000038                . = ALIGN (0x4)
+ *fill*         0x20000035        0x3 
+                0x20000038                __bss_end__ = .
+                0x20000038                __BSS_END = .
 
-.heap           0x20000034      0x404
+.heap           0x20000038      0x400
                 0x20000038                . = ALIGN (0x8)
- *fill*         0x20000034        0x4 
                 0x20000038                __end__ = .
                 0x20000038                __heap_start__ = .
                 [!provide]                PROVIDE (end = .)
@@ -919,7 +936,7 @@ LOAD d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bi
  *fill*         0x20006c00      0x400 
                 0x20007000                __stack_end__ = .
                 0x20000000                __START_BSS = __BSS_START
-                0x20000034                __END_BSS = __BSS_END
+                0x20000038                __END_BSS = __BSS_END
                 0x20007000                __SP_INIT = __StackTop
 
 .ARM.attributes
@@ -944,35 +961,39 @@ LOAD d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bi
  .ARM.attributes
                 0x00000167       0x33 ./Driver/HAL/Src/Driver_UART.o
  .ARM.attributes
-                0x0000019a       0x33 ./Project_Settings/Startup_Code/startup.o
+                0x0000019a       0x33 ./Driver/HAL/Src/Timer.o
  .ARM.attributes
-                0x000001cd       0x1b ./Project_Settings/Startup_Code/startup_S32K144.o
+                0x000001cd       0x33 ./Project_Settings/Startup_Code/startup.o
  .ARM.attributes
-                0x000001e8       0x33 ./Project_Settings/Startup_Code/system_S32K144.o
+                0x00000200       0x1b ./Project_Settings/Startup_Code/startup_S32K144.o
  .ARM.attributes
-                0x0000021b       0x33 ./src/main.o
+                0x0000021b       0x33 ./Project_Settings/Startup_Code/system_S32K144.o
  .ARM.attributes
-                0x0000024e       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-exit.o)
+                0x0000024e       0x33 ./src/S32K144_IT.o
  .ARM.attributes
-                0x0000027c       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-impure.o)
+                0x00000281       0x33 ./src/main.o
  .ARM.attributes
-                0x000002aa       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-init.o)
+                0x000002b4       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-exit.o)
  .ARM.attributes
-                0x000002d8       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-memset.o)
+                0x000002e2       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-impure.o)
  .ARM.attributes
-                0x00000306       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__call_atexit.o)
+                0x00000310       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-init.o)
  .ARM.attributes
-                0x00000334       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-fini.o)
+                0x0000033e       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-memset.o)
  .ARM.attributes
-                0x00000362       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-atexit.o)
+                0x0000036c       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__call_atexit.o)
  .ARM.attributes
-                0x00000390       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__atexit.o)
+                0x0000039a       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-fini.o)
  .ARM.attributes
-                0x000003be       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libnosys.a(_exit.o)
+                0x000003c8       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-atexit.o)
  .ARM.attributes
-                0x000003ec       0x2e d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtend.o
+                0x000003f6       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__atexit.o)
  .ARM.attributes
-                0x0000041a       0x1e d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtn.o
+                0x00000424       0x2e D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libnosys.a(_exit.o)
+ .ARM.attributes
+                0x00000452       0x2e d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtend.o
+ .ARM.attributes
+                0x00000480       0x1e d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtn.o
                 0x00000001                ASSERT ((__StackLimit >= __HeapLimit), region m_data_2 overflowed with stack and heap)
 OUTPUT(MCU_MediaPlayer.elf elf32-littlearm)
 
@@ -985,36 +1006,42 @@ OUTPUT(MCU_MediaPlayer.elf elf32-littlearm)
  .comment       0x0000007e       0x7f ./Driver/HAL/Src/ADC.o
  .comment       0x0000007e       0x7f ./Driver/HAL/Src/Clock.o
  .comment       0x0000007e       0x7f ./Driver/HAL/Src/Driver_UART.o
+ .comment       0x0000007e       0x7f ./Driver/HAL/Src/Timer.o
  .comment       0x0000007e       0x7f ./Project_Settings/Startup_Code/startup.o
  .comment       0x0000007e       0x7f ./Project_Settings/Startup_Code/system_S32K144.o
+ .comment       0x0000007e       0x7f ./src/S32K144_IT.o
  .comment       0x0000007e       0x7f ./src/main.o
  .comment       0x0000007e       0x7f d:/appsetup/nxp/s32ds.3.5/s32ds/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/crtend.o
 
-.debug_info     0x00000000     0x3616
+.debug_info     0x00000000     0x3d6b
  .debug_info    0x00000000      0x4c9 ./Driver/CMSIS/Src/Core_Interrupt.o
  .debug_info    0x000004c9      0x17f ./Driver/CMSIS/Src/Core_Systick.o
  .debug_info    0x00000648      0x86b ./Driver/CMSIS/Src/Driver_GPIO.o
  .debug_info    0x00000eb3      0x7a3 ./Driver/HAL/Src/ADC.o
  .debug_info    0x00001656      0x351 ./Driver/HAL/Src/Clock.o
- .debug_info    0x000019a7      0x5e9 ./Driver/HAL/Src/Driver_UART.o
- .debug_info    0x00001f90      0x471 ./Project_Settings/Startup_Code/startup.o
- .debug_info    0x00002401       0x26 ./Project_Settings/Startup_Code/startup_S32K144.o
- .debug_info    0x00002427      0x522 ./Project_Settings/Startup_Code/system_S32K144.o
- .debug_info    0x00002949      0xccd ./src/main.o
+ .debug_info    0x000019a7      0x715 ./Driver/HAL/Src/Driver_UART.o
+ .debug_info    0x000020bc      0x2b7 ./Driver/HAL/Src/Timer.o
+ .debug_info    0x00002373      0x471 ./Project_Settings/Startup_Code/startup.o
+ .debug_info    0x000027e4       0x26 ./Project_Settings/Startup_Code/startup_S32K144.o
+ .debug_info    0x0000280a      0x522 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_info    0x00002d2c      0x1e6 ./src/S32K144_IT.o
+ .debug_info    0x00002f12      0xe59 ./src/main.o
 
-.debug_abbrev   0x00000000      0xbd2
+.debug_abbrev   0x00000000      0xe1f
  .debug_abbrev  0x00000000      0x105 ./Driver/CMSIS/Src/Core_Interrupt.o
  .debug_abbrev  0x00000105      0x129 ./Driver/CMSIS/Src/Core_Systick.o
  .debug_abbrev  0x0000022e      0x1af ./Driver/CMSIS/Src/Driver_GPIO.o
  .debug_abbrev  0x000003dd      0x16d ./Driver/HAL/Src/ADC.o
  .debug_abbrev  0x0000054a      0x112 ./Driver/HAL/Src/Clock.o
  .debug_abbrev  0x0000065c      0x18f ./Driver/HAL/Src/Driver_UART.o
- .debug_abbrev  0x000007eb      0x108 ./Project_Settings/Startup_Code/startup.o
- .debug_abbrev  0x000008f3       0x14 ./Project_Settings/Startup_Code/startup_S32K144.o
- .debug_abbrev  0x00000907      0x125 ./Project_Settings/Startup_Code/system_S32K144.o
- .debug_abbrev  0x00000a2c      0x1a6 ./src/main.o
+ .debug_abbrev  0x000007eb      0x116 ./Driver/HAL/Src/Timer.o
+ .debug_abbrev  0x00000901      0x108 ./Project_Settings/Startup_Code/startup.o
+ .debug_abbrev  0x00000a09       0x14 ./Project_Settings/Startup_Code/startup_S32K144.o
+ .debug_abbrev  0x00000a1d      0x125 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_abbrev  0x00000b42       0xfd ./src/S32K144_IT.o
+ .debug_abbrev  0x00000c3f      0x1e0 ./src/main.o
 
-.debug_aranges  0x00000000      0x288
+.debug_aranges  0x00000000      0x320
  .debug_aranges
                 0x00000000       0x30 ./Driver/CMSIS/Src/Core_Interrupt.o
  .debug_aranges
@@ -1026,28 +1053,34 @@ OUTPUT(MCU_MediaPlayer.elf elf32-littlearm)
  .debug_aranges
                 0x00000138       0x28 ./Driver/HAL/Src/Clock.o
  .debug_aranges
-                0x00000160       0x68 ./Driver/HAL/Src/Driver_UART.o
+                0x00000160       0x78 ./Driver/HAL/Src/Driver_UART.o
  .debug_aranges
-                0x000001c8       0x20 ./Project_Settings/Startup_Code/startup.o
+                0x000001d8       0x48 ./Driver/HAL/Src/Timer.o
  .debug_aranges
-                0x000001e8       0x20 ./Project_Settings/Startup_Code/startup_S32K144.o
+                0x00000220       0x20 ./Project_Settings/Startup_Code/startup.o
  .debug_aranges
-                0x00000208       0x30 ./Project_Settings/Startup_Code/system_S32K144.o
+                0x00000240       0x20 ./Project_Settings/Startup_Code/startup_S32K144.o
  .debug_aranges
-                0x00000238       0x50 ./src/main.o
+                0x00000260       0x30 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_aranges
+                0x00000290       0x30 ./src/S32K144_IT.o
+ .debug_aranges
+                0x000002c0       0x60 ./src/main.o
 
-.debug_ranges   0x00000000      0x208
+.debug_ranges   0x00000000      0x280
  .debug_ranges  0x00000000       0x20 ./Driver/CMSIS/Src/Core_Interrupt.o
  .debug_ranges  0x00000020       0x30 ./Driver/CMSIS/Src/Core_Systick.o
  .debug_ranges  0x00000050       0x88 ./Driver/CMSIS/Src/Driver_GPIO.o
  .debug_ranges  0x000000d8       0x50 ./Driver/HAL/Src/ADC.o
  .debug_ranges  0x00000128       0x18 ./Driver/HAL/Src/Clock.o
- .debug_ranges  0x00000140       0x58 ./Driver/HAL/Src/Driver_UART.o
- .debug_ranges  0x00000198       0x10 ./Project_Settings/Startup_Code/startup.o
- .debug_ranges  0x000001a8       0x20 ./Project_Settings/Startup_Code/system_S32K144.o
- .debug_ranges  0x000001c8       0x40 ./src/main.o
+ .debug_ranges  0x00000140       0x68 ./Driver/HAL/Src/Driver_UART.o
+ .debug_ranges  0x000001a8       0x38 ./Driver/HAL/Src/Timer.o
+ .debug_ranges  0x000001e0       0x10 ./Project_Settings/Startup_Code/startup.o
+ .debug_ranges  0x000001f0       0x20 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_ranges  0x00000210       0x20 ./src/S32K144_IT.o
+ .debug_ranges  0x00000230       0x50 ./src/main.o
 
-.debug_macro    0x00000000    0x1ff74
+.debug_macro    0x00000000    0x2011d
  .debug_macro   0x00000000       0x7c ./Driver/CMSIS/Src/Core_Interrupt.o
  .debug_macro   0x0000007c      0x8d4 ./Driver/CMSIS/Src/Core_Interrupt.o
  .debug_macro   0x00000950       0x19 ./Driver/CMSIS/Src/Core_Interrupt.o
@@ -1070,32 +1103,36 @@ OUTPUT(MCU_MediaPlayer.elf elf32-littlearm)
  .debug_macro   0x0001edb5       0x8a ./Driver/HAL/Src/Clock.o
  .debug_macro   0x0001ee3f       0x3a ./Driver/HAL/Src/Clock.o
  .debug_macro   0x0001ee79       0x8a ./Driver/HAL/Src/Driver_UART.o
- .debug_macro   0x0001ef03       0x70 ./Driver/HAL/Src/Driver_UART.o
- .debug_macro   0x0001ef73       0xb5 ./Project_Settings/Startup_Code/startup.o
- .debug_macro   0x0001f028       0x10 ./Project_Settings/Startup_Code/startup.o
- .debug_macro   0x0001f038       0x7a ./Project_Settings/Startup_Code/startup.o
- .debug_macro   0x0001f0b2      0xbbe ./Project_Settings/Startup_Code/startup.o
- .debug_macro   0x0001fc70       0x22 ./Project_Settings/Startup_Code/startup.o
- .debug_macro   0x0001fc92       0x40 ./Project_Settings/Startup_Code/startup.o
- .debug_macro   0x0001fcd2       0xb5 ./Project_Settings/Startup_Code/system_S32K144.o
- .debug_macro   0x0001fd87       0x28 ./Project_Settings/Startup_Code/system_S32K144.o
- .debug_macro   0x0001fdaf      0x13f ./src/main.o
- .debug_macro   0x0001feee       0x10 ./src/main.o
- .debug_macro   0x0001fefe       0x76 ./src/main.o
+ .debug_macro   0x0001ef03       0x46 ./Driver/HAL/Src/Driver_UART.o
+ .debug_macro   0x0001ef49       0x8e ./Driver/HAL/Src/Timer.o
+ .debug_macro   0x0001efd7       0x22 ./Driver/HAL/Src/Timer.o
+ .debug_macro   0x0001eff9       0xb5 ./Project_Settings/Startup_Code/startup.o
+ .debug_macro   0x0001f0ae       0x10 ./Project_Settings/Startup_Code/startup.o
+ .debug_macro   0x0001f0be       0x7a ./Project_Settings/Startup_Code/startup.o
+ .debug_macro   0x0001f138      0xbbe ./Project_Settings/Startup_Code/startup.o
+ .debug_macro   0x0001fcf6       0x40 ./Project_Settings/Startup_Code/startup.o
+ .debug_macro   0x0001fd36       0xb5 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_macro   0x0001fdeb       0x28 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_macro   0x0001fe13      0x147 ./src/S32K144_IT.o
+ .debug_macro   0x0001ff5a       0x10 ./src/S32K144_IT.o
+ .debug_macro   0x0001ff6a       0x64 ./src/S32K144_IT.o
+ .debug_macro   0x0001ffce      0x14f ./src/main.o
 
-.debug_line     0x00000000     0x2221
+.debug_line     0x00000000     0x2a22
  .debug_line    0x00000000      0x314 ./Driver/CMSIS/Src/Core_Interrupt.o
  .debug_line    0x00000314      0x34f ./Driver/CMSIS/Src/Core_Systick.o
  .debug_line    0x00000663      0x405 ./Driver/CMSIS/Src/Driver_GPIO.o
  .debug_line    0x00000a68      0x421 ./Driver/HAL/Src/ADC.o
  .debug_line    0x00000e89      0x312 ./Driver/HAL/Src/Clock.o
- .debug_line    0x0000119b      0x4b6 ./Driver/HAL/Src/Driver_UART.o
- .debug_line    0x00001651      0x349 ./Project_Settings/Startup_Code/startup.o
- .debug_line    0x0000199a       0x91 ./Project_Settings/Startup_Code/startup_S32K144.o
- .debug_line    0x00001a2b      0x366 ./Project_Settings/Startup_Code/system_S32K144.o
- .debug_line    0x00001d91      0x490 ./src/main.o
+ .debug_line    0x0000119b      0x4e2 ./Driver/HAL/Src/Driver_UART.o
+ .debug_line    0x0000167d      0x359 ./Driver/HAL/Src/Timer.o
+ .debug_line    0x000019d6      0x349 ./Project_Settings/Startup_Code/startup.o
+ .debug_line    0x00001d1f       0x91 ./Project_Settings/Startup_Code/startup_S32K144.o
+ .debug_line    0x00001db0      0x366 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_line    0x00002116      0x428 ./src/S32K144_IT.o
+ .debug_line    0x0000253e      0x4e4 ./src/main.o
 
-.debug_str      0x00000000    0x6b197
+.debug_str      0x00000000    0x6b3d2
  .debug_str     0x00000000    0x63d68 ./Driver/CMSIS/Src/Core_Interrupt.o
                               0x63ef6 (size before relaxing)
  .debug_str     0x00063d68      0x1a6 ./Driver/CMSIS/Src/Core_Systick.o
@@ -1106,32 +1143,38 @@ OUTPUT(MCU_MediaPlayer.elf elf32-littlearm)
                               0x63e76 (size before relaxing)
  .debug_str     0x00064879      0x358 ./Driver/HAL/Src/Clock.o
                               0x63c1a (size before relaxing)
- .debug_str     0x00064bd1      0x475 ./Driver/HAL/Src/Driver_UART.o
-                              0x63e35 (size before relaxing)
- .debug_str     0x00065046     0x5e6c ./Project_Settings/Startup_Code/startup.o
+ .debug_str     0x00064bd1      0x4b6 ./Driver/HAL/Src/Driver_UART.o
+                              0x63ea7 (size before relaxing)
+ .debug_str     0x00065087      0x141 ./Driver/HAL/Src/Timer.o
+                              0x639e3 (size before relaxing)
+ .debug_str     0x000651c8     0x5e26 ./Project_Settings/Startup_Code/startup.o
                               0x69781 (size before relaxing)
- .debug_str     0x0006aeb2       0x3f ./Project_Settings/Startup_Code/startup_S32K144.o
+ .debug_str     0x0006afee       0x3f ./Project_Settings/Startup_Code/startup_S32K144.o
                                  0x81 (size before relaxing)
- .debug_str     0x0006aef1      0x159 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_str     0x0006b02d      0x159 ./Project_Settings/Startup_Code/system_S32K144.o
                               0x6955a (size before relaxing)
- .debug_str     0x0006b04a      0x14d ./src/main.o
-                              0x6a875 (size before relaxing)
+ .debug_str     0x0006b186      0x1ab ./src/S32K144_IT.o
+                              0x69c22 (size before relaxing)
+ .debug_str     0x0006b331       0xa1 ./src/main.o
+                              0x6a9db (size before relaxing)
 
-.debug_frame    0x00000000      0x940
+.debug_frame    0x00000000      0xb40
  .debug_frame   0x00000000       0x88 ./Driver/CMSIS/Src/Core_Interrupt.o
  .debug_frame   0x00000088       0xb8 ./Driver/CMSIS/Src/Core_Systick.o
  .debug_frame   0x00000140      0x19c ./Driver/CMSIS/Src/Driver_GPIO.o
  .debug_frame   0x000002dc      0x174 ./Driver/HAL/Src/ADC.o
  .debug_frame   0x00000450       0x60 ./Driver/HAL/Src/Clock.o
- .debug_frame   0x000004b0      0x194 ./Driver/HAL/Src/Driver_UART.o
- .debug_frame   0x00000644       0x38 ./Project_Settings/Startup_Code/startup.o
- .debug_frame   0x0000067c       0x80 ./Project_Settings/Startup_Code/system_S32K144.o
- .debug_frame   0x000006fc       0xdc ./src/main.o
- .debug_frame   0x000007d8       0x28 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-exit.o)
- .debug_frame   0x00000800       0x2c D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-init.o)
- .debug_frame   0x0000082c       0x20 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-memset.o)
- .debug_frame   0x0000084c       0x4c D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__call_atexit.o)
- .debug_frame   0x00000898       0x38 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-fini.o)
- .debug_frame   0x000008d0       0x20 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-atexit.o)
- .debug_frame   0x000008f0       0x30 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__atexit.o)
- .debug_frame   0x00000920       0x20 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libnosys.a(_exit.o)
+ .debug_frame   0x000004b0      0x1e4 ./Driver/HAL/Src/Driver_UART.o
+ .debug_frame   0x00000694      0x100 ./Driver/HAL/Src/Timer.o
+ .debug_frame   0x00000794       0x38 ./Project_Settings/Startup_Code/startup.o
+ .debug_frame   0x000007cc       0x80 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_frame   0x0000084c       0x68 ./src/S32K144_IT.o
+ .debug_frame   0x000008b4      0x124 ./src/main.o
+ .debug_frame   0x000009d8       0x28 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-exit.o)
+ .debug_frame   0x00000a00       0x2c D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-init.o)
+ .debug_frame   0x00000a2c       0x20 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-memset.o)
+ .debug_frame   0x00000a4c       0x4c D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__call_atexit.o)
+ .debug_frame   0x00000a98       0x38 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-fini.o)
+ .debug_frame   0x00000ad0       0x20 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-atexit.o)
+ .debug_frame   0x00000af0       0x30 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libc.a(lib_a-__atexit.o)
+ .debug_frame   0x00000b20       0x20 D:/AppSetup/NXP/S32DS.3.5/S32DS/build_tools/gcc_b1620/gcc-6.3-arm32-eabi/arm-none-eabi/newlib/lib/thumb/v7e-m\libnosys.a(_exit.o)
