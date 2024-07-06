@@ -98,7 +98,6 @@ int UARTInputData::check_source()
         struct timeval tv;
         tv.tv_sec = 5; // Thời gian chờ tối đa là 5 giây
         tv.tv_usec = 0;
-
         int max_fd = max(fd, STDIN_FILENO) + 1;
         int ret = select(max_fd, &readfds, NULL, NULL, &tv);
 
@@ -119,6 +118,7 @@ int UARTInputData::check_source()
             }
         }
     }
+    return 1;
 }
 
 string UARTInputData::userInputString()
@@ -142,7 +142,7 @@ string UARTInputData::userInputString()
             cerr << "Error in select: " << strerror(errno) << endl;
             // break;
         } else if (ret == 0) {
-            // cout << "No data within five seconds." << endl;
+            cout << "No data within five seconds." << endl;
 
         } else {
             if (FD_ISSET(fd, &readfds)) {
@@ -180,7 +180,7 @@ void UARTInputData::userInputBuffer(uint8_t* buffer)
     } else {
         if (FD_ISSET(fd, &readfds)) {
             int count = 0;
-            while (count < 3) {
+            while (count < 4) {
                 ssize_t bytes_read = read(fd, buffer + count, 1); // Đọc từng byte vào buffer
 
                 if (bytes_read < 0) {
@@ -188,13 +188,18 @@ void UARTInputData::userInputBuffer(uint8_t* buffer)
                     return;
                 } else if (bytes_read == 0) {
                     std::cerr << "UART has been closed." << std::endl;
-                    return;
+                    // return;
                 } else {
-                    std::cout << "Read " << bytes_read << " byte(s) from UART." << std::endl;
-                    count++;
-                    // Thoát khỏi vòng lặp nếu đã nhận đủ 3 giá trị
-                    if (count == 3) {
-                        return;
+                    if(*buffer != START_BYTE)
+                    {
+                        break;
+                    }else{
+                        std::cout << "Read " << bytes_read << " byte(s) from UART." << std::endl;
+                        count++;
+                        // Thoát khỏi vòng lặp nếu đã nhận đủ 4 giá trị
+                        if (count == 4) {
+                            break;
+                        }
                     }
                 }
             }

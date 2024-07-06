@@ -1,5 +1,6 @@
 {
     "files.associations": {
+<<<<<<< HEAD
         "*.json": "json",
         "driver_uart.h": "c",
         "core_interrupt.h": "c",
@@ -14,5 +15,13 @@
         "s32k144_it.h": "c",
         "timer.h": "c",
         "hal_common.h": "c"
+=======
+        "iostream": "cpp",
+        "string": "cpp",
+        "ostream": "cpp",
+        "*.tcc": "cpp",
+        "istream": "cpp",
+        "iosfwd": "cpp"
+>>>>>>> 0c8a0ce294171941dcd85d63308e59ea592b491b
     }
 }

@@ -14,7 +14,6 @@ extern ARM_DRIVER_GPIO Driver_GPIO;
 extern ADC_Handler_t ADC_Handle;
 extern ARM_DRIVER_USART Driver_UART;
 
-/* Variable */
 USART_Config_t UART1;
 
 volatile uint32_t ADC_value = 0;
