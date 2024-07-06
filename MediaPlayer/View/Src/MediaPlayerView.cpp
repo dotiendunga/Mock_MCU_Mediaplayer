@@ -337,13 +337,13 @@ string PlayMusicView::format_time(size_t total_seconds) const
 //     return 0;
 // }
 
-enum 
-{
-    END_BYTE = 0x00,
-    BTN1    = 0x01,
-    BTN2   = 0x02,
-    KEYBROAD = 0x03
-};
+// enum 
+// {
+//     END_BYTE = 0x00,
+//     BTN1    = 0x01,
+//     BTN2   = 0x02,
+//     KEYBROAD = 0x03
+// };
 // enum{
     
 //     SOURCE_UART = 0,
@@ -358,58 +358,75 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
         int source = check_source();
         if(source==SOURCE_UART)
         {
-            uint8_t buffer[4];
+            uint8_t buffer[5];
             userInputBuffer(buffer);
-            if (buffer[0] == BTN1)
+            if(buffer[3] == (buffer[0]+buffer[1]+buffer[2]))
             {
-                size_t MusicChoice = (size_t)buffer[1];
-    
-                    if (MusicChoice > 0 && MusicChoice <= lists_name.size())
+                    if (buffer[1] == BUTTON1_BYTE)
                     {
-                        return MusicChoice;
+                        size_t MusicChoice = (size_t)buffer[2];
+            
+                            if (MusicChoice > 0 && MusicChoice <= lists_name.size())
+                            {
+                                return MusicChoice;
+                            }else{
+                                cout << "Invalid choice. Please enter a valid option." << endl;
+                                return -7;
+                            }
+                    }else if (buffer[1] == BUTTON2_BYTE)
+                    {
+                        size_t handleChoice = (size_t)buffer[2];
+                            switch (handleChoice)
+                            {
+                                case 1:
+                                    if (currentPage < (lists_name.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
+                                    {
+                                        currentPage++;
+                                    }
+                                    return -7;
+                                case 2:
+                                    if (currentPage > 1)
+                                    {
+                                        currentPage--;
+                                    }
+                                    return -7;
+                                case 3:
+                                    return -3;
+                                case 4:
+                                    return -4;
+                                case 5:
+                                    return -5;
+                                case 6:
+                                    return -6;
+                                case 7:
+                                    flag = false;
+                                    return 0;
+                                    // break;
+                                default:
+                                    cout << "Invalid choice. Please enter a valid option." << endl;
+                                    return -7;
+                            }
+                    }else if(buffer[1] == ADC_BYTE)
+                    {
+                        size_t handleChoice = (size_t)buffer[2];
+                            switch (handleChoice)
+                            {
+                                case 0:
+                                    return -1;
+                                case 1:
+                                    return -2;
+                                default:
+                                    cout << "Invalid choice. Please enter a valid option." << endl;
+                                    return -7;
+                            }
                     }else{
                         cout << "Invalid choice. Please enter a valid option." << endl;
                         return -7;
                     }
-            }else if (buffer[0] == BTN2)
-            {
-                size_t handleChoice = (size_t)buffer[1];
-                    switch (handleChoice)
-                    {
-                        case 1:
-                            if (currentPage < (lists_name.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
-                            {
-                                currentPage++;
-                            }
-                            return -7;
-                        case 2:
-                            if (currentPage > 1)
-                            {
-                                currentPage--;
-                            }
-                            return -7;
-                        case 3:
-                            return -1;
-                        case 4:
-                            return -2;
-                        case 5:
-                            return -3;
-                        case 6:
-                            return -4;
-                        case 7:
-                            return -5;
-                        case 8:
-                            return -6;
-                        case 9:
-                            flag = false;
-                            return 0;
-                            // break;
-                        default:
-                            cout << "Invalid choice. Please enter a valid option." << endl;
-                            return -7;
-                
-            }
-        }
+                }
+                else{
+                    cout << "Data frome UART not True." << endl;
+                }
         }
         else if (source == SOURCE_KEYBROAD)
         {
@@ -486,11 +503,8 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                 cout << "Invalid choice. Please enter a valid option." << endl;
                 return -7;
             }
-    }
-    
-}
-return 0;
-}
+    }}
+    return 0;
 
-
+}
 /*========================================================================================================================================================*/
