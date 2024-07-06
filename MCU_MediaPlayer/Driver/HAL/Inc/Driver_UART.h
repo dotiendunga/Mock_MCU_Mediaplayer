@@ -28,47 +28,45 @@
 //Data bit
 typedef enum
 {
-	USART_7_bit_Data	= 7,
-	USART_8_bit_Data	= 8,
-	USART_9_bit_Data	= 9,
-	USART_10_bit_Data	= 10,
-} USART_Data_bit_t;
+	USART_7_BIT_DATA	= 7,
+	USART_8_BIT_DATA	= 8,
+	USART_9_BIT_DATA	= 9,
+	USART_10_BIT_DATA	= 10,
+} USART_Datalength_t;
 
 // Parity
 typedef enum
 {
-	USART_Parity_none	= 0,
-	USART_Parity_Odd	= 1,
-	USART_Parity_Even	= 2,
-} USART_Parity_bit_t;
+	USART_PARITY_NONE	= 0,
+	USART_PARITY_ODD	= 1,
+	USART_PARITY_EVEN	= 2,
+} USART_Parity_t;
 
 // First transfer bit
 typedef enum
 {
 	USART_LSB_FIRST = 0,
 	USART_MSB_FIRST = 1,
-} USART_First_transfer_bit_t;
+} USART_Direction_t;
 
 // Stop bit
 typedef enum
 {
-	USART_1_Stop_bit = 1,
-	USART_2_Stop_bit = 2,
+	USART_1_STOP_BIT = 1,
+	USART_2_STOP_BIT = 2,
 } USART_Stopbit_t;
-
-
 
 
 typedef void (*ARM_USART_SignalEvent_t) (uint32_t event);
 
 typedef struct
 {
-	LPUART_Type 	*Instance;
-	uint32_t    	Baudrate;
-	uint8_t     	Datalength;
-	uint8_t     	Parity;
-	uint8_t     	Stopbit;
-	uint8_t     	Direct;
+	LPUART_Type 		*Instance;
+	uint32_t    		Baudrate;
+	USART_Datalength_t  Datalength;
+	USART_Parity_t     	Parity;
+	USART_Stopbit_t     Stopbit;
+	USART_Direction_t   Direct;
 } USART_Config_t;
 
 typedef struct 

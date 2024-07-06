@@ -69,10 +69,10 @@ void UART_Setup()
 {
 	UART1.Instance = LPUART1;
 	UART1.Baudrate = 9600;
-	UART1.Datalength = 8;
-	UART1.Direct = ARM_USART_LSB_FIRST;
-	UART1.Parity = ARM_USART_PARITY_NONE;
-	UART1.Stopbit = ARM_USART_1_STOP_BIT;
+	UART1.Datalength = USART_8_BIT_DATA;
+	UART1.Direct = USART_LSB_FIRST;
+	UART1.Parity = USART_PARITY_NONE;
+	UART1.Stopbit = USART_1_STOP_BIT;
 	/* Init uart1 */
 	Driver_UART.Init(&UART1);
 }
@@ -81,9 +81,9 @@ void ADC_Setup()
 {
 	ADC_Handle.EnableCLK(ADC0, ADC_DIVIDE_1);
 	ADC_Handle.SetResolution(ADC0, ADC_RESOLUTION_12BIT);
-	ADC_Handle.SetTrigger(ADC0, ADC_Trigger_Sorfware);
-	ADC_Handle.SetMode(ADC0, ADC_Mode_Oneshot);
-	ADC_Handle.SetReference(ADC0, ADC_Ref_External);
+	ADC_Handle.SetTrigger(ADC0, ADC_TRIGGER_SOFTWARE);
+	ADC_Handle.SetMode(ADC0, ADC_MODE_ONESHOT);
+	ADC_Handle.SetReference(ADC0, ADC_REF_EXTERNAL);
 	ADC_Handle.InterruptEnable(ADC0, ADC_CHANNEL_0, ADC_IT_DISABLE);
 	NVIC_EnableIRQ(ADC0_IRQn);
 }

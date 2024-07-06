@@ -54,20 +54,20 @@ typedef enum
 
 typedef enum
 {
-	ADC_Trigger_Sorfware = 0,
-	ADC_Trigger_Hardware
+	ADC_TRIGGER_SOFTWARE = 0,
+	ADC_TRIGGER_HARDWARE
 } ADC_Trigger_t;
 
 typedef enum
 {
-	ADC_Ref_External = 0,
-	ADC_Ref_Internal
+	ADC_REF_EXTERNAL = 0,
+	ADC_REF_INTERNAL
 } ADC_RefSelection_t;
 
 typedef enum
 {
-	ADC_Mode_Oneshot = 0,
-	ADC_Mode_Continuous
+	ADC_MODE_ONESHOT = 0,
+	ADC_MODE_CONTINUOUS
 } ADC_Mode_t;
 
 typedef enum

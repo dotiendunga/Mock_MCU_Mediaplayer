@@ -36,10 +36,10 @@ static HAL_StatusTypeDef ADC_SetTrigger(ADCx_t ADCx, ADC_Trigger_t trig)
     HAL_StatusTypeDef result = HAL_OK;
     switch (trig)
     {
-        case ADC_Trigger_Sorfware:
+        case ADC_TRIGGER_SOFTWARE:
             ADCx->SC2 &= ~ADC_SC2_ADTRG_MASK;
             break;
-        case ADC_Trigger_Hardware:
+        case ADC_TRIGGER_HARDWARE:
 		    ADCx->SC2 |= ADC_SC2_ADTRG(trig);
             break;
         default:
@@ -54,10 +54,10 @@ static HAL_StatusTypeDef ADC_SetRef(ADCx_t ADCx, ADC_RefSelection_t ref)
     HAL_StatusTypeDef result = HAL_OK;
     switch (ref)
     {
-        case ADC_Ref_External:
+        case ADC_REF_EXTERNAL:
             ADCx->SC2 &= ~ADC_SC2_REFSEL_MASK;
             break;
-        case ADC_Ref_Internal:
+        case ADC_REF_INTERNAL:
 		    ADCx->SC2 |= ADC_SC2_REFSEL(ref);
             break;
         default:
@@ -72,10 +72,10 @@ static HAL_StatusTypeDef ADC_SetMode(ADCx_t ADCx, ADC_Mode_t mode)
     HAL_StatusTypeDef result = HAL_OK;
     switch (mode)
     {
-        case ADC_Mode_Oneshot:
+        case ADC_MODE_ONESHOT:
             ADCx->SC3 &= ~ADC_SC3_ADCO_MASK;
             break;
-        case ADC_Mode_Continuous:
+        case ADC_MODE_CONTINUOUS:
 		    ADCx->SC3 |= ADC_SC3_ADCO(mode);
             break;
         default:
