@@ -160,6 +160,7 @@ string UARTInputData::userInputString()
         return "\0";
     }
 }
+
 void UARTInputData::userInputBuffer(uint8_t* buffer)
 {
     fd_set readfds;
