@@ -61,6 +61,7 @@ private:
     int chosenMusic = 1;
     size_t list = 1;
     int duration;
+    int volume;
     /*                    SHOW METADATA IN MEDIALIST                       */
     string file_path = "";
     string file_name = "";

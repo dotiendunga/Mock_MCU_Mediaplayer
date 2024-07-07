@@ -21,7 +21,7 @@ int UARTInputData::setInterfaceAttribs(int fd, int speed)
     memset(&tty, 0, sizeof tty);
 
     if (tcgetattr(fd, &tty) != 0) {
-        cerr << "Error " << errno << " from tcgetattr: " << strerror(errno) << endl;
+        cerr << "Error " << errno << " from tcgetattr1: " << strerror(errno) << endl;
         return -1;
     }
 
@@ -45,8 +45,9 @@ int UARTInputData::setInterfaceAttribs(int fd, int speed)
     tty.c_cflag &= ~CSTOPB;
     tty.c_cflag &= ~CRTSCTS;
 
-    if (tcsetattr(fd, TCSANOW, &tty) != 0) {
-        cerr << "Error " << errno << " from tcsetattr: " << strerror(errno) << endl;
+    if (tcsetattr(fd, TCSANOW, &tty) != 0)
+    {
+        cerr << "Error " << errno << " from tcsetattr2: " << strerror(errno) << endl;
         return -1;
     }
     return 0;
@@ -59,7 +60,7 @@ void UARTInputData::setBlocking(int fd, bool should_block)
     memset(&tty, 0, sizeof tty);
 
     if (tcgetattr(fd, &tty) != 0) {
-        cerr << "Error " << errno << " from tggetattr: " << strerror(errno) << endl;
+        cerr << "Error " << errno << " from tggetattr3: " << strerror(errno) << endl;
         return;
     }
 
@@ -71,15 +72,6 @@ void UARTInputData::setBlocking(int fd, bool should_block)
     }
 }
 
-// int UARTInputData::configInput()
-// {
-//     if (fd < 0) {
-//         cerr << "Error " << errno << " opening " << portname << ": " << strerror(errno) << endl;
-//         return -1;
-//     }
-    
-//     return 0;
-// }
 int UARTInputData::userInput()
 {
     return 0;
@@ -90,7 +82,8 @@ int UARTInputData::check_source()
     fd_set readfds;
     // char buf[100];
     bool flag =true;
-    while(flag){
+    while(flag)
+    {
         FD_ZERO(&readfds);
         FD_SET(fd, &readfds);
         FD_SET(STDIN_FILENO, &readfds); // Thêm stdin vào tập tệp mô tả cần kiểm tra
@@ -102,12 +95,15 @@ int UARTInputData::check_source()
         int ret = select(max_fd, &readfds, NULL, NULL, &tv);
 
         if (ret == -1) {
-            cerr << "Error in select: " << strerror(errno) << endl;
+            cerr << "Error in select: 4" << strerror(errno) << endl;
             // break;
-        } else if (ret == 0) {
+        }
+        else if (ret == 0)
+        {
             // cout << "No data within five seconds." << endl;
-
-        } else {
+        }
+        else
+        {
             if (FD_ISSET(fd, &readfds)) {
                 flag = false;
                 return SOURCE_UART;
@@ -139,18 +135,24 @@ string UARTInputData::userInputString()
         int ret = select(max_fd, &readfds, NULL, NULL, &tv);
 
         if (ret == -1) {
-            cerr << "Error in select: " << strerror(errno) << endl;
+            cerr << "Error in select: 5" << strerror(errno) << endl;
             // break;
-        } else if (ret == 0) {
-            cout << "No data within five seconds." << endl;
+        }
+        else if(ret == 0)
+        {
+            // cout << "No data within five seconds." << endl;
 
-        } else {
-            if (FD_ISSET(fd, &readfds)) {
+        }
+        else
+        {
+            if (FD_ISSET(fd, &readfds))
+            {
                 int n = read(fd, buf, sizeof buf - 1);
-                if (n > 0) {
+                if (n > 0)
+                {
                     buf[n] = '\0';
                     shared_variable = string(buf);
-                    cout << "UART event: " << shared_variable << endl;
+                    // cout << "UART event: " << shared_variable << endl;
                     return shared_variable; 
                 }
             }
@@ -171,33 +173,46 @@ void UARTInputData::userInputBuffer(uint8_t* buffer)
 
     int max_fd = fd + 1; // Chỉ sử dụng fd của UART
     int ret = select(max_fd, &readfds, NULL, NULL, &tv);
-    if (ret == -1) {
-        std::cerr << "Error in select: " << strerror(errno) << std::endl;
+    if (ret == -1)
+    {
+        std::cerr << "Error in select: 6" << strerror(errno) << std::endl;
         return;
-    } else if (ret == 0) {
-        std::cout << "No data within five seconds." << std::endl;
+    }
+    else if(ret == 0)
+    {
+        // std::cout << "No data within five seconds." << std::endl;
         return;
-    } else {
-        if (FD_ISSET(fd, &readfds)) {
+    } 
+    else
+    {
+        if(FD_ISSET(fd, &readfds))
+        {
             int count = 0;
-            while (count < 4) {
+            while (count < 4) 
+            {
                 ssize_t bytes_read = read(fd, buffer + count, 1); // Đọc từng byte vào buffer
-
-                if (bytes_read < 0) {
-                    std::cerr << "Error reading from UART: " << strerror(errno) << std::endl;
+                if (bytes_read < 0)
+                {
+                    // std::cerr << "Error reading from UART: " << strerror(errno) << std::endl;
                     return;
-                } else if (bytes_read == 0) {
-                    std::cerr << "UART has been closed." << std::endl;
+                } else if (bytes_read == 0)
+                {
+                    // std::cerr << "UART has been closed." << std::endl;
                     // return;
-                } else {
+                }
+                else
+                {
                     if(*buffer != START_BYTE)
                     {
                         break;
-                    }else{
-                        std::cout << "Read " << bytes_read << " byte(s) from UART." << std::endl;
+                    }
+                    else
+                    {
+                        // std::cout << "Read " << bytes_read << " byte(s) from UART." << std::endl;
                         count++;
                         // Thoát khỏi vòng lặp nếu đã nhận đủ 4 giá trị
-                        if (count == 4) {
+                        if (count == 4)
+                        {
                             break;
                         }
                     }

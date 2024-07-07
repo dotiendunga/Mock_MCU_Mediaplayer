@@ -40,6 +40,7 @@ public:
     size_t getVolume();
     int VolumeUp();
     int VolumeDown();
+    int setVolume(int volume);
     
     void setFlagAuto(bool flagAuto);
     bool getFlagAuto();

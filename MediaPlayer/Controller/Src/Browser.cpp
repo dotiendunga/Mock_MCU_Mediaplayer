@@ -555,7 +555,7 @@ void Browser::playmusic(int& chosenList)
 void Browser::playmusic_player(int& chosenList, int& chosenMusic)
 {
 
-    chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list);
+    chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, volume);
     switch (chosenMusic)
     {
     case 0:
@@ -564,7 +564,8 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
         myThread.join();
         break;
     case -1:
-        myPlayer.VolumeUp();
+        myPlayer.setVolume(volume);
+        // myPlayer.VolumeUp();
         break;
     case -2:
         myPlayer.VolumeDown();
@@ -573,7 +574,6 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
         myPlayer.ResumePause();
         break;
     case -4:
-        
         {
         std::lock_guard<std::mutex> lock1(mtx1);
         myPlayer.nextMusic();
@@ -701,13 +701,10 @@ void Browser::programFlow()
                 break;
             case SET_PATH_ID:
                 setPath();
-
                 break;
             default:
                 list = 1;
                 flag=false;
-                // flowID.pop();
-                // FreeAll();
                 break;
         }
     }

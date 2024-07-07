@@ -20,7 +20,7 @@ class PlayMusicView:public PlaylistView
         // void display_ListsPerPage(const vector<MediaFile*>& songs, size_t currentpage);
         int check_choice_PlayMusicView(const vector<Playlist*>& lists, size_t& currentPage);
         void display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage, size_t timelapse, size_t duration, MediaPlayer& myPlayer);
-        int check_choice_PlayMusicView_ShowPlay(const vector< MediaFile*>& lists_name, size_t& currentPage);
+        int check_choice_PlayMusicView_ShowPlay(const vector< MediaFile*>& lists_name, size_t& currentPage, int& volume);
         void Time_Volume(size_t timelapse, size_t duration, const size_t volume) const;
         void Update_Time_Volume(size_t timelapse, size_t duration, const size_t volume,MediaPlayer& myPlayer) const;
         inline string format_time(size_t total_seconds) const;

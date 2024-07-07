@@ -197,3 +197,8 @@ int MediaPlayer:: VolumeDown()
     Mix_VolumeMusic(SysVolume);
     return SysVolume;
 }
+int MediaPlayer::setVolume(int volume)
+{
+    SysVolume = volume;
+    Mix_VolumeMusic(SysVolume);
+}
