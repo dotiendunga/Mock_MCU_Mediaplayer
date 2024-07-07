@@ -23,16 +23,16 @@ static int32_t ARM_USART_Pin(void)
 static int32_t ARM_USART_SetBaudrate(USART_Config_t* usart)
 {
 	int32_t result = ARM_DRIVER_OK;
-	usart->instance->CTRL &= ~(LPUART_CTRL_TE_MASK|LPUART_CTRL_RE_MASK);
-	switch (usart->baudrate)
+	usart->Instance->CTRL &= ~(LPUART_CTRL_TE_MASK|LPUART_CTRL_RE_MASK);
+	switch (usart->Baudrate)
 	{
-	case USART_BAURATE_9600:
-		usart->instance->BAUD &= ~LPUART_BAUD_SBR_MASK;
-		usart->instance->BAUD |= LPUART_BAUD_SBR(312U);
+	case 9600:
+		usart->Instance->BAUD &= ~LPUART_BAUD_SBR_MASK;
+		usart->Instance->BAUD |= LPUART_BAUD_SBR(312U);
 		break;
-	case USART_BAURATE_112500:
-		usart->instance->BAUD &= ~LPUART_BAUD_SBR_MASK;
-		usart->instance->BAUD |= LPUART_BAUD_SBR(27U);
+	case 112500:
+		usart->Instance->BAUD &= ~LPUART_BAUD_SBR_MASK;
+		usart->Instance->BAUD |= LPUART_BAUD_SBR(27U);
 		break;
     default:
         result = ARM_USART_ERROR_BAUDRATE;
@@ -43,37 +43,37 @@ static int32_t ARM_USART_SetBaudrate(USART_Config_t* usart)
 static int32_t ARM_USART_SetDataLength(USART_Config_t* usart)
 {
 	int32_t result = ARM_DRIVER_OK;
-	usart->instance->CTRL &= ~(LPUART_CTRL_TE_MASK|LPUART_CTRL_RE_MASK);
+	usart->Instance->CTRL &= ~(LPUART_CTRL_TE_MASK|LPUART_CTRL_RE_MASK);
 	/* Configure data */
-	switch (usart->datalength)
+	switch (usart->Datalength)
 	{
 	case USART_7_BIT_DATA:
 		//Set bit M10 to 0 to choose 7 to 9 bit data
-		usart->instance->BAUD &= ~LPUART_BAUD_M10_MASK;
+		usart->Instance->BAUD &= ~LPUART_BAUD_M10_MASK;
 		//Select 7-bit data characters
-		usart->instance->CTRL |= LPUART_CTRL_M7(1u);
+		usart->Instance->CTRL |= LPUART_CTRL_M7(1u);
         break;
 	case USART_8_BIT_DATA:
 		//Set bit M10 to 0 to choose 7 to 9 bit data
-		usart->instance->BAUD &= ~LPUART_BAUD_M10_MASK;
+		usart->Instance->BAUD &= ~LPUART_BAUD_M10_MASK;
 		//Clear bit M7 to 0 to select 8to 10-bit data
-		usart->instance->CTRL &= ~LPUART_CTRL_M7_MASK;
+		usart->Instance->CTRL &= ~LPUART_CTRL_M7_MASK;
 		//Select 8-bit data characters
-		usart->instance->CTRL &= ~LPUART_CTRL_M_MASK;
+		usart->Instance->CTRL &= ~LPUART_CTRL_M_MASK;
 		break;
 	case USART_9_BIT_DATA:
 		//Set bit M10 to 0 to choose 7 to 9 bit data
-		usart->instance->BAUD &= ~LPUART_BAUD_M10_MASK;
+		usart->Instance->BAUD &= ~LPUART_BAUD_M10_MASK;
 		//Clear bit M7 to 0 to select 8to 10-bit data
-		usart->instance->CTRL &= ~LPUART_CTRL_M7_MASK;
+		usart->Instance->CTRL &= ~LPUART_CTRL_M7_MASK;
 		//Select 9-bit data characters
-		usart->instance->CTRL |= LPUART_CTRL_M(1u);
+		usart->Instance->CTRL |= LPUART_CTRL_M(1u);
 		break;
 	case USART_10_BIT_DATA:
 		//Clear bit M7 to 0 to select 8to 10-bit data
-		usart->instance->CTRL &= ~LPUART_CTRL_M7_MASK;
+		usart->Instance->CTRL &= ~LPUART_CTRL_M7_MASK;
 		//Select 10-bit data characters
-		usart->instance->BAUD |= LPUART_BAUD_M10(1u);
+		usart->Instance->BAUD |= LPUART_BAUD_M10(1u);
 		break;
     default:
         result = ARM_USART_ERROR_DATA_BITS;
@@ -84,20 +84,20 @@ static int32_t ARM_USART_SetDataLength(USART_Config_t* usart)
 static int32_t ARM_USART_SetParity(const USART_Config_t* usart)
 {
 	int32_t result = ARM_DRIVER_OK;
-	usart->instance->CTRL &= ~LPUART_CTRL_PE_MASK;
-    switch (usart->parity)
+	usart->Instance->CTRL &= ~LPUART_CTRL_PE_MASK;
+    switch (usart->Parity)
     {
     case USART_PARITY_ODD:
-        usart->instance->CTRL |= LPUART_CTRL_PE_MASK;
-        usart->instance->CTRL |= LPUART_CTRL_PT_MASK;
+        usart->Instance->CTRL |= LPUART_CTRL_PE_MASK;
+        usart->Instance->CTRL |= LPUART_CTRL_PT_MASK;
         break;
     case USART_PARITY_EVEN:
-        usart->instance->CTRL |= LPUART_CTRL_PE_MASK;
-        usart->instance->CTRL &= ~LPUART_CTRL_PT_MASK;
+        usart->Instance->CTRL |= LPUART_CTRL_PE_MASK;
+        usart->Instance->CTRL &= ~LPUART_CTRL_PT_MASK;
         break;
     case USART_PARITY_NONE:
-		usart->instance->CTRL &= ~LPUART_CTRL_PE_MASK;
-        usart->instance->CTRL &= ~LPUART_CTRL_PT_MASK;
+		usart->Instance->CTRL &= ~LPUART_CTRL_PE_MASK;
+        usart->Instance->CTRL &= ~LPUART_CTRL_PT_MASK;
         break;
     default:
         result = ARM_USART_ERROR_PARITY;
@@ -108,13 +108,13 @@ static int32_t ARM_USART_SetParity(const USART_Config_t* usart)
 static int32_t ARM_USART_SetShiftDirection(const USART_Config_t* usart)
 {
 	int32_t result = ARM_DRIVER_OK;
-    switch (usart->direct)
+    switch (usart->Direct)
     {
     case USART_MSB_FIRST:
-        usart->instance->STAT |= LPUART_STAT_MSBF_MASK;
+        usart->Instance->STAT |= LPUART_STAT_MSBF_MASK;
         break;
 	case USART_LSB_FIRST:
-        usart->instance->STAT &= ~LPUART_STAT_MSBF_MASK;
+        usart->Instance->STAT &= ~LPUART_STAT_MSBF_MASK;
         break;
     default:
         result = ARM_USART_ERROR_MODE;
@@ -124,16 +124,16 @@ static int32_t ARM_USART_SetShiftDirection(const USART_Config_t* usart)
 
 static int32_t ARM_USART_SetStopBit(const USART_Config_t* usart)
 {
-    usart->instance->CTRL &= ~LPUART_CTRL_TXINV_MASK;
-	usart->instance->STAT &= ~LPUART_STAT_RXINV_MASK;
+    usart->Instance->CTRL &= ~LPUART_CTRL_TXINV_MASK;
+	usart->Instance->STAT &= ~LPUART_STAT_RXINV_MASK;
 	/* Configure stop bit*/
-	switch (usart->stopbit)
+	switch (usart->Stopbit)
 	{
 	case USART_1_STOP_BIT:
-		usart->instance->BAUD &= ~LPUART_BAUD_SBNS_MASK;
+		usart->Instance->BAUD &= ~LPUART_BAUD_SBNS_MASK;
 		break;
 	case USART_2_STOP_BIT:
-		usart->instance->BAUD |= LPUART_BAUD_SBNS_MASK;
+		usart->Instance->BAUD |= LPUART_BAUD_SBNS_MASK;
 		break;
 	default:
 		return ARM_USART_ERROR_MODE;
@@ -157,22 +157,22 @@ static int32_t ARM_USART_Transmit(const USART_Config_t* usart, const void *data,
     }
 
     // Enable Transmitter
-    usart->instance->CTRL |= LPUART_CTRL_TE_MASK;
+    usart->Instance->CTRL |= LPUART_CTRL_TE_MASK;
 
-	if(usart->datalength == 8)
+	if(usart->Datalength == 8)
 	{
 		const uint8_t *data_ptr = (const uint8_t *)data;
 		for (uint32_t i = 0; i < ln; i++)
 		{
 			// Wait until transmit data register empty
-			while (!(usart->instance->STAT & LPUART_STAT_TDRE_MASK));
+			while (!(usart->Instance->STAT & LPUART_STAT_TDRE_MASK));
 
 			// Write Data to Tx Buffer
-			usart->instance->DATA = data_ptr[i];
+			usart->Instance->DATA = data_ptr[i];
 		}
 
 		// Wait until transmission complete
-		while (!(usart->instance->STAT & LPUART_STAT_TC_MASK));
+		while (!(usart->Instance->STAT & LPUART_STAT_TC_MASK));
 	}
 	else
 	{
@@ -181,12 +181,23 @@ static int32_t ARM_USART_Transmit(const USART_Config_t* usart, const void *data,
 	}
 
     // Disable Transmitter
-    usart->instance->CTRL &= ~LPUART_CTRL_TE_MASK;
+    usart->Instance->CTRL &= ~LPUART_CTRL_TE_MASK;
 
     return ARM_DRIVER_OK;
 }
 
-static int32_t ARM_USART_Receive(const USART_Config_t* usart, void *data, uint32_t ln)
+static int32_t ARM_USART_Transmit_IT(const USART_Config_t* usart, const void *data, uint32_t ln)
+{
+    if (data == NULL || ln == 0)
+    {
+        return ARM_DRIVER_ERROR_PARAMETER;
+    }
+
+
+
+    return ARM_DRIVER_OK;
+}
+static int32_t ARM_USART_Receive(const USART_Config_t* const usart, void *data, uint32_t ln)
 {
     if (data == NULL || ln == 0)
     {
@@ -196,7 +207,7 @@ static int32_t ARM_USART_Receive(const USART_Config_t* usart, void *data, uint32
     // Enable Receiver
     LPUART1->CTRL |= LPUART_CTRL_RE_MASK;
 
-    if(usart->datalength == 8)
+    if(usart->Datalength == 8)
 	{
 		uint8_t *data_ptr = (uint8_t *)data;
 		for (uint32_t i = 0; i < ln; i++)
@@ -218,6 +229,10 @@ static int32_t ARM_USART_Receive(const USART_Config_t* usart, void *data, uint32
     LPUART1->CTRL &= ~LPUART_CTRL_RE_MASK;
     return ARM_DRIVER_OK;
 }
+static int32_t ARM_USART_Receive_IT(const USART_Config_t* usart, void *data, uint32_t ln)
+{
+
+}
 
 static int32_t ARM_USART_Init(USART_Config_t* usart)
 {
@@ -235,5 +250,7 @@ ARM_DRIVER_USART Driver_UART =
 	.Init = ARM_USART_Init,
 	.Uninitialize = ARM_USART_Uninitialize,
 	.Transmit = ARM_USART_Transmit,
+	.Transmit_IT = ARM_USART_Transmit_IT,
 	.Receive = ARM_USART_Receive,
+	.Receive_IT = ARM_USART_Receive_IT,
 };

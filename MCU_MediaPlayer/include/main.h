@@ -15,6 +15,9 @@
 #include "Driver_GPIO.h"
 #include "device_registers.h"
 #include "Clock.h"
+#include "ADC.h"
+#include "Timer.h"
+#include "Driver_UART.h"
 
 #define GPIO_PTC_12			76U
 #define BTN1				GPIO_PTC_12
@@ -34,6 +37,10 @@
 #define LED1_FREQ			1000	//ms
 #define LED2_FREQ			2000	//ms
 
+#define START_BYTE		    0xAA
+#define BYTE_BUTTON_1	    12U
+#define BYTE_BUTTON_2	    13U
+#define BYTE_ADC		    14U
 
 
 

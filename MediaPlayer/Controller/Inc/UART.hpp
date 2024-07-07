@@ -28,6 +28,7 @@ class UARTInputData{
 
     private:
         const char* portname = "/dev/ttyACM0"; // Thay đổi thiết bị UART nếu cần thiết
+        const char* portname = "/dev/ttyACM0"; // Thay đổi thiết bị UART nếu cần thiết
         int fd = open(portname, O_RDWR | O_NOCTTY | O_SYNC);
         // Hàm cài đặt các thuộc tính của giao diện UART
         int setInterfaceAttribs(int fd, int speed);

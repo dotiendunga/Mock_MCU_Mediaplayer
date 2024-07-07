@@ -4,7 +4,17 @@
         "*.json": "json",
         "driver_uart.h": "c",
         "core_interrupt.h": "c",
-        "main.h": "c"
+        "main.h": "c",
+        "array": "c",
+        "string": "c",
+        "iostream": "cpp",
+        "ostream": "cpp",
+        "*.tcc": "cpp",
+        "istream": "cpp",
+        "iosfwd": "cpp",
+        "s32k144_it.h": "c",
+        "timer.h": "c",
+        "hal_common.h": "c"
 =======
         "iostream": "cpp",
         "string": "cpp",
