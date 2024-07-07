@@ -39,6 +39,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
         display_PlayMucsic(lists,currentPage);
         cout << "Choose option to playlist: "; 
         getline(cin,userInput);
+        getline(cin,userInput);
         if (!userInput.empty()) {
             stringstream ss(userInput);
             size_t ListChoice;

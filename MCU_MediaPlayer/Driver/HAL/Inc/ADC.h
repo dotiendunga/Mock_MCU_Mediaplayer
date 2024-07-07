@@ -78,7 +78,7 @@ typedef enum
 
 typedef struct
 {
-	HAL_StatusTypeDef (*EnableCLK)( ADCx_t ADCx, ADC_CLK_Ratio_t div);
+	HAL_StatusTypeDef (*EnableCLK)(ADCx_t ADCx, ADC_CLK_Ratio_t div);
 	HAL_StatusTypeDef (*SetResolution) (ADCx_t ADCx, ADC_Resolution_t res);
 	HAL_StatusTypeDef (*SetTrigger) (ADCx_t ADCx, ADC_Trigger_t trig);
 	HAL_StatusTypeDef (*SetReference) (ADCx_t ADCx, ADC_RefSelection_t ref);
