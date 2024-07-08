@@ -24,7 +24,7 @@
 #include "PlaylistView.hpp"
 #include "MediaPlayerView.hpp"
 #include "USB.hpp"
-#include "UART.hpp"
+#include "main.hpp"
 #include <stack>
 
 #define START_PAGE                  1
@@ -52,7 +52,7 @@ enum FlowID
 namespace fs = std:: filesystem;
 
 
-class Browser:public UARTInputData
+class Browser
 {
 private:
     std::string Path;
@@ -73,8 +73,6 @@ private:
     vector<Playlist*> vPlayList;    //vector contains playlist (include vMediaFile)
     // vector<MediaFile*> vMediaFile; // Vector contains files (all file)
     // data from port or user
-    const char* portname = getPortname();
-    int fd = getFileDescriptor();
     /* ptr Meta*/ 
     // Metadata* vMetadata; 
 
@@ -98,10 +96,13 @@ private:
     TagLib::FileRef fileRef;
 
     std::mutex mtx1;
+    std::mutex mtx2;
 
     /* USB */
     USBDeviceScanner usbDeviceScanner;
     std::vector<std::string> devices;
+    /*UART*/
+    UARTInputData uartData;
 
 public:
     Browser(/* args */);
@@ -114,7 +115,7 @@ public:
     void loadFile();   
     void FreeAll();
 
-    int userInput() override;
+    int userInput();
     string userInputString();
 
     /* Menu */ 

@@ -14,6 +14,18 @@
 #include <string.h> // For std::string
 #include <filesystem>
 
+enum SourceInput{ 
+    SOURCE_UART = 0,
+    SOURCE_KEYBROAD = 1
+}; 
+enum TypeData
+{
+    START_BYTE = 0x7F,
+    BUTTON1_BYTE = 0x01,
+    BUTTON2_BYTE = 0x02,
+    ADC_BYTE     = 0x03, 
+};
+
 using namespace std;
 
 #define PAGE_SONG_SIZE 4

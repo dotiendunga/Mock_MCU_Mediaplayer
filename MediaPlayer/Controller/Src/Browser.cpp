@@ -47,6 +47,7 @@ void Browser::PathUsbSelection()
     do
     {
         option = userInput();
+        // cout<<option<<endl;
     }
     while(option > (int)devices.size() + 1 || option < 0);
 
@@ -109,53 +110,30 @@ void Browser::loadFile()
 
 int Browser::userInput()
 {
-    string shared_variable;
-    fd_set readfds;
-    char buf[100];
-    // while (true) {
-    FD_ZERO(&readfds);
-    FD_SET(fd, &readfds);
-    FD_SET(STDIN_FILENO, &readfds); // Thêm stdin vào tập tệp mô tả cần kiểm tra
-    // Đặt thời gian chờ
-    struct timeval tv;
-    tv.tv_sec = 5; // Thời gian chờ tối đa là 5 giây
-    tv.tv_usec = 0;
+    int source = uartData.check_source();
 
-    int max_fd = max(fd, STDIN_FILENO) + 1;
-    int ret = select(max_fd, &readfds, NULL, NULL, &tv);
-
-    if (ret == -1) {
-        cerr << "Error in select: " << strerror(errno) << endl;
-        // break;
-    } else if (ret == 0) {
-        // cout << "No data within five seconds." << endl;
-    } else {
-        if (FD_ISSET(fd, &readfds)) {
-            int n = read(fd, buf, sizeof buf - 1);
-            if (n > 0) {
-                buf[n] = '\0';
-                shared_variable = string(buf);
-                // cout << "UART event: " << shared_variable << endl;
-                return (int)std::stoi(shared_variable);
-            }
-        }
-        if (FD_ISSET(STDIN_FILENO, &readfds)) {
-            int choice;
-            cin >> choice;
-            if (std::cin.fail())
+    if (source == SOURCE_UART) {
+            uint8_t buffer[4];
+            uartData.userInputBuffer(buffer);
+            if (buffer[1] == BUTTON2_BYTE)
             {
-                std::cin.clear(); // clear the error flag
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                return buffer[2];
             }
-            else
-            {
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                return choice;
-            }
-            return -1;
+    }else{
+        int choice;
+        std::cin >> choice;
+        if (std::cin.fail())
+        {
+            std::cin.clear(); // clear the error flag
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
+        else
+        {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            return choice;
+        }
+        return -1;
     }
-    return -1;
 }
 
 string Browser::userInputString()
@@ -319,9 +297,10 @@ void Browser::updateMetadata(string& file_path,string& file_name,int& file_type)
             menuView.InvalidChoiceInterface();
             // cin.ignore();
         }else{
-        // update_opt = browser->userInput();
+        update_opt = userInput();
         metadataView.enterMetadataValue();
-        getline(cin, new_value);    
+        // getline(cin, new_value);    
+        // uartData.check_source();
         if (file_type == AUDIO_FILE_TYPE)
         {
                 switch (update_opt)
@@ -554,8 +533,16 @@ void Browser::playmusic(int& chosenList)
 }
 void Browser::playmusic_player(int& chosenList, int& chosenMusic)
 {
-
-    chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, volume);
+    uint8_t buffer[4]; 
+    int source = uartData.check_source();
+    if(source == SOURCE_UART)
+    {
+        uartData.userInputBuffer(buffer);
+        chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, volume,source,buffer);
+    }else if (source == SOURCE_KEYBROAD )
+    {
+        chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, volume,source,nullptr);
+    }
     switch (chosenMusic)
     {
     case 0:
@@ -668,6 +655,7 @@ void Browser::resetTimer()
 void Browser::programFlow()
 {
     flowID.push(PATH_USB_ID);
+    // cin.ignore();
     bool flag =true;
     while (flag){
         
@@ -696,6 +684,7 @@ void Browser::programFlow()
                 mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, timelapse.count(), duration, myPlayer);
                 playmusic_player(chosenList, chosenMusic);
                 break;
+                // }
             case PATH_USB_ID:
                 PathUsbSelection();
                 break;
