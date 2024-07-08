@@ -170,7 +170,7 @@ size_t MediaPlayer:: getVolume()
 {
     return SysVolume;
 }
-int MediaPlayer:: VolumeUp()
+void MediaPlayer:: VolumeUp()
 {
     if(SysVolume > 123)
     {
@@ -181,10 +181,9 @@ int MediaPlayer:: VolumeUp()
         SysVolume += 5;
     }
     Mix_VolumeMusic(SysVolume);
-    return SysVolume;
 }
 
-int MediaPlayer:: VolumeDown()
+void MediaPlayer:: VolumeDown()
 {
     if(SysVolume < 5)
     {
@@ -195,9 +194,9 @@ int MediaPlayer:: VolumeDown()
         SysVolume -= 5;
     }
     Mix_VolumeMusic(SysVolume);
-    return SysVolume;
 }
-int MediaPlayer::setVolume(int volume)
+
+void MediaPlayer::setVolume(int volume)
 {
     SysVolume = volume;
     Mix_VolumeMusic(SysVolume);

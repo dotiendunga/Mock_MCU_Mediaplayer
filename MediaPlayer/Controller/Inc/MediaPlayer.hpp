@@ -38,9 +38,9 @@ public:
     bool isPlaying();
     /* Volume */
     size_t getVolume();
-    int VolumeUp();
-    int VolumeDown();
-    int setVolume(int volume);
+    void VolumeUp();
+    void VolumeDown();
+    void setVolume(int volume);
     
     void setFlagAuto(bool flagAuto);
     bool getFlagAuto();

@@ -6,12 +6,11 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
-#include <iomanip> // Để sử dụng setw()
+#include <iomanip>
 #include <taglib/tag.h>
 #include <taglib/fileref.h>
 #include <taglib/taglib.h>
-#include <memory> // For smart pointers
-#include <string.h> // For std::string
+#include <string.h> 
 #include <filesystem>
 
 using namespace std;

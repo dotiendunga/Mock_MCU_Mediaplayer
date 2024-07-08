@@ -11,6 +11,74 @@ Browser::~Browser()
     FreeAll();
 }
 
+UART_Keyboard_Input* Browser::UART_Keyboard()
+{
+    static UART_Keyboard_Input input;
+    string userInput;
+    bool flag = true;
+    while(flag)
+    {
+        SourceInput_t source = myUART.check_source();
+        /********************************************************************************** */
+        if(source == SOURCE_UART)
+        {
+            uint8_t buffer[4];
+            input.source = SOURCE_UART;
+            myUART.userInputBuffer(buffer);
+            switch (buffer[1])
+            {
+            case BUTTON1_BYTE:
+                input.uartData.uartType = BUTTON1_BYTE;
+                break;
+            case BUTTON2_BYTE:
+                input.uartData.uartType = ADC_BYTE;
+                break;
+            case ADC_BYTE:
+                input.uartData.uartType = ADC_BYTE;
+                break;
+            default:
+                input.uartData.uartType = ERROR_BYTE;
+                break;
+            }
+            input.uartData.valueNumber = buffer[2];
+            return &input;
+        }
+        /********************************************************************************** */
+        else if (source == SOURCE_KEYBROAD)
+        {
+            input.source = SOURCE_KEYBROAD;
+            getline(cin, userInput);
+            if (!userInput.empty())
+            {
+                stringstream ss(userInput);
+                size_t MusicChoice;
+                if (ss >> MusicChoice)
+                {
+                    input.keyboardData.keyboardType = NUMBER_TYPE;
+                    input.keyboardData.valueNumber = MusicChoice;
+                }
+                else
+                {
+                    if(userInput.length()<=1)
+                    {
+                        input.keyboardData.keyboardType = STRING_TYPE;
+                        input.keyboardData.valueString[0] = userInput[0];
+                    }
+                    else
+                    {
+                        cout << "Invalid choice. Please enter a valid option." << endl;
+                    }
+                }
+                return &input;
+            }
+            else
+            {
+                return NULL;
+            }
+        }
+    }
+}
+
 void Browser::setPath()
 {
     do
@@ -87,7 +155,6 @@ void Browser::FreeAll()
 
 void Browser::loadFile()
 {
-    
     if(Path  != "0")
     {
         vPlayList.push_back(new Playlist("All"));
@@ -217,15 +284,13 @@ void Browser::medialist()
     }
     else
     {
-        /*                    SHOW METADATA IN MEDIALIST                       */
-        
         file_path = vPlayList[0]->getPlaylist()[choose_song-1]->getPath();
         file_name = vPlayList[0]->getPlaylist()[choose_song-1]->getName();
         file_type = vPlayList[0]->getPlaylist()[choose_song-1]->getType();
         flowID.push(METADATA_LIST_ID);
     }
 }
-/*                           SHOW METADATA                           */
+
 void Browser::metadatalist()
 {
     metadataView.menuMetaView();
@@ -251,7 +316,6 @@ void Browser::metadatalist()
 }
 void Browser::viewMetadata(const string& file_path,const string& file_name,const int& file_type)
 {
-    // // get  data from playlist to metaData
     system("clear");
     metaData.set_FilePath(file_path);
     TagLib::FileRef fileRef=metaData.getfileRef();
@@ -537,8 +601,8 @@ void Browser::playlist_music(int& chosenList)
 /*========================================== Option 3 in Menu =========================================================*/
 void Browser::playmusic(int& chosenList)
 {
-    mediaPlayerView.display_PlayMucsic(vPlayList, list);
-    chosenList = mediaPlayerView.check_choice_PlayMusicView(vPlayList, list);
+    mediaPlayerView.VPlayerMusic_DisplayList(vPlayList, list);
+    chosenList = mediaPlayerView.VPlayerMusic_InputList(vPlayList, list);
     if(chosenList > 0)
     {
         myPlayer.setList(vPlayList[chosenList - 1]->getPlaylistPointer());
@@ -552,62 +616,7 @@ void Browser::playmusic(int& chosenList)
         flowID.pop();
     }
 }
-void Browser::playmusic_player(int& chosenList, int& chosenMusic)
-{
 
-    chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, volume);
-    switch (chosenMusic)
-    {
-    case 0:
-        list = 1;
-        flowID.pop();
-        myThread.join();
-        break;
-    case -1:
-        myPlayer.setVolume(volume);
-        // myPlayer.VolumeUp();
-        break;
-    case -2:
-        myPlayer.VolumeDown();
-        break;
-    case -3:
-        myPlayer.ResumePause();
-        break;
-    case -4:
-        {
-        std::lock_guard<std::mutex> lock1(mtx1);
-        myPlayer.nextMusic();
-        }
-        resetTimer();
-        break;
-    case -5:
-        {
-        std::lock_guard<std::mutex> lock1(mtx1);
-        myPlayer.preMusic();
-        }
-        resetTimer();
-        break;
-    case -6:
-        // Case Auto or Repeat'
-        if(myPlayer.getFlagAuto() ==true)
-        {
-            myPlayer.setFlagAuto(false);
-        }
-        else
-        {
-            myPlayer.setFlagAuto(true);
-        }
-        break;
-    case -7:
-    // Change page 
-        break;
-    default:
-        resetTimer();
-        myPlayer.setIndexInList(chosenMusic);
-        myPlayer.playMusic();
-        break;
-    }
-}
 /*============================== Thread ===============================*/
 
 void Browser::updatePlayerView()
@@ -693,7 +702,6 @@ void Browser::programFlow()
                 playlist_music(chosenList);
                 break;
             case PLAY_MUSIC_PLAYER_ID:
-                mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, timelapse.count(), duration, myPlayer);
                 playmusic_player(chosenList, chosenMusic);
                 break;
             case PATH_USB_ID:
