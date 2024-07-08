@@ -10,7 +10,6 @@
 #include <mutex>
 #include <atomic>
 #include <chrono>
-#include <stack>
 
 #include "MediaPlayerView.hpp"
 #include "MediaFileView.hpp"
@@ -24,8 +23,7 @@
 #include "PlaylistView.hpp"
 #include "MediaPlayerView.hpp"
 #include "USB.hpp"
-#include "main.hpp"
-#include <stack>
+#include "UART.hpp"
 
 #define START_PAGE                  1
 #define MP3_EXTENSION               ".mp3"
@@ -47,7 +45,6 @@ enum FlowID
     CLOSE_PROGRAM =9
 };
 
-
 // C++17 up
 namespace fs = std:: filesystem;
 
@@ -62,7 +59,7 @@ private:
     size_t list = 1;
     int duration;
     int volume;
-    /*                    SHOW METADATA IN MEDIALIST                       */
+
     string file_path = "";
     string file_name = "";
     int file_type = 0;
@@ -70,11 +67,10 @@ private:
     std::stack<int> flowID;
 
     /* Vector data */
-    vector<Playlist*> vPlayList;    //vector contains playlist (include vMediaFile)
-    // vector<MediaFile*> vMediaFile; // Vector contains files (all file)
-    // data from port or user
-    /* ptr Meta*/ 
-    // Metadata* vMetadata; 
+    vector<Playlist*> vPlayList;
+
+    const char* portname = getPortname();
+    int fd = getFileDescriptor();
 
     /* View declaration */
     MediaPathView mediaPathView;
@@ -83,6 +79,7 @@ private:
     MediaFileView mediaFileView;
     Metadataview metadataView;
     PlaylistView playListView;
+
     /* Player */
     MediaPlayer& myPlayer = MediaPlayer::getMediaPlayer();
     Metadata metaData;
@@ -104,6 +101,12 @@ private:
     /*UART*/
     UARTInputData uartData;
 
+    /* UART */
+    UARTInputData myUART;
+
+    /* UART */
+    UARTInputData myUART;
+
 public:
     Browser(/* args */);
     ~Browser();
@@ -115,18 +118,20 @@ public:
     void loadFile();   
     void FreeAll();
 
-    int userInput();
+    /* Get input */
+    int userInput() override;
     string userInputString();
+    UART_Keyboard_Input* UART_Keyboard();
 
     /* Menu */ 
     void menu();
+
     /*MEDIA*/
     void medialist();
+
     /*META DATA*/
     void metadatalist();
-    // void viewMetadata(int file_idx);
     void viewMetadata(const string& file_path,const string& file_name,const int& file_type);
-    // void updateMetadata(int file_idx);
     void updateMetadata(string& file_path,string& file_name,int& file_type);
     
     /**/
@@ -142,13 +147,14 @@ public:
     /* Rename playlist */
     void renameList();
 
-    /**/
+    /* Music player*/
     void playmusic(int& chosenList);
     void playmusic_player(int& chosenList, int& chosenMusic);
+    void processInput(char option);
 
-    /**/
+    /* program Flow */
     void programFlow();
-    void display();
+
     /*thread*/
     void updatePlayerView();
     inline void startThread();

@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.json": "json",
         "ostream": "cpp",
         "iostream": "cpp",
         "iomanip": "cpp",
@@ -59,6 +60,7 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "cinttypes": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "optional": "cpp"
     }
 }

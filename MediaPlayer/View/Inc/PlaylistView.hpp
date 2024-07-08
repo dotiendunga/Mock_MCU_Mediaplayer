@@ -15,7 +15,7 @@ enum
 };
 
 
-class PlaylistView:public UARTInputData
+class PlaylistView/*:public UARTInputData*/
 {
     private:
         // fix size

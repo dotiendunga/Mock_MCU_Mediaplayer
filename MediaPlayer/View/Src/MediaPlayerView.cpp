@@ -4,7 +4,7 @@
 //                                                                  SHOW PLAYLIST IN  PLAY MUSIC
 //========================================================================================================================================================//
 
-void PlayMusicView::display_PlayMucsic(const vector<Playlist*>& plists, size_t& currentpage)
+void PlayMusicView::VPlayerMusic_DisplayList(const vector<Playlist*>& plists, size_t& currentpage)
 {
     system("clear");
     string header = "Play Music";
@@ -31,93 +31,41 @@ void PlayMusicView::display_PlayMucsic(const vector<Playlist*>& plists, size_t& 
 
 // ==================================================== CHECK USING FOR SHOW PLAYLIST IN PLAY MUSIC ======================================================//
 
-int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, size_t& currentPage) {
+int PlayMusicView::VPlayerMusic_InputList(const vector<Playlist*>& lists, size_t& currentPage) {
     string userInput;
     bool flag = true;
     while(flag)
     {    
-        int source = check_source();
-        /********************************************************************************** */
-        if(source==SOURCE_UART)
-        {
-            uint8_t buffer[4];
-            userInputBuffer(buffer);
-            cout << buffer[0] << buffer[1] << buffer[2] << buffer[3];
-
-            if (buffer[1] == BUTTON1_BYTE)
+        VPlayerMusic_DisplayList(lists,currentPage);
+        cout << "Choose option to playlist: "; 
+        getline(cin,userInput);
+        getline(cin,userInput);
+        if (!userInput.empty()) {
+            stringstream ss(userInput);
+            size_t ListChoice;
+            if (ss >> ListChoice)
             {
-                size_t PlaylistChoice = (size_t)buffer[2];
-                if (PlaylistChoice > 0 && PlaylistChoice <= lists.size())
+                if (ListChoice > 0 && ListChoice <= lists.size())
                 {
-                    return PlaylistChoice;
-                }
-                else
-                {
+                    return ListChoice;
+                }else{
                     cout << "Invalid choice. Please enter a valid option." << endl;
-                    break;
+                    cin.ignore();
                 }
             }
-            else if (buffer[1] == BUTTON2_BYTE)
+            else
             {
-                char command = userInput[0];
-                switch (command)
-                {
-                    /*NEXT PAGE*/
-                    case 0:
-                        if (currentPage < (lists.size() + PAGE_LIST_SIZE - 1) / PAGE_LIST_SIZE)
-                        {
-                            currentPage++;
-                        }
-
-                        break;
-                    /*PREVIOUS PAGE*/
-                    case 1:
-                        if (currentPage > 1)
-                        {
-                            currentPage--;
-                        }
-    
-                        break;
-                    /*EXIT PAGE*/
-                    case 3:
-                        flag = false;
-                        break;
-                    default:
-                        cout << "Invalid choice. Please enter a valid option." << endl;
-            }
-            }
-        }   
-        /********************************************************************************** */
-        else if (source == SOURCE_KEYBROAD)
-        {
-            cout << "Choose option to playlist: "; 
-            getline(cin,userInput);
-            if (!userInput.empty()) {
-                stringstream ss(userInput);
-                size_t ListChoice;
-                if (ss >> ListChoice)
-                {
-                    if (ListChoice > 0 && ListChoice <= lists.size())
-                    {
-                        return ListChoice;
-                    }else{
-                        cout << "Invalid choice. Please enter a valid option." << endl;
-                        cin.ignore();
-                    }
-                }
-                else
-                {
-                    if(userInput.length()<=1){
-                        char command = userInput[0];
-                        switch (command)
-                        {   
-                            /*NEXT PAGE*/
-                            case 'N':
-                            case 'n':
-                                if (currentPage < (lists.size() + PAGE_LIST_SIZE - 1) / PAGE_LIST_SIZE)
-                                {
-                                    currentPage++;
-                                }
+                if(userInput.length()<=1){
+                    char command = userInput[0];
+                    switch (command)
+                    {   
+                        /*NEXT PAGE*/
+                        case 'N':
+                        case 'n':
+                            if (currentPage < (lists.size() + PAGE_LIST_SIZE - 1) / PAGE_LIST_SIZE)
+                            {
+                                currentPage++;
+                            }
 
                                 break;
                             /*PREVIOUS PAGE*/
@@ -160,7 +108,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
 //                                                          SHOW SONG TO PLAY IN PLAYLIST  <PLAY MUSIC>
 /*========================================================================================================================================================*/
 
-void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage, size_t timelapse, size_t duration, MediaPlayer& myPlayer)
+void PlayMusicView::VPlayerMusic_DisplayMusic(const vector<MediaFile*>& lists_name, size_t &currentpage, size_t timelapse, size_t duration, MediaPlayer& myPlayer)
 {
     system("clear");
     string header = "Play Music";
@@ -309,165 +257,163 @@ string PlayMusicView::format_time(size_t total_seconds) const
 
 
 // ================================================== CHECK USING FOR SHOW SONG TO PLAY IN PLAYLIST < PLAY MUSIC >=========================================//
-
-int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>& lists_name, size_t& currentPage, int& volume,int source,uint8_t* buffer = nullptr)
-{
-    string userInput;
-    bool flag = true;
-    while(flag)
-    {
-        /********************************************************************************** */
-        if(source==SOURCE_UART)
-        {
-            // uint8_t buffer[4];
-            // userInputBuffer(buffer);
-            // cout << buffer[0] << buffer[1] << buffer[2] << buffer[3];
-                if (buffer[1] == BUTTON1_BYTE)
-                {
-                    size_t MusicChoice = (size_t)buffer[2];
-                    if (MusicChoice > 0 && MusicChoice <= lists_name.size())
-                    {
-                        return MusicChoice;
-                    }
-                    else
-                    {
-                        cout << "Invalid choice. Please enter a valid option." << endl;
-                        return -7;
-                    }
-                }
-                else if (buffer[1] == BUTTON2_BYTE)
-                {
-                    size_t handleChoice = (size_t)buffer[2];
-                    switch (handleChoice)
-                    {
-                        case 1:
-                            if (currentPage < (lists_name.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
-                            {
-                                currentPage++;
-                            }
-                            return -7;
-                        case 2:
-                            if (currentPage > 1)
-                            {
-                                currentPage--;
-                            }
-                            return -7;
-                        case 3:
-                            return -3;
-                        case 4:
-                            return -4;
-                        case 5:
-                            return -5;
-                        case 6:
-                            return -6;
-                        case 7:
-                            flag = false;
-                            return 0;
-                            // break;
-                        default:
-                            cout << "Invalid choice. Please enter a valid option." << endl;
-                            return -7;
-                    }
-                }
-                else if(buffer[1] == ADC_BYTE)
-                {
-                    volume = buffer[2] * 2;
-                    return -1;
-                }
-                else
-                {
-                    cout << "Invalid choice. Please enter a valid option." << endl;
-                    return -7;
-                }
-        }
+// int PlayMusicView::VPlayerMusic_InputMusic(const vector<MediaFile*>& lists_name, size_t& currentPage, int& volume)
+// {
+//     string userInput;
+//     bool flag = true;
+//     while(flag)
+//     {
+//         int source = check_source();
+//         /********************************************************************************** */
+//         if(source==SOURCE_UART)
+//         {
+//             uint8_t buffer[4];
+//             if (buffer[1] == BUTTON1_BYTE)
+//             {
+//                 size_t MusicChoice = (size_t)buffer[2];
+//                 if (MusicChoice > 0 && MusicChoice <= lists_name.size())
+//                 {
+//                     return MusicChoice;
+//                 }
+//                 else
+//                 {
+//                     cout << "Invalid choice. Please enter a valid option." << endl;
+//                     return -7;
+//                 }
+//             }
+//             else if (buffer[1] == BUTTON2_BYTE)
+//             {
+//                 size_t handleChoice = (size_t)buffer[2];
+//                 switch (handleChoice)
+//                 {
+//                     case 1:
+//                         if (currentPage < (lists_name.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
+//                         {
+//                             currentPage++;
+//                         }
+//                         return -7;
+//                     case 2:
+//                         if (currentPage > 1)
+//                         {
+//                             currentPage--;
+//                         }
+//                         return -7;
+//                     case 3:
+//                         return -3;
+//                     case 4:
+//                         return -4;
+//                     case 5:
+//                         return -5;
+//                     case 6:
+//                         return -6;
+//                     case 7:
+//                         flag = false;
+//                         return 0;
+//                         // break;
+//                     default:
+//                         cout << "Invalid choice. Please enter a valid option." << endl;
+//                         return -7;
+//                 }
+//             }
+//             else if(buffer[1] == ADC_BYTE)
+//             {
+//                 volume = buffer[2] * 2;
+//                 return -8;
+//             }
+//             else
+//             {
+//                 cout << "Invalid choice. Please enter a valid option." << endl;
+//                 return -7;
+//             }
+//         }
 
 
-        /********************************************************************************** */
-        else if (source == SOURCE_KEYBROAD)
-        {
-            getline(cin, userInput);
-            cout<<userInput<<endl;
-            if (!userInput.empty())
-            {
-                stringstream ss(userInput);
-                size_t MusicChoice;
-                if (ss >> MusicChoice)
-                {
-                    // cout<<userInput<<endl;
-                    if (MusicChoice > 0 && MusicChoice <= lists_name.size())
-                    {
-                        return MusicChoice;
-                    }
-                    else
-                    {
-                        cout << "Invalid choice. Please enter a valid option." << endl;
-                        return -7;
-                    }
-                }
-                else
-                {
-                    if(userInput.length()<=1)
-                    {
-                        char command = userInput[0];
-                        switch (command)
-                        {
-                            case 'N':
-                            case 'n':
-                                if (currentPage < (lists_name.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
-                                {
-                                    currentPage++;
-                                }
-                                return -7;
-                            case 'P':
-                            case 'p':
-                                if (currentPage > 1)
-                                {
-                                    currentPage--;
-                                }
-                                return -7;
-                            case 'U':
-                            case 'u':
-                                return -1;
-                            case 'D':
-                            case 'd':
-                                return -2;
-                            case 'R':
-                            case 'r':
-                                return -3;
-                            case '+':
-                                return -4;
-                            case '-':
-                                return -5;
-                            case 'a':
-                            case 'A':
-                                return -6;
-                            case 'E':
-                            case 'e':
-                                flag = false;
-                                return 0;
-                                // break;
-                            default:
-                                cout << "Invalid choice. Please enter a valid option." << endl;
-                                return -7;
-                        }
-                }
-                else
-                {
-                    cout << "Invalid choice. Please enter a valid option." << endl;
-                    return -7;
-                }
-            } 
-        }
-        else
-        {
-            // system("clear");
-            // display_ShowPlay(lists_name,currentPage);
-            cout << "Invalid choice. Please enter a valid option." << endl;
-            return -7;
-        }
-        }
-    return 0;
+//         /********************************************************************************** */
+//         else if (source == SOURCE_KEYBROAD)
+//         {
+//             getline(cin, userInput);
+//             // cout<<userInput<<endl;
+//             if (!userInput.empty())
+//             {
+//                 stringstream ss(userInput);
+//                 size_t MusicChoice;
+//                 if (ss >> MusicChoice)
+//                 {
+//                     // cout<<userInput<<endl;
+//                     if (MusicChoice > 0 && MusicChoice <= lists_name.size())
+//                     {
+//                         return MusicChoice;
+//                     }
+//                     else
+//                     {
+//                         cout << "Invalid choice. Please enter a valid option." << endl;
+//                         return -7;
+//                     }
+//                 }
+//                 else
+//                 {
+//                     if(userInput.length()<=1)
+//                     {
+//                         char command = userInput[0];
+//                         switch (command)
+//                         {
+//                             case 'N':
+//                             case 'n':
+//                                 if (currentPage < (lists_name.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
+//                                 {
+//                                     currentPage++;
+//                                 }
+//                                 return -7;
+//                             case 'P':
+//                             case 'p':
+//                                 if (currentPage > 1)
+//                                 {
+//                                     currentPage--;
+//                                 }
+//                                 return -7;
+//                             case 'U':
+//                             case 'u':
+//                                 return -1;
+//                             case 'D':
+//                             case 'd':
+//                                 return -2;
+//                             case 'R':
+//                             case 'r':
+//                                 return -3;
+//                             case '+':
+//                                 return -4;
+//                             case '-':
+//                                 return -5;
+//                             case 'a':
+//                             case 'A':
+//                                 return -6;
+//                             case 'E':
+//                             case 'e':
+//                                 flag = false;
+//                                 return 0;
+//                                 // break;
+//                             default:
+//                                 cout << "Invalid choice. Please enter a valid option." << endl;
+//                                 return -7;
+//                         }
+//                 }
+//                 else
+//                 {
+//                     cout << "Invalid choice. Please enter a valid option." << endl;
+//                     return -7;
+//                 }
+//             } 
+//         }
+//         else
+//         {
+//             // system("clear");
+//             // VPlayerMusic_DisplayMusic(lists_name,currentPage);
+//             cout << "Invalid choice. Please enter a valid option." << endl;
+//             return -7;
+//         }
+//         }
+//     }
+//     return 0;
 
-}
-}
+// }
 /*========================================================================================================================================================*/
