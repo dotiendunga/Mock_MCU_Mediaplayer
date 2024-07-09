@@ -63,7 +63,7 @@ int UARTInputData::ReinitUart() {
     }
     closedir(dir);
     if (!found) {
-        std::cerr << "No UART device found." << std::endl;
+        std::cout << "No UART device found." << std::endl;
         return -1;
     }
     cv.notify_all(); // Đánh thức thread để kiểm tra lại port
@@ -151,16 +151,16 @@ SourceInput_t UARTInputData::check_source()
             if (FD_ISSET(fd, &readfds))
             {
                 flag = false;
-                std::cout << "Data received from UART." << std::endl;
+                // std::cout << "Data received from UART." << std::endl;
                 return SOURCE_UART;
             }
             if (FD_ISSET(STDIN_FILENO, &readfds))
             {
                 flag = false;
-                std::cout << "Data received from keyboard." << std::endl;
+                // std::cout << "Data received from keyboard." << std::endl;
                 return SOURCE_KEYBROAD;
             } else {
-                std::cerr << "Unknown data source." << std::endl;
+                // std::cerr << "Unknown data source." << std::endl;
             }
         }
     }
@@ -244,11 +244,11 @@ void UARTInputData::userInputBuffer(uint8_t* buffer)
                 ssize_t bytes_read = read(fd, buffer + count, 1); // Đọc từng byte vào buffer
                 if (bytes_read < 0)
                 {
-                    std::cerr << "Error reading from UART: " << strerror(errno) << std::endl;
+                    std::cout << "Error reading from UART: " << strerror(errno) << std::endl;
                     return;
                 } else if (bytes_read == 0)
                 {
-                    std::cerr << "UART has been closed." << std::endl;
+                    std::cout << "UART has been closed." << std::endl;
                     return;
                 }
                 else

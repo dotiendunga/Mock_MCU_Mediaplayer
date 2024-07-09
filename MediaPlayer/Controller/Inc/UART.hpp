@@ -73,13 +73,13 @@ public:
     void userInputBuffer(uint8_t* buffer);
     int userInputInt();
 private:
-    // std::string portname = "/dev/ttyACM0"; // Thay đổi thiết bị UART nếu cần thiết
-    // int fd = open(portname.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
+    std::string portname = "/dev/ttyACM0"; // Thay đổi thiết bị UART nếu cần thiết
+    int fd = open(portname.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
     // static constexpr size_t CRC8_TABLE_SIZE = 256;
     uint8_t crc8_table[CRC8_TABLE_SIZE]; // Khai báo mảng crc8_table
     bool uartRunning;
-    int fd;
-    std::string portname;
+    // int fd;
+    // std::string portname;
     std::mutex uartMutex;
     std::condition_variable cv;
     /*=====================================Checksum BEGIN ===================================*/

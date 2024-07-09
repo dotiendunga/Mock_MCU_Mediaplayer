@@ -3,7 +3,7 @@
 /*===========================================  Menu =========================================================*/
 void Browser::menu()
 {
-    UART_Keyboard_Input* pInput;
+    UART_Keyboard_Input* pInput=nullptr;
     int chosenMenu;
     menuView.display_menu();
     pInput = UART_Keyboard();
@@ -39,10 +39,6 @@ void Browser::menu()
             myPlayer.setVolume(pInput->uartData.valueNumber * 2);
             break;
         default: 
-
-
-
-        
             break;
         }
     }
