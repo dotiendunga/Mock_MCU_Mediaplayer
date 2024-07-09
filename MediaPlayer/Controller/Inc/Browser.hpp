@@ -98,10 +98,6 @@ private:
     /* UART */
     UARTInputData myUART;
 
-<<<<<<< HEAD
-=======
-    /* Inline */
->>>>>>> 3a5355a73343a915918fc8579dd8f59b5e1dfc81
     inline void startThread()
     {
         myThread = std::thread(&Browser::updatePlayerView, this);
@@ -112,10 +108,6 @@ private:
         startTime = std::chrono::steady_clock::now();
         timelapse = std::chrono::duration<double>::zero();
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 3a5355a73343a915918fc8579dd8f59b5e1dfc81
 public:
     Browser(/* args */);
     ~Browser();

@@ -185,32 +185,18 @@ string UARTInputData::userInputString()
         int max_fd = max(fd, STDIN_FILENO) + 1;
         int ret = select(max_fd, &readfds, NULL, NULL, &tv);
 
-<<<<<<< HEAD
-        if (ret == -1) {
-            cerr << "Error in select: 5" << strerror(errno) << endl;
-=======
         if (ret == -1)
         {
             std::cerr << "Error in select: 5" << strerror(errno) << std::endl;
->>>>>>> 3a5355a73343a915918fc8579dd8f59b5e1dfc81
             break;
         }
         else if(ret == 0)
         {
             // cout << "No data within five seconds." << endl;
-<<<<<<< HEAD
-
-        }
-        else
-        {
-            if (FD_ISSET(fd, &readfds))
-            {
-=======
         }
         else
         {
             if (FD_ISSET(fd, &readfds)) {
->>>>>>> 3a5355a73343a915918fc8579dd8f59b5e1dfc81
                 int n = read(fd, buf, sizeof buf - 1);
                 if (n > 0)
                 {

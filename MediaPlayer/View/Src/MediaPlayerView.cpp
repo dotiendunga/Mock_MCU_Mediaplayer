@@ -32,7 +32,7 @@ void PlayMusicView::VPlayerMusic_DisplayList(const vector<Playlist*>& plists, si
 
 // ==================================================== CHECK USING FOR SHOW PLAYLIST IN PLAY MUSIC ======================================================//
 
-int PlayMusicView::VPlayerMusic_InputList(const vector<Playlist*>& lists, size_t& currentPage) {
+// int PlayMusicView::VPlayerMusic_InputList(const vector<Playlist*>& lists, size_t& currentPage) {
     // string userInput;
     // bool flag = true;
     // while(flag)
@@ -98,7 +98,7 @@ int PlayMusicView::VPlayerMusic_InputList(const vector<Playlist*>& lists, size_t
     //     }
     //     /* RETURN MENU */
     //     return 0;
-    }
+    // }
         // display_PlayMucsic(lists,currentPage);
         
 /*========================================================================================================================================================*/
