@@ -177,11 +177,11 @@ void Browser::loadFile()
 
 int Browser::userInput()
 {
-    int source = uartData.check_source();
+    int source = myUART.check_source();
 
     if (source == SOURCE_UART) {
             uint8_t buffer[4];
-            uartData.userInputBuffer(buffer);
+            myUART.userInputBuffer(buffer);
             if (buffer[1] == BUTTON2_BYTE)
             {
                 return buffer[2];
@@ -214,37 +214,6 @@ string Browser::userInputString()
 }
 
 
-
-/*===========================================  Menu =========================================================*/
-void Browser::menu()
-{
-    menuView.display_menu();
-    int MenuInput = userInput();
-    switch (MenuInput)
-    {
-    /*PUSH MEDIALIST TO STACK*/
-    case MEDIA_LIST:
-        flowID.push(MEDIA_LIST_ID);
-        break;
-    /*PUSH PLAYLIST TO STACK*/
-    case PLAY_LIST:
-        flowID.push(PLAY_LIST_ID);
-        break;
-    /*PUSH PLAYMUSC TO STACK*/
-    case PLAY_MUSIC:
-        flowID.push(PLAY_MUSIC_ID);
-        break;
-    /*EXIT TO PATH*/
-    case EXIT:
-        myPlayer.ExitAudio();
-        FreeAll();
-        flowID.pop();
-        list = 1;
-        break;
-    default:
-        break;
-    }
-}
 
 /*========================================== Option 1 in Menu =========================================================*/
 void Browser::medialist()

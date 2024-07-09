@@ -69,8 +69,7 @@ private:
     /* Vector data */
     vector<Playlist*> vPlayList;
 
-    const char* portname = getPortname();
-    int fd = getFileDescriptor();
+    // const char* portname = getPortname();
 
     /* View declaration */
     MediaPathView mediaPathView;
@@ -98,12 +97,6 @@ private:
     /* USB */
     USBDeviceScanner usbDeviceScanner;
     std::vector<std::string> devices;
-    /*UART*/
-    UARTInputData uartData;
-
-    /* UART */
-    UARTInputData myUART;
-
     /* UART */
     UARTInputData myUART;
 
@@ -119,7 +112,7 @@ public:
     void FreeAll();
 
     /* Get input */
-    int userInput() override;
+    int userInput() ;
     string userInputString();
     UART_Keyboard_Input* UART_Keyboard();
 
@@ -150,7 +143,7 @@ public:
     /* Music player*/
     void playmusic(int& chosenList);
     void playmusic_player(int& chosenList, int& chosenMusic);
-    void processInput(char option);
+    void Player_ProcessInput(char option);
 
     /* program Flow */
     void programFlow();

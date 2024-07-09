@@ -4,14 +4,13 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
 {
     UART_Keyboard_Input* pInput;
     mediaPlayerView.VPlayerMusic_DisplayMusic(vPlayList[chosenList - 1]->getPlaylist(), list, timelapse.count(), duration, myPlayer);
-
     pInput = UART_Keyboard();
     if(pInput == NULL) return;
     if(pInput->source == SOURCE_KEYBROAD)
     {
         if(pInput->keyboardData.keyboardType == STRING_TYPE)
         {
-            processInput(pInput->keyboardData.valueString[0]);
+            Player_ProcessInput(pInput->keyboardData.valueString[0]);
         }
         else
         {
@@ -65,7 +64,7 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
             default:
                 break;
             }
-            processInput(option);
+            Player_ProcessInput(option);
             break;
         case ADC_BYTE:
             myPlayer.setVolume(pInput->uartData.valueNumber * 2);
@@ -76,7 +75,7 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
     }
 }
 
-void Browser::processInput(char option)
+void Browser::Player_ProcessInput(char option)
 {
     switch (option)
     {

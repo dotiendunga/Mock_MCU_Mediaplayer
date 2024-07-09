@@ -39,7 +39,7 @@ int PlayMusicView::VPlayerMusic_InputList(const vector<Playlist*>& lists, size_t
         VPlayerMusic_DisplayList(lists,currentPage);
         cout << "Choose option to playlist: "; 
         getline(cin,userInput);
-        getline(cin,userInput);
+        // getline(cin,userInput);
         if (!userInput.empty()) {
             stringstream ss(userInput);
             size_t ListChoice;
@@ -50,7 +50,7 @@ int PlayMusicView::VPlayerMusic_InputList(const vector<Playlist*>& lists, size_t
                     return ListChoice;
                 }else{
                     cout << "Invalid choice. Please enter a valid option." << endl;
-                    cin.ignore();
+                    // cin.ignore();
                 }
             }
             else
@@ -98,7 +98,6 @@ int PlayMusicView::VPlayerMusic_InputList(const vector<Playlist*>& lists, size_t
         /* RETURN MENU */
         return 0;
     }
-}
         // display_PlayMucsic(lists,currentPage);
         
 /*========================================================================================================================================================*/
@@ -197,50 +196,94 @@ void PlayMusicView::Time_Volume(size_t timelapse, size_t duration, const size_t 
          << left <<setw(6) <<" "<<"<  "<< (volume*100)/128 << "%  >"<<"\n"<<std::flush<<endl;;
 }
 
-void PlayMusicView::Update_Time_Volume(size_t timelapse, size_t duration, const size_t volume,MediaPlayer& myPlayer) const
+// void PlayMusicView::Update_Time_Volume(size_t timelapse, size_t duration, const size_t volume,MediaPlayer& myPlayer) const
+// {
+// // ======================================== UPDATE TIMESLIDE MUSIC ========================================= // 
+//     string Play_header =".......................................................................";
+//     cout << "\033[" << PAGE_SONG_SIZE+7<< ";0H"; // Di chuyển đến dòng cụ thể, cột 0
+
+//     cout << "\033[K"<< "\r" << string(tableWidth / 2-Play_header.length()/2, ' ') << Play_header <<std::flush<<endl;
+
+//     cout << "\033[K"<<std::flush<<endl;
+
+//     if(duration > 0)
+//     {
+//         string Playing_name = "Playing: "+ myPlayer.getPlayingMusicName();
+//         cout << "\033[K"<< "\r" << string(tableWidth / 2-Playing_name.length()/2, ' ') << Playing_name << std::flush<<endl;
+
+//         cout << "\033[K"<<std::flush<<endl;
+
+//         size_t progressLong = timelapse * 50 / duration;
+//         cout << "\033[K"<<string(tableWidth/6,' ')<< "Time: "
+//             << left <<setw(8) <<" "<<"<" << string(progressLong, '#')  << string((50-progressLong), '=')  << ">"
+//             << format_time(timelapse) << "/" << format_time(duration) <<"\n"<<std::flush<<endl;
+//     }
+//     else
+//     {
+//         string Playing_name = "Playing: UNKNOWN";
+//         cout << "\033[K"<< string(tableWidth / 2-Playing_name.length()/2, ' ') << Playing_name <<std::flush<<endl;;
+
+//         cout << "\033[K"<<std::flush<<endl;;
+
+//         cout << "\033[K"<<string(tableWidth/6,' ')<< "Time: "
+//                 << left <<setw(10) <<" "<<"<" << string(50, '=')  << ">"
+//                 << format_time(0) << "/" << format_time(0) <<"\n"<<std::flush<<endl;;
+//     }
+//     cout << "\033[K"<<string(tableWidth/6,' ')<<"Volume: "
+//         << left <<setw(6) <<" "<<"<  "<< (volume*100)/128 << "%  >"<<"\n"<<std::flush<<endl;;
+// }
+void PlayMusicView::Update_Time_Volume(size_t timelapse, size_t duration, const size_t volume, MediaPlayer& myPlayer) const
 {
-// ======================================== UPDATE TIMESLIDE MUSIC ========================================= // 
-    string Play_header =".......................................................................";
-    cout << "\033[" << PAGE_SONG_SIZE+7<< ";0H"; // Di chuyển đến dòng cụ thể, cột 0
+    // ======================================== UPDATE TIMESLIDE MUSIC ========================================= // 
+    string Play_header = ".......................................................................";
+    cout << "\033[" << PAGE_SONG_SIZE + 7 << ";0H"; // Di chuyển đến dòng cụ thể, cột 0
+    cout << "\033[K" << "\r" << string(tableWidth / 2 - Play_header.length() / 2, ' ') << Play_header << std::flush << endl;
+    cout << "\033[K" << std::flush << endl;
 
-    cout << "\033[K";
-    cout << "\r" << string(tableWidth / 2-Play_header.length()/2, ' ') << Play_header <<std::flush<<endl;
-
-    cout << "\033[K";
-    cout <<std::flush<<endl;
-
-    if(duration > 0)
+    if (duration > 0)
     {
-        string Playing_name = "Playing: "+ myPlayer.getPlayingMusicName();
-        cout << "\033[K";
-        cout << "\r" << string(tableWidth / 2-Playing_name.length()/2, ' ') << Playing_name << std::flush<<endl;
-
-        cout << "\033[K";
-        cout <<std::flush<<endl;
+        string Playing_name = "Playing: " + myPlayer.getPlayingMusicName();
+        cout << "\033[K" << "\r" << string(tableWidth / 2 - Playing_name.length() / 2, ' ') << Playing_name << std::flush << endl;
+        cout << "\033[K" << std::flush << endl;
 
         size_t progressLong = timelapse * 50 / duration;
-        cout << "\033[K";
-        cout <<string(tableWidth/6,' ')<< "Time: "
-            << left <<setw(8) <<" "<<"<" << string(progressLong, '#')  << string((50-progressLong), '=')  << ">"
-            << format_time(timelapse) << "/" << format_time(duration) <<"\n"<<std::flush<<endl;
+
+        // Di chuyển đến dòng hiển thị Time và xóa nó
+        cout << "\033[" << PAGE_SONG_SIZE + 11 << ";0H"; // Di chuyển đến dòng cụ thể
+        cout << "\033[K" << std::flush; // Xóa dòng
+
+        // Hiển thị Time mới
+        cout << string(tableWidth / 6, ' ') << "Time: "
+            << left << setw(8) << " " << "<" << string(progressLong, '#') << string((50 - progressLong), '=') << ">"
+            << format_time(timelapse) << "/" << format_time(duration) << "\n" << std::flush << endl;
     }
     else
     {
         string Playing_name = "Playing: UNKNOWN";
-        cout << "\033[K";
-        cout << string(tableWidth / 2-Playing_name.length()/2, ' ') << Playing_name <<std::flush<<endl;;
+        cout << "\033[K" << string(tableWidth / 2 - Playing_name.length() / 2, ' ') << Playing_name << std::flush << endl;
+        cout << "\033[K" << std::flush << endl;
 
-        cout << "\033[K";
-        cout <<std::flush<<endl;;
+        // Di chuyển đến dòng hiển thị Time và xóa nó
+        cout << "\033[" << PAGE_SONG_SIZE + 11 << ";0H"; // Di chuyển đến dòng cụ thể
+        cout << "\033[K" << std::flush; // Xóa dòng
 
-        cout << "\033[K";
-        cout <<string(tableWidth/6,' ')<< "Time: "
-                << left <<setw(10) <<" "<<"<" << string(50, '=')  << ">"
-                << format_time(0) << "/" << format_time(0) <<"\n"<<std::flush<<endl;;
+        // Hiển thị Time mới
+        cout << string(tableWidth / 6, ' ') << "Time: "
+            << left << setw(10) << " " << "<" << string(50, '=') << ">"
+            << format_time(0) << "/" << format_time(0) << "\n" << std::flush << endl;
     }
-    cout << "\033[K";
-    cout <<string(tableWidth/6,' ')<<"Volume: "
-        << left <<setw(6) <<" "<<"<  "<< (volume*100)/128 << "%  >"<<"\n"<<std::flush<<endl;;
+
+    // Di chuyển đến dòng hiển thị Volume và xóa nó
+    cout << "\033[" << PAGE_SONG_SIZE + 13 << ";0H"; // Di chuyển đến dòng cụ thể
+    cout << "\033[K" << std::flush; // Xóa dòng
+
+    // Hiển thị Volume mới
+    cout << string(tableWidth / 6, ' ') << "Volume: "
+        << left << setw(6) << " " << "<  " << (volume * 100) / 128 << "%  >" << "\n" << std::flush << endl;
+    cout << "\033[" << PAGE_SONG_SIZE + 26 << ";0H"; // Di chuyển đến dòng cụ thể
+    cout << "\033[K" <<std::flush; // Xóa dòng
+
+
 }
 
 string PlayMusicView::format_time(size_t total_seconds) const

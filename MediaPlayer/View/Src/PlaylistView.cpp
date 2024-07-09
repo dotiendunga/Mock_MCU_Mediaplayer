@@ -49,8 +49,8 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
     {   
         display_Playlist(lists,currentPage);
         cout << "Choose option to playlist: ";
-        // getline(cin, userInput);
-        userInput=userInputString();
+        getline(cin, userInput);
+        // userInput=userInputString();
         if (!userInput.empty()) {
             stringstream ss(userInput);
             size_t ListChoice;
@@ -205,8 +205,8 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
     {   
         display_PlaylistName(lists_name,currentPage);
         cout << "Choose option to Modifle: ";
-        // getline(cin, userInput);
-        userInput=userInputString();
+        getline(cin, userInput);
+        // userInput=userInputString();
         if (!userInput.empty()) {
             stringstream ss(userInput);
             size_t MusicChoice;
@@ -300,8 +300,8 @@ int PlaylistView::check_choice_PlaylistName_REMOVE(const vector<MediaFile*>& lis
     {   
         display_PlayNameRemove(lists_name, currentPage);
         cout<<"Choose media to Remove: ";
-        // getline(cin, userInput);
-        userInput=userInputString();
+        getline(cin, userInput);
+        // userInput=userInputString();
         if (!userInput.empty()) {
             stringstream ss(userInput);
             size_t MusicChoice;

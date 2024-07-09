@@ -6,6 +6,15 @@
 #include <unistd.h>
 #include <termios.h>
 #include <sys/select.h>
+#include <cstring>
+#include <thread>
+#include <chrono>
+#include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <errno.h>
+#include <mutex>
+#include <condition_variable>
 using namespace std;
 
 
@@ -49,22 +58,30 @@ typedef struct
     Keyboard_Data_t keyboardData;
 } UART_Keyboard_Input;
 
-class UARTInputData
-{
-    private:
-        const char* portname = "/dev/ttyACM0"; // Thay đổi thiết bị UART nếu cần thiết
-        int fd = open(portname, O_RDWR | O_NOCTTY | O_SYNC);
-        uint8_t crc8_table[256];
-
-        std::vector<std::string> portnames;
-        std::vector<int> fds;
-
-        // Hàm cài đặt các thuộc tính của giao diện UART
-        int setInterfaceAttribs(int fd, int speed);
-        // Hàm cài đặt chế độ blocking hoặc non-blocking
-        void setBlocking(int fd, bool should_block);
-    
-        /*=====================================Checksum BEGIN ===================================*/
+class UARTInputData {
+public:
+    UARTInputData();
+    virtual ~UARTInputData();
+    void check_port();
+    int ReinitUart();
+    int setInterfaceAttribs(int fd, int speed);
+    void setBlocking(int fd, bool should_block);
+    int userInput();
+    SourceInput_t check_source();
+    std::string userInputString();
+    void userInputBuffer(uint8_t* buffer);
+    int userInputInt();
+private:
+    // std::string portname = "/dev/ttyACM0"; // Thay đổi thiết bị UART nếu cần thiết
+    // int fd = open(portname.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
+    static constexpr size_t CRC8_TABLE_SIZE = 256;
+    uint8_t crc8_table[CRC8_TABLE_SIZE]; // Khai báo mảng crc8_table
+    bool uartRunning;
+    int fd;
+    std::string portname;
+    std::mutex uartMutex;
+    std::condition_variable cv;
+    /*=====================================Checksum BEGIN ===================================*/
         // Hàm khởi tạo bảng tra cứu CRC-8
         void init_crc8_table()
         {
@@ -95,17 +112,6 @@ class UARTInputData
             return crc;
         }
         /*=====================================Checksum END ===================================*/
-
-    public:
-        UARTInputData();
-        virtual ~UARTInputData();
-        // get data from  UART 
-        const char* getPortname() const { return portname; }
-        int getFileDescriptor() const { return fd; }
-        string userInputString();
-        virtual int userInput(); // Thêm từ khóa virtual ở đây
-        SourceInput_t check_source();
-        void userInputBuffer(uint8_t* buffer);
 };
 
 #endif
