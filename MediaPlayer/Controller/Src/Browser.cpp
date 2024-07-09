@@ -31,7 +31,7 @@ UART_Keyboard_Input* Browser::UART_Keyboard()
                 input.uartData.uartType = BUTTON1_BYTE;
                 break;
             case BUTTON2_BYTE:
-                input.uartData.uartType = ADC_BYTE;
+                input.uartData.uartType = BUTTON2_BYTE;
                 break;
             case ADC_BYTE:
                 input.uartData.uartType = ADC_BYTE;
@@ -77,6 +77,7 @@ UART_Keyboard_Input* Browser::UART_Keyboard()
             }
         }
     }
+    return NULL;
 }
 
 void Browser::setPath()
@@ -178,14 +179,14 @@ void Browser::loadFile()
 int Browser::userInput()
 {
     int source = myUART.check_source();
-
     if (source == SOURCE_UART) {
-            uint8_t buffer[4];
-            myUART.userInputBuffer(buffer);
-            if (buffer[1] == BUTTON2_BYTE)
-            {
-                return buffer[2];
-            }
+        uint8_t buffer[4];
+        myUART.userInputBuffer(buffer);
+        if (buffer[1] == BUTTON2_BYTE)
+        {
+            return buffer[2];
+        }
+        return -1;
     }else{
         int choice;
         std::cin >> choice;
@@ -211,196 +212,6 @@ string Browser::userInputString()
         getline(cin, userInput);
     }
     return userInput;
-}
-
-
-
-/*========================================== Option 1 in Menu =========================================================*/
-void Browser::medialist()
-{
-    // size_t currentPage=START_PAGE;
-    int choose_song;
-    mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), list);
-    // metadataView.chooseMetadataField();
-    choose_song = mediaFileView.check_choice(vPlayList[0]->getPlaylist(), list);
-    if(choose_song == -1)
-    {
-        list = 1;
-        flowID.pop();
-        return;
-    }
-    else
-    {
-        file_path = vPlayList[0]->getPlaylist()[choose_song-1]->getPath();
-        file_name = vPlayList[0]->getPlaylist()[choose_song-1]->getName();
-        file_type = vPlayList[0]->getPlaylist()[choose_song-1]->getType();
-        flowID.push(METADATA_LIST_ID);
-    }
-}
-
-void Browser::metadatalist()
-{
-    metadataView.menuMetaView();
-    int user_input =userInput();
-    switch (user_input)
-    {
-        case SHOW_METADATA:
-            viewMetadata(file_path,file_name,file_type);
-            cout << "Enter to back: " << endl;
-            cin.ignore();
-            break;
-        case UPDATE_METADATA:
-            updateMetadata(file_path,file_name,file_type);
-            break;
-        case BACK_MENU:
-            flowID.pop();
-            break; 
-        default:       
-            cout << "Invalid choice. Please enter a valid option." << endl;
-            // cin.ignore();
-            break;
-    }
-}
-void Browser::viewMetadata(const string& file_path,const string& file_name,const int& file_type)
-{
-    system("clear");
-    metaData.set_FilePath(file_path);
-    TagLib::FileRef fileRef=metaData.getfileRef();
-    string header = "Displaying Metadata...";
-    cout << string(tableWidth , '=')<<endl;
-    cout << string(tableWidth / 2-header.length()/2-file_name.length()/2, ' ') << header <<file_name<<endl;
-    cout << string(tableWidth, '=')<<endl;
-    cout << endl;
-    if (!fileRef.isNull() && fileRef.tag())
-    {
-        TagLib::Tag *tag = fileRef.tag();
-        switch (file_type)
-        {
-        case AUDIO_FILE_TYPE:
-            metadataView.displayAudioFileMetadata(tag, fileRef);
-            return;
-            // break;
-        case VIDEO_FILE_TYPE:
-            metadataView.displayVideoFileMetadata(tag, fileRef, file_path);
-            return;
-            // break;
-        default:
-            metadataView.getMediaFileTypeError();
-            return;
-        }
-    }
-    else
-    {
-        metadataView.getMetadataError();
-        return;
-    }
-}
-
-void Browser::updateMetadata(string& file_path,string& file_name,int& file_type)
-{   
-    // get  data from playlist to metaData
-    metaData.set_FilePath(file_path);
-    TagLib::FileRef fileRef=metaData.getfileRef();
-    TagLib::Tag *tag = fileRef.tag();
-    string new_value;
-    bool flag =true;
-    string header = "Updating Metadata...";
-    int update_opt;
-    while(flag){
-        // ======================================================
-        // Show data file mp3
-        system("clear");
-        cout << string(tableWidth , '=')<<endl;
-        cout << string(tableWidth / 2-header.length()/2 -file_name.length()/2, ' ') << header << file_name<<endl;
-        cout << string(tableWidth, '=')<<endl;
-        cout << endl;
-        metadataView.displayAudioFileMetadata(tag, fileRef);
-        cout<<endl;
-        cout << left << setw(30) << "[ 0 ]. Back" << endl;
-        cout<<endl;
-        cout << string(tableWidth, '=')<<endl;
-        metadataView.chooseMetadataField();
-        update_opt = userInput();
-        // ======================================================
-        if(update_opt == 0)
-        {
-            return;
-            
-        }else if(update_opt<0 || update_opt >6){
-            menuView.InvalidChoiceInterface();
-            // cin.ignore();
-        }else{
-        update_opt = userInput();
-        metadataView.enterMetadataValue();
-        // getline(cin, new_value);    
-        // uartData.check_source();
-        if (file_type == AUDIO_FILE_TYPE)
-        {
-                switch (update_opt)
-                {
-                case MODIFY_NAME:
-                    tag->setTitle(new_value.c_str());
-                    flag =false;
-                    break;
-                case MODIFY_ALBUM:
-                    tag->setAlbum(new_value.c_str());
-                    flag =false;
-                    break;
-                case MODIFY_ARTIST:
-                    tag->setArtist(new_value.c_str());
-                    flag =false;
-                    break;
-                case MODIFY_YEAR:
-                    tag->setYear(stoi(new_value));
-                    flag =false;
-                    break;
-                case MODIFY_GENRE:
-                    tag->setGenre(new_value.c_str());
-                    flag =false;
-                    break;
-                case MODIFY_AUDIO_DURATION:
-                    return;
-                default:
-                    menuView.InvalidChoiceInterface();
-                    flag =true;
-                    // cin.ignore();
-                    return;
-                }
-            }else{
-                switch (update_opt)
-                {
-                case MODIFY_VIDEO_NAME:
-                    tag->setTitle(new_value.c_str());
-                    flag =false;
-                    break;
-                case MODIFY_SIZE:
-                    metadataView.modifyMetadataError();
-                    // cin.ignore();
-                    flag =false;
-                    return;
-                case MODIFY_BIT_RATE:
-                    metadataView.modifyMetadataError();
-                    flag =false;
-                    // cin.ignore();
-                    return;
-                case MODIFY_VIDEO_DURATION:
-                    metadataView.modifyMetadataError();
-                    flag =false;
-                    // cin.ignore();
-                    return;
-                default:
-                    menuView.InvalidChoiceInterface();
-                    // cin.ignore();
-                    flag =true;
-                    return;
-                }
-            }
-        if (fileRef.save() == true){
-            metadataView.modifyMetadataSuccess();
-            return;
-        }
-        }
-    }
 }
 
 /*=============================================== Option 2 in Menu =========================================================*/
@@ -607,18 +418,7 @@ void Browser::updatePlayerView()
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         current_screen = flowID.top();
     }
-    while(current_screen  == PLAY_MUSIC_PLAYER_ID);
-}
-
-void Browser::startThread()
-{
-    myThread = std::thread(&Browser::updatePlayerView, this);
-}
-
-void Browser::resetTimer()
-{
-    startTime = std::chrono::steady_clock::now();
-    timelapse = std::chrono::duration<double>::zero();
+    while(current_screen == PLAY_MUSIC_PLAYER_ID);
 }
 
 /*========================================== Program Flow =====================================================*/
@@ -636,7 +436,7 @@ void Browser::programFlow()
                 menu();
                 break;
             case MEDIA_LIST_ID:
-                medialist();
+                MediaList();
                 break;
             case METADATA_LIST_ID:
                 metadatalist();

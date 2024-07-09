@@ -52,7 +52,7 @@ int UARTInputData::ReinitUart() {
                 std::cerr << "Failed to open new_fd: " << strerror(errno) << std::endl;
             } else {
                 portname = deviceName;
-                setInterfaceAttribs(fd, B9600);  // Set baud rate to 9600, 8n1 (no parity)
+                setInterfaceAttribs(fd, B1152000);  // Set baud rate to 9600, 8n1 (no parity)
                 setBlocking(fd, false);           // Set non-blocking mode
                 found = true;
                 break;
@@ -157,7 +157,8 @@ std::string UARTInputData::userInputString() {
     std::string shared_variable;
     fd_set readfds;
     char buf[100];
-    while (true) {
+    while (true)
+    {
         FD_ZERO(&readfds);
         FD_SET(fd, &readfds);
         FD_SET(STDIN_FILENO, &readfds);
@@ -169,12 +170,17 @@ std::string UARTInputData::userInputString() {
         int max_fd = std::max(fd, STDIN_FILENO) + 1;
         int ret = select(max_fd, &readfds, NULL, NULL, &tv);
 
-        if (ret == -1) {
+        if (ret == -1)
+        {
             std::cerr << "Error in select: 5" << strerror(errno) << std::endl;
             break;
-        } else if(ret == 0) {
+        }
+        else if(ret == 0)
+        {
             // cout << "No data within five seconds." << endl;
-        } else {
+        }
+        else
+        {
             if (FD_ISSET(fd, &readfds)) {
                 int n = read(fd, buf, sizeof buf - 1);
                 if (n > 0) {
@@ -186,6 +192,7 @@ std::string UARTInputData::userInputString() {
         }
         return "\0";
     }
+    return "\0";
 }
 
 void UARTInputData::userInputBuffer(uint8_t* buffer) {

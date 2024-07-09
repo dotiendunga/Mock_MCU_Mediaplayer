@@ -5,10 +5,10 @@
 
 
 enum {
-    BACK_MENU                       = 0,
     SHOW_METADATA                   = 1,
     UPDATE_METADATA                 = 2,
-    ADD_TO_PLAYLIST                 = 3
+    BACK_MENU                       = 3,
+    ADD_TO_PLAYLIST                 = 4
 };
 
 class Metadataview

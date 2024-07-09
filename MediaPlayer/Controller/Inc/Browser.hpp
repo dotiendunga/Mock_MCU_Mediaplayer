@@ -69,8 +69,6 @@ private:
     /* Vector data */
     vector<Playlist*> vPlayList;
 
-    // const char* portname = getPortname();
-
     /* View declaration */
     MediaPathView mediaPathView;
     PlayMusicView mediaPlayerView; 
@@ -100,6 +98,18 @@ private:
     /* UART */
     UARTInputData myUART;
 
+    /* Inline */
+    inline void startThread()
+    {
+        myThread = std::thread(&Browser::updatePlayerView, this);
+    }
+
+    inline void resetTimer()
+    {
+        startTime = std::chrono::steady_clock::now();
+        timelapse = std::chrono::duration<double>::zero();
+    }
+
 public:
     Browser(/* args */);
     ~Browser();
@@ -120,7 +130,8 @@ public:
     void menu();
 
     /*MEDIA*/
-    void medialist();
+    void MediaList();
+    void MediaList_ProcessInput(const char option);
 
     /*META DATA*/
     void metadatalist();
@@ -150,6 +161,4 @@ public:
 
     /*thread*/
     void updatePlayerView();
-    inline void startThread();
-    inline void resetTimer();
 };

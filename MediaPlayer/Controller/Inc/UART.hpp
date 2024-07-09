@@ -17,6 +17,7 @@
 #include <condition_variable>
 using namespace std;
 
+#define CRC8_TABLE_SIZE  256
 
 typedef enum
 { 
@@ -41,7 +42,7 @@ typedef enum
 typedef struct
 {
     Keyboard_TypeData_t keyboardType;
-    int valueNumber;
+    size_t valueNumber;
     string valueString;
 } Keyboard_Data_t;
 
@@ -72,10 +73,7 @@ public:
     void userInputBuffer(uint8_t* buffer);
     int userInputInt();
 private:
-    // std::string portname = "/dev/ttyACM0"; // Thay đổi thiết bị UART nếu cần thiết
-    // int fd = open(portname.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
-    static constexpr size_t CRC8_TABLE_SIZE = 256;
-    uint8_t crc8_table[CRC8_TABLE_SIZE]; // Khai báo mảng crc8_table
+    uint8_t crc8_table[CRC8_TABLE_SIZE];
     bool uartRunning;
     int fd;
     std::string portname;
