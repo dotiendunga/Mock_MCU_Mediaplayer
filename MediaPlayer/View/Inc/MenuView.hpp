@@ -5,7 +5,7 @@
 
 enum MenuChoices
 {
-    EXIT        =   0,
+    EXIT        =   4,
     MEDIA_LIST  =   1,
     PLAY_LIST   =   2,
     PLAY_MUSIC  =   3

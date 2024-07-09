@@ -24,6 +24,7 @@ MediaPlayer::~MediaPlayer()
     // ExitAudio();
     Mix_CloseAudio();
     SDL_Quit();
+    
 }
 /*=================== Media Player =========================*/
 

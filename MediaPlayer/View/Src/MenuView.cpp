@@ -16,7 +16,7 @@ void MenuView::display_menu()
         << left << setw(tableWidth/4) << "1. Media List"
         << left << setw(tableWidth/4) << "2. Play list"
         << left << setw(tableWidth/4) << "3. Play music"
-        << left << setw(tableWidth/4) << "0. Exit\n"<<endl;
+        << left << setw(tableWidth/4) << "4. Exit\n"<<endl;
     cout<< string(tableWidth, '=')<<endl;
     cout << "Choose option:"<<endl;
 } 

@@ -27,76 +27,77 @@ void PlayMusicView::VPlayerMusic_DisplayList(const vector<Playlist*>& plists, si
          << left << setw(25) << "E. Exit"<< std::flush<<endl;;
     cout<<std::flush<<endl;;
     cout<< string(tableWidth, '=')<<std::flush<<endl;;
+    cout << "Choose option to playlist: "<<endl;
 }
 
 // ==================================================== CHECK USING FOR SHOW PLAYLIST IN PLAY MUSIC ======================================================//
 
 int PlayMusicView::VPlayerMusic_InputList(const vector<Playlist*>& lists, size_t& currentPage) {
-    string userInput;
-    bool flag = true;
-    while(flag)
-    {    
-        VPlayerMusic_DisplayList(lists,currentPage);
-        cout << "Choose option to playlist: "; 
-        getline(cin,userInput);
-        // getline(cin,userInput);
-        if (!userInput.empty()) {
-            stringstream ss(userInput);
-            size_t ListChoice;
-            if (ss >> ListChoice)
-            {
-                if (ListChoice > 0 && ListChoice <= lists.size())
-                {
-                    return ListChoice;
-                }else{
-                    cout << "Invalid choice. Please enter a valid option." << endl;
-                    // cin.ignore();
-                }
-            }
-            else
-            {
-                if(userInput.length()<=1){
-                    char command = userInput[0];
-                    switch (command)
-                    {   
-                        /*NEXT PAGE*/
-                        case 'N':
-                        case 'n':
-                            if (currentPage < (lists.size() + PAGE_LIST_SIZE - 1) / PAGE_LIST_SIZE)
-                            {
-                                currentPage++;
-                            }
+    // string userInput;
+    // bool flag = true;
+    // while(flag)
+    // {    
+    //     VPlayerMusic_DisplayList(lists,currentPage);
+    //     cout << "Choose option to playlist: "; 
+    //     getline(cin,userInput);
+    //     // getline(cin,userInput);
+    //     if (!userInput.empty()) {
+    //         stringstream ss(userInput);
+    //         size_t ListChoice;
+    //         if (ss >> ListChoice)
+    //         {
+    //             if (ListChoice > 0 && ListChoice <= lists.size())
+    //             {
+    //                 return ListChoice;
+    //             }else{
+    //                 cout << "Invalid choice. Please enter a valid option." << endl;
+    //                 // cin.ignore();
+    //             }
+    //         }
+    //         else
+    //         {
+    //             if(userInput.length()<=1){
+    //                 char command = userInput[0];
+    //                 switch (command)
+    //                 {   
+    //                     /*NEXT PAGE*/
+    //                     case 'N':
+    //                     case 'n':
+    //                         if (currentPage < (lists.size() + PAGE_LIST_SIZE - 1) / PAGE_LIST_SIZE)
+    //                         {
+    //                             currentPage++;
+    //                         }
 
-                                break;
-                            /*PREVIOUS PAGE*/
-                            case 'P':
-                            case 'p':
-                                if (currentPage > 1)
-                                {
-                                    currentPage--;
-                                }
+    //                             break;
+    //                         /*PREVIOUS PAGE*/
+    //                         case 'P':
+    //                         case 'p':
+    //                             if (currentPage > 1)
+    //                             {
+    //                                 currentPage--;
+    //                             }
             
-                                break;
-                            /*EXIT PAGE*/
-                            case 'E':
-                            case 'e':
-                                flag = false;
-                                break;
-                            default:
-                                cout << "Invalid choice. Please enter a valid option." << endl;
-                                // cin.ignore();
-                        }
-                }else{
-                            cout << "Invalid choice. Please enter a valid option." << endl;
-                        }
-            }
-            }else{
-                cout << "Invalid choice. Please enter a valid option." << endl;
-                // cin.ignore();
-            }
-        }
-        /* RETURN MENU */
-        return 0;
+    //                             break;
+    //                         /*EXIT PAGE*/
+    //                         case 'E':
+    //                         case 'e':
+    //                             flag = false;
+    //                             break;
+    //                         default:
+    //                             cout << "Invalid choice. Please enter a valid option." << endl;
+    //                             // cin.ignore();
+    //                     }
+    //             }else{
+    //                         cout << "Invalid choice. Please enter a valid option." << endl;
+    //                     }
+    //         }
+    //         }else{
+    //             cout << "Invalid choice. Please enter a valid option." << endl;
+    //             // cin.ignore();
+    //         }
+    //     }
+    //     /* RETURN MENU */
+    //     return 0;
     }
         // display_PlayMucsic(lists,currentPage);
         

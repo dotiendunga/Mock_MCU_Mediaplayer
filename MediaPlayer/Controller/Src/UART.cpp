@@ -1,11 +1,13 @@
 #include "UART.hpp"
 
-
-UARTInputData::UARTInputData() : uartRunning(true), fd(-1) {
+UARTInputData::UARTInputData()
+{
+    setInterfaceAttribs(fd, B9600);  // cài đặt tốc độ baud 9600, 8n1 (không parity)
+    setBlocking(fd, false);           // cài đặt chế độ non-blocking
     std::thread uartThread(&UARTInputData::check_port, this);
     uartThread.detach(); // Tách thread ra để nó tự quản lý
+    
 }
-
 UARTInputData::~UARTInputData() {
     {
         std::lock_guard<std::mutex> lock(uartMutex);
@@ -22,7 +24,7 @@ void UARTInputData::check_port() {
         if (!uartRunning) break;
 
         if (fd == -1) {
-            close(fd);  // Đóng fd cũ
+            close(fd);  // Đóng fd cũ   
             ReinitUart(); // Thử mở lại UART
         } else {
             if (fcntl(fd, F_GETFL) == -1 && errno == EBADF) {
@@ -68,11 +70,12 @@ int UARTInputData::ReinitUart() {
     return 0;
 }
 
-int UARTInputData::setInterfaceAttribs(int fd, int speed) {
+int UARTInputData::setInterfaceAttribs(int fd, int speed)
+{
     struct termios tty;
     memset(&tty, 0, sizeof tty);
     if (tcgetattr(fd, &tty) != 0) {
-        std::cerr << "Error " << errno << " from tcgetattr1: " << strerror(errno) << std::endl;
+        cerr << "Error " << errno << " from tcgetattr1: " << strerror(errno) << endl;
         return -1;
     }
     cfsetospeed(&tty, speed);
@@ -89,19 +92,21 @@ int UARTInputData::setInterfaceAttribs(int fd, int speed) {
     tty.c_cflag |= 0;
     tty.c_cflag &= ~CSTOPB;
     tty.c_cflag &= ~CRTSCTS;
-    if (tcsetattr(fd, TCSANOW, &tty) != 0) {
-        std::cerr << "Error " << errno << " from tcsetattr2: " << strerror(errno) << std::endl;
+    if (tcsetattr(fd, TCSANOW, &tty) != 0)
+    {
+        cerr << "Error " << errno << " from tcsetattr2: " << strerror(errno) << endl;
         return -1;
     }
     return 0;
 }
 
-void UARTInputData::setBlocking(int fd, bool should_block) {
+void UARTInputData::setBlocking(int fd, bool should_block)
+{
     struct termios tty;
     memset(&tty, 0, sizeof tty);
 
     if (tcgetattr(fd, &tty) != 0) {
-        std::cerr << "Error " << errno << " from tggetattr3: " << strerror(errno) << std::endl;
+        cerr << "Error " << errno << " from tggetattr3: " << strerror(errno) << endl;
         return;
     }
 
@@ -109,18 +114,20 @@ void UARTInputData::setBlocking(int fd, bool should_block) {
     tty.c_cc[VTIME] = 5;            // 0.5 seconds read timeout
 
     if (tcsetattr(fd, TCSANOW, &tty) != 0) {
-        std::cerr << "Error " << errno << " setting term attributes: " << strerror(errno) << std::endl;
+        cerr << "Error " << errno << " setting term attributes: " << strerror(errno) << endl;
     }
 }
 
-int UARTInputData::userInput() {
+int UARTInputData::userInput()
+{
     return 0;
 }
-
-SourceInput_t UARTInputData::check_source() {
+SourceInput_t UARTInputData::check_source()
+{
     fd_set readfds;
-    bool flag = true;
-    while(flag) {
+    bool flag =true;
+    while(flag)
+    {
         FD_ZERO(&readfds);
         FD_SET(fd, &readfds);
         FD_SET(STDIN_FILENO, &readfds);
@@ -132,16 +139,23 @@ SourceInput_t UARTInputData::check_source() {
         int ret = select(max_fd, &readfds, nullptr, nullptr, &tv);
 
         if (ret == -1) {
-            std::cerr << "Error in select: 4" << strerror(errno) << std::endl;
-        } else if (ret == 0) {
+            cerr << "Error in select: 4" << strerror(errno) << endl;
+            // break;
+        }
+        else if (ret == 0)
+        {
             // cout << "No data within five seconds." << endl;
-        } else {
-            if (FD_ISSET(fd, &readfds)) {
+        }
+        else
+        {
+            if (FD_ISSET(fd, &readfds))
+            {
                 flag = false;
                 std::cout << "Data received from UART." << std::endl;
                 return SOURCE_UART;
             }
-            if (FD_ISSET(STDIN_FILENO, &readfds)) {
+            if (FD_ISSET(STDIN_FILENO, &readfds))
+            {
                 flag = false;
                 std::cout << "Data received from keyboard." << std::endl;
                 return SOURCE_KEYBROAD;
@@ -153,8 +167,9 @@ SourceInput_t UARTInputData::check_source() {
     return SOURCE_KEYBROAD;
 }
 
-std::string UARTInputData::userInputString() {
-    std::string shared_variable;
+string UARTInputData::userInputString()
+{
+    string shared_variable;
     fd_set readfds;
     char buf[100];
     while (true) {
@@ -166,20 +181,27 @@ std::string UARTInputData::userInputString() {
         tv.tv_sec = 5; // Thời gian chờ tối đa là 5 giây
         tv.tv_usec = 0;
 
-        int max_fd = std::max(fd, STDIN_FILENO) + 1;
+        int max_fd = max(fd, STDIN_FILENO) + 1;
         int ret = select(max_fd, &readfds, NULL, NULL, &tv);
 
         if (ret == -1) {
-            std::cerr << "Error in select: 5" << strerror(errno) << std::endl;
+            cerr << "Error in select: 5" << strerror(errno) << endl;
             break;
-        } else if(ret == 0) {
+        }
+        else if(ret == 0)
+        {
             // cout << "No data within five seconds." << endl;
-        } else {
-            if (FD_ISSET(fd, &readfds)) {
+
+        }
+        else
+        {
+            if (FD_ISSET(fd, &readfds))
+            {
                 int n = read(fd, buf, sizeof buf - 1);
-                if (n > 0) {
+                if (n > 0)
+                {
                     buf[n] = '\0';
-                    shared_variable = std::string(buf);
+                    shared_variable = string(buf);
                     return shared_variable; 
                 }
             }
@@ -188,7 +210,8 @@ std::string UARTInputData::userInputString() {
     }
 }
 
-void UARTInputData::userInputBuffer(uint8_t* buffer) {
+void UARTInputData::userInputBuffer(uint8_t* buffer)
+{
     fd_set readfds;
     FD_ZERO(&readfds);
     FD_SET(fd, &readfds);
@@ -200,52 +223,49 @@ void UARTInputData::userInputBuffer(uint8_t* buffer) {
 
     int max_fd = fd + 1; // Chỉ sử dụng fd của UART
     int ret = select(max_fd, &readfds, NULL, NULL, &tv);
-    if (ret == -1) {
+    if (ret == -1)
+    {
         std::cerr << "Error in select: 6" << strerror(errno) << std::endl;
         return;
-    } else if(ret == 0) {
-        // std::cout << "No data within five seconds." << std::endl;
-    } else {
-        if (FD_ISSET(fd, &readfds)) {
-            int n = read(fd, buffer, sizeof buffer);
-            if (n > 0) {
-                buffer[n] = '\0'; // Thêm ký tự kết thúc chuỗi
-            } else {
-                buffer[0] = '\0'; // Đặt buffer là chuỗi rỗng nếu không đọc được gì
-            }
-        }
     }
-}
-
-int UARTInputData::userInputInt() {
-    fd_set readfds;
-    bool flag = true;
-    while (flag) {
-        FD_ZERO(&readfds);
-        FD_SET(fd, &readfds);
-        FD_SET(STDIN_FILENO, &readfds);
-
-        struct timeval tv;
-        tv.tv_sec = 5; // Thời gian chờ tối đa là 5 giây
-        tv.tv_usec = 0;
-
-        int max_fd = std::max(fd, STDIN_FILENO) + 1;
-        int ret = select(max_fd, &readfds, NULL, NULL, &tv);
-
-        if (ret == -1) {
-            std::cerr << "Error in select: 7" << strerror(errno) << std::endl;
-            break;
-        } else if (ret == 0) {
-            // std::cout << "No data within five seconds." << std::endl;
-        } else {
-            if (FD_ISSET(fd, &readfds)) {
-                int int_from_uart;
-                int n = read(fd, &int_from_uart, sizeof(int_from_uart));
-                if (n > 0) {
-                    return int_from_uart; // Trả về số nguyên đọc được từ UART
+    else if(ret == 0)
+    {
+        // std::cout << "No data within five seconds." << std::endl;
+        return;
+    } 
+    else
+    {
+        if(FD_ISSET(fd, &readfds))
+        {
+            int count = 0;
+            while (count < 4) 
+            {
+                ssize_t bytes_read = read(fd, buffer + count, 1); // Đọc từng byte vào buffer
+                if (bytes_read < 0)
+                {
+                    std::cerr << "Error reading from UART: " << strerror(errno) << std::endl;
+                    return;
+                } else if (bytes_read == 0)
+                {
+                    std::cerr << "UART has been closed." << std::endl;
+                    return;
+                }
+                else
+                {
+                    if(*buffer != START_BYTE)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        count++;
+                        if (count == 4)
+                        {
+                            break;
+                        }
+                    }
                 }
             }
         }
     }
-    return 0;
 }

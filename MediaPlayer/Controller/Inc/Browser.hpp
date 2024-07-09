@@ -100,6 +100,16 @@ private:
     /* UART */
     UARTInputData myUART;
 
+    inline void startThread()
+    {
+        myThread = std::thread(&Browser::updatePlayerView, this);
+    }
+
+    inline void resetTimer()
+    {
+        startTime = std::chrono::steady_clock::now();
+        timelapse = std::chrono::duration<double>::zero();
+    }
 public:
     Browser(/* args */);
     ~Browser();
@@ -118,7 +128,7 @@ public:
 
     /* Menu */ 
     void menu();
-
+    void Menu_ProcessInput(int MenuInput);
     /*MEDIA*/
     void medialist();
 
@@ -141,7 +151,10 @@ public:
     void renameList();
 
     /* Music player*/
-    void playmusic(int& chosenList);
+    void playmusic_plist(int& chosenList);
+    void Plist_ProcessInput(char& option);
+    // ============ //
+    // void playmusic(int& chosenList);
     void playmusic_player(int& chosenList, int& chosenMusic);
     void Player_ProcessInput(char option);
 
@@ -150,6 +163,4 @@ public:
 
     /*thread*/
     void updatePlayerView();
-    inline void startThread();
-    inline void resetTimer();
 };

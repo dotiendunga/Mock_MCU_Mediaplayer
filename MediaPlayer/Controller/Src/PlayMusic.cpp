@@ -1,5 +1,110 @@
 #include "Browser.hpp"
 
+
+
+/*============================================================= PLAYMUSI - LIST ===============================================================*/
+void Browser::playmusic_plist(int& chosenList)
+{   
+    UART_Keyboard_Input* pInput;
+    mediaPlayerView.VPlayerMusic_DisplayList(vPlayList, list);
+    pInput = UART_Keyboard();
+    // chosenList = mediaPlayerView.VPlayerMusic_InputList(vPlayList, list);
+    if(pInput == NULL) return;
+    if(pInput->source == SOURCE_KEYBROAD)
+    {
+        if(pInput->keyboardData.keyboardType == STRING_TYPE)
+        {
+            Plist_ProcessInput(pInput->keyboardData.valueString[0]);
+        }
+        else
+        {
+            if(pInput->keyboardData.valueNumber > 0 && pInput->keyboardData.valueNumber <= vPlayList.size())
+            {
+                chosenList = pInput->keyboardData.valueNumber;
+                myPlayer.setList(vPlayList[chosenList - 1]->getPlaylistPointer());
+                flowID.push(PLAY_MUSIC_PLAYER_ID);
+                // UPDATE SHOW DISPLAY PLAYER IN PLAYMUSIC
+                startThread();
+            }
+        }
+    }
+    else
+    {
+        char option;
+        switch(pInput->uartData.uartType)
+        {
+        case BUTTON1_BYTE:
+            if(pInput->uartData.valueNumber > 0 && pInput->uartData.valueNumber <= vPlayList.size())
+            {
+                chosenList = pInput->keyboardData.valueNumber;
+                myPlayer.setList(vPlayList[chosenList - 1]->getPlaylistPointer());
+                flowID.push(PLAY_MUSIC_PLAYER_ID);
+                // UPDATE SHOW DISPLAY PLAYER IN PLAYMUSIC
+                startThread();
+            }
+            break;
+        case BUTTON2_BYTE:
+            switch (pInput->uartData.valueNumber)
+            {
+            case 1:
+                option = 'n';
+                break;
+            case 2:
+                option = 'p';
+                break;
+            case 3:
+                option = 'e';
+            default:
+                break;
+            }
+            Plist_ProcessInput(option);
+            break;
+        case ADC_BYTE:
+            myPlayer.setVolume(pInput->uartData.valueNumber * 2);
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+
+void Browser::Plist_ProcessInput(char& UserOption)
+{   
+        switch (UserOption)
+        {   
+            /*NEXT PAGE*/
+            case 'N':
+            case 'n':
+                if (list < (vPlayList.size() + PAGE_LIST_SIZE - 1) / PAGE_LIST_SIZE)
+                {
+                    list++;
+                }
+
+                    break;
+            /*PREVIOUS PAGE*/
+            case 'P':
+            case 'p':
+                if (list > 1)
+                {
+                    list--;
+                }
+                break;
+            /*EXIT PAGE*/
+            case 'E':
+            case 'e':
+                list = 1;
+                flowID.pop();
+                break;
+            default:
+                cout << "Invalid choice. Please enter a valid option." << endl;
+                    // cin.ignore();
+        }
+}
+
+
+/*============================================================= PLAYMUSI - PLAYER ===============================================================*/
+
 void Browser::playmusic_player(int& chosenList, int& chosenMusic)
 {
     UART_Keyboard_Input* pInput;

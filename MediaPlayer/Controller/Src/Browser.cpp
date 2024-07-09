@@ -77,6 +77,7 @@ UART_Keyboard_Input* Browser::UART_Keyboard()
             }
         }
     }
+    return NULL;
 }
 
 void Browser::setPath()
@@ -547,23 +548,23 @@ void Browser::playlist_music(int& chosenList)
 
 
 /*========================================== Option 3 in Menu =========================================================*/
-void Browser::playmusic(int& chosenList)
-{
-    mediaPlayerView.VPlayerMusic_DisplayList(vPlayList, list);
-    chosenList = mediaPlayerView.VPlayerMusic_InputList(vPlayList, list);
-    if(chosenList > 0)
-    {
-        myPlayer.setList(vPlayList[chosenList - 1]->getPlaylistPointer());
-        flowID.push(PLAY_MUSIC_PLAYER_ID);
-        startThread();
-    }
-    else
-    {
-        /* Exit */
-        list = 1;
-        flowID.pop();
-    }
-}
+// void Browser::playmusic(int& chosenList)
+// {
+//     mediaPlayerView.VPlayerMusic_DisplayList(vPlayList, list);
+//     chosenList = mediaPlayerView.VPlayerMusic_InputList(vPlayList, list);
+//     if(chosenList > 0)
+//     {
+//         myPlayer.setList(vPlayList[chosenList - 1]->getPlaylistPointer());
+//         flowID.push(PLAY_MUSIC_PLAYER_ID);
+//         startThread();
+//     }
+//     else
+//     {
+//         /* Exit */
+//         list = 1;
+//         flowID.pop();
+//     }
+// }
 
 /*============================== Thread ===============================*/
 
@@ -610,16 +611,9 @@ void Browser::updatePlayerView()
     while(current_screen  == PLAY_MUSIC_PLAYER_ID);
 }
 
-void Browser::startThread()
-{
-    myThread = std::thread(&Browser::updatePlayerView, this);
-}
 
-void Browser::resetTimer()
-{
-    startTime = std::chrono::steady_clock::now();
-    timelapse = std::chrono::duration<double>::zero();
-}
+
+
 
 /*========================================== Program Flow =====================================================*/
 void Browser::programFlow()
@@ -645,10 +639,11 @@ void Browser::programFlow()
                 playlist(chosenList, chosenMusic);
                 break;
             case PLAY_MUSIC_ID:
-                playmusic(chosenList);
+                playmusic_plist(chosenList);
                 break;
             case PLAY_LIST_MUSIC_ID:
                 playlist_music(chosenList);
+                // playmusic_plist(chosenList);
                 break;
             case PLAY_MUSIC_PLAYER_ID:
                 playmusic_player(chosenList, chosenMusic);
