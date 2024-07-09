@@ -38,10 +38,13 @@
 #define LED2_FREQ			2000	//ms
 
 #define START_BYTE		    0xAA
-#define BYTE_BUTTON_1	    12U
-#define BYTE_BUTTON_2	    13U
-#define BYTE_ADC		    14U
+#define BYTE_BUTTON_1	    0x01U
+#define BYTE_BUTTON_2	    0x02U
+#define BYTE_ADC		    0x03U
 
+/* App */
+void USART_send_messsage_button(uint8_t Button_type);
+void USART_send_messsage_ADC();
 
 
 #endif /* MAIN_H_ */
