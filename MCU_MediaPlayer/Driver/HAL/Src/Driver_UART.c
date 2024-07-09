@@ -7,6 +7,7 @@
 ************************************************************************************/
 
 #include "Driver_UART.h"
+#include <stdlib.h>
 
 static int32_t ARM_USART_Pin(void)
 {
@@ -20,23 +21,66 @@ static int32_t ARM_USART_Pin(void)
 	return ARM_DRIVER_OK;
 }
 
+static void ARM_USART_Calculate_OSR_SBR(const uint32_t baudrate,
+        const uint32_t clock, uint8_t *const osr, uint32_t *const sbr)
+{
+    uint32_t osr_candidate       = 0U;
+    uint32_t sbr_candidate       = 0U;
+    uint32_t calculated_baudrate = 0U;
+    uint32_t error               = 0U;
+    uint32_t min_error           = 0U;
+
+    min_error = baudrate;
+
+    for (osr_candidate = 4U; osr_candidate <= 32U; ++osr_candidate)
+    {
+        for (sbr_candidate = 1U; sbr_candidate <= 8191U; ++sbr_candidate)
+        {
+            calculated_baudrate = clock / ((osr_candidate + 1U) * sbr_candidate);
+            error = baudrate - calculated_baudrate;
+
+            if (error == 0U)
+            {
+                /* If a pair (OSR, SBR) is exactly 100%, return immediately */
+                *osr = osr_candidate;
+                *sbr = sbr_candidate;
+                return;
+            }
+
+            /* If this error is less than the previous error update the result */
+            if (abs(error) < min_error)
+            {
+                min_error = abs(error);
+                *osr = osr_candidate;
+                *sbr = sbr_candidate;
+            }
+        }
+    }
+}
+
 static int32_t ARM_USART_SetBaudrate(USART_Config_t* usart)
 {
 	int32_t result = ARM_DRIVER_OK;
 	usart->Instance->CTRL &= ~(LPUART_CTRL_TE_MASK|LPUART_CTRL_RE_MASK);
-	switch (usart->Baudrate)
+ 	uint8_t  BAUD_OSR  = 0U;
+    uint32_t BAUD_SBR  = 0U;
+    uint32_t frequency = 0U;
+	frequency = Clock_Get_FIRCDIV2_CLK();
+	/* Calculate OSR and SBN value */
+	ARM_USART_Calculate_OSR_SBR(usart->Baudrate, frequency, &BAUD_OSR, &BAUD_SBR);
+
+	if (BAUD_OSR < 7U)
 	{
-	case 9600:
-		usart->Instance->BAUD &= ~LPUART_BAUD_SBR_MASK;
-		usart->Instance->BAUD |= LPUART_BAUD_SBR(312U);
-		break;
-	case 112500:
-		usart->Instance->BAUD &= ~LPUART_BAUD_SBR_MASK;
-		usart->Instance->BAUD |= LPUART_BAUD_SBR(27U);
-		break;
-    default:
-        result = ARM_USART_ERROR_BAUDRATE;
+		// LPUART_EnableBothEdgeSampling(LPUARTx);
+		usart->Instance->BAUD |= LPUART_BAUD_BOTHEDGE_MASK;
 	}
+	else
+	{
+		/* Do Nothing */
+	}
+	usart->Instance->BAUD = (usart->Instance->BAUD & ~LPUART_BAUD_OSR_MASK) | LPUART_BAUD_OSR(BAUD_OSR);
+	usart->Instance->BAUD &= ~LPUART_BAUD_SBR(BAUD_SBR);
+	usart->Instance->BAUD |= LPUART_BAUD_SBR(BAUD_SBR);
 	return result;
 }
 
@@ -231,7 +275,11 @@ static int32_t ARM_USART_Receive(const USART_Config_t* const usart, void *data, 
 }
 static int32_t ARM_USART_Receive_IT(const USART_Config_t* usart, void *data, uint32_t ln)
 {
-
+	if (data == NULL || ln == 0)
+    {
+        return ARM_DRIVER_ERROR_PARAMETER;
+    }
+	return ARM_DRIVER_OK;
 }
 
 static int32_t ARM_USART_Init(USART_Config_t* usart)

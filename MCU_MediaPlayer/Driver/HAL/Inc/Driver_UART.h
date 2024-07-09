@@ -10,6 +10,7 @@
 #define DRIVER_USART_H_
 
 #include "CMSIS_Common.h"
+#include "Clock.h"
 
 //Status UART Error Codes
 #define ARM_USART_ERROR_MODE                (ARM_DRIVER_ERROR_SPECIFIC - 1)

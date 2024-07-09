@@ -8,7 +8,7 @@
 #include "main.h"
 #include "Core_Systick.h"
 #include "Core_Interrupt.h"
-
+#include "CRC.h"
 
 extern ARM_DRIVER_GPIO Driver_GPIO;
 extern ADC_Handler_t ADC_Handle;
@@ -24,10 +24,7 @@ static void Clock_Setup();
 static void GPIO_Setup();
 static void ADC_Setup();
 static void UART_Setup();
-
-/* App */
-void USART_send_messsage_button(uint8_t Peripheral_type, uint8_t Button_Pressed_counter);
-void USART_send_messsage_ADC(/*uint8_t Peripheral_type*/);
+static void LPIT_Setup();
 
 int main(void)
 {
@@ -36,9 +33,9 @@ int main(void)
 	GPIO_Setup();
 	ADC_Setup();
 	UART_Setup();
-	LPIT_SetInterrupt(LPIT_CHANNEL_0);
-	LPIT_Init(LPIT_CHANNEL_0, 47999000 / 2);
-	NVIC_EnableIRQ(LPIT0_Ch0_IRQn);
+	LPIT_Setup();
+	init_crc8_table();
+
 	ADC_Handle.Start(ADC0, ADC_CHANNEL_0, 12);
 	while(1)
     {
@@ -65,7 +62,22 @@ static void Clock_Setup()
 	/* Enbale clock LPIT */
 	Clock_Enable_Module(PCC_LPIT_INDEX, FIRCDIV2_CLK);
 }
+void LPIT_Setup()
+{
+	/* LPIT channel 0 */
+	LPIT_SetInterrupt(LPIT_CHANNEL_0);
+	LPIT_Init(LPIT_CHANNEL_0, 47999000 / 2);
+	NVIC_EnableIRQ(LPIT0_Ch0_IRQn);
 
+	/* LPIT channel 1 */
+	LPIT_SetInterrupt(LPIT_CHANNEL_1);
+	LPIT_Init(LPIT_CHANNEL_1, 47999000 / 2);
+	NVIC_EnableIRQ(LPIT0_Ch1_IRQn);
+
+	LPIT_SetInterrupt(LPIT_CHANNEL_2);
+	LPIT_Init(LPIT_CHANNEL_2, 47999000 / 3);
+	NVIC_EnableIRQ(LPIT0_Ch2_IRQn);
+}
 void UART_Setup()
 {
 	UART1.Instance = LPUART1;
@@ -94,7 +106,12 @@ void GPIO_Setup()
 	/* RED led */
 	Driver_GPIO.Setup          (RED_LED, NULL);
 	Driver_GPIO.SetDirection   (RED_LED, ARM_GPIO_OUTPUT);
-	Driver_GPIO.SetOutput      (RED_LED, 0U);
+	Driver_GPIO.SetOutput      (RED_LED, 1U);
+
+	/* RED led */
+	Driver_GPIO.Setup          (GREEN_LED, NULL);
+	Driver_GPIO.SetDirection   (GREEN_LED, ARM_GPIO_OUTPUT);
+	Driver_GPIO.SetOutput      (GREEN_LED, 1U);
 
 	/* BTN 1 */
 	Driver_GPIO.Setup          (BTN1, ARM_GPIO_SignalEvent);
@@ -121,11 +138,13 @@ void ADC0_IRQHandler()
 
 void ARM_GPIO_SignalEvent(ARM_GPIO_Pin_t pin, uint32_t event)
 {
+	Driver_GPIO.SetOutput(RED_LED, 0U);
 	switch(pin)
 	{
 		case BTN1:
 			Button_Counter++;
-			Driver_GPIO.SetOutput(RED_LED, Button_Counter % 2);
+			LPIT_Reset(LPIT_CHANNEL_1);
+			LPIT_Start(LPIT_CHANNEL_1);
 			break;
 		case BTN2:
 			Button_Counter++;
@@ -138,27 +157,28 @@ void ARM_GPIO_SignalEvent(ARM_GPIO_Pin_t pin, uint32_t event)
 }
 
 /*=========================================== APP function=============================================*/
-void USART_send_messsage_button(uint8_t Peripheral_type, uint8_t Button_Pressed_counter) 
+void USART_send_messsage_button(uint8_t Button_type)
 {
     //Define Frame Uart
 	uint8_t Frame_UART[4];
     uint8_t check_sum;
-
+    Driver_GPIO.SetOutput(GREEN_LED, 0U);
     // Create frame
     Frame_UART[0] = START_BYTE;     							// 1 byte start
-    Frame_UART[1] = Peripheral_type;    						// 1 byte button type
-    Frame_UART[2] = Button_Pressed_counter;        				// 1 byte count
+    Frame_UART[1] = Button_type;	    						// 1 byte button type
+    Frame_UART[2] = Button_Counter;		        				// 1 byte count
 
-    //Caculate checksum (XOR all byte)
-    check_sum = Frame_UART[0] ^ Frame_UART[1] ^ Frame_UART[2];
+    //Caculate checksum
+    check_sum = crc8(Frame_UART, 3);
     Frame_UART[3] = check_sum;       							// 1 byte checksum
 
 	//Send message
 	Driver_UART.Transmit(&UART1, &Frame_UART, 4);
+	Driver_GPIO.SetOutput(GREEN_LED, 1U);
 }
 
 
-void USART_send_messsage_ADC(/*uint8_t Peripheral_type*/) 
+void USART_send_messsage_ADC()
 {
     //Define Frame Uart
 	uint8_t Frame_UART[4];
@@ -166,6 +186,7 @@ void USART_send_messsage_ADC(/*uint8_t Peripheral_type*/)
 	uint32_t ADC_temp = ADC_Handle.Read(ADC0, ADC_CHANNEL_0) / 4;	//64 levels
 	if(ADC_temp != ADC_value)
 	{
+		Driver_GPIO.SetOutput(GREEN_LED, 0U);
 		ADC_value = ADC_temp;
 
 		// Create frame
@@ -173,12 +194,13 @@ void USART_send_messsage_ADC(/*uint8_t Peripheral_type*/)
 		Frame_UART[1] = BYTE_ADC;    								// 1 byte button
 		Frame_UART[2] = (uint8_t)(ADC_value);	        			// 1 byte
 
-		//Caculate checksum (XOR all byte)
-		check_sum = Frame_UART[0] ^ Frame_UART[1] ^ Frame_UART[2];
+		//Caculate checksum
+		check_sum = crc8(Frame_UART, 3);
 		Frame_UART[3] = check_sum;       							// 1 byte checksum
 
 		// Send message
 		Driver_UART.Transmit(&UART1, &Frame_UART, 4);
+		Driver_GPIO.SetOutput(GREEN_LED, 1U);
 	}
 	else
 	{

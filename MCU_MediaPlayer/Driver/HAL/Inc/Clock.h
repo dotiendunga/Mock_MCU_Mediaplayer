@@ -48,4 +48,18 @@ void Clock_Enable_FastIRC(FAST_IRC_Gate_t gate, CLOCK_Divide_t div);
 /* Enable module clock */
 void Clock_Enable_Module(uint32_t moduleid, uint32_t gate);
 
+// Get frequency
+uint32_t Clock_Get_FIRCDIV2_CLK();
+
+
+/* Inline */
+static inline uint32_t Clock_GetFircRange(const SCG_Type* const base)
+{
+    return ((base->FIRCCFG & SCG_FIRCCFG_RANGE_MASK) >> SCG_FIRCCFG_RANGE_SHIFT);
+}
+
+static inline uint32_t Clock_GetFircDivider_2(const SCG_Type const * base)
+{
+    return (base->FIRCDIV & SCG_FIRCDIV_FIRCDIV2_MASK) >> SCG_FIRCDIV_FIRCDIV2_SHIFT;
+}
 #endif /* HAL_INC_CLOCK_H_ */
