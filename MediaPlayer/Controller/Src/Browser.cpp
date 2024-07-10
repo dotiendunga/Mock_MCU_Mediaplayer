@@ -116,8 +116,6 @@ void Browser::PathUsbSelection()
     do
     {
         option = userInput();
-        // cin>>option;
-        // cout<<option<<endl;
     }
     while(option > (int)devices.size() + 1 || option < 0);
 
@@ -179,31 +177,19 @@ void Browser::loadFile()
 
 int Browser::userInput()
 {
-    UART_Keyboard_Input* pInput;
-    int source = myUART.check_source();
-
-    if (source == SOURCE_UART) {
-            uint8_t buffer[4];
-            myUART.userInputBuffer(buffer);
-            if (buffer[1] == BUTTON2_BYTE)
-            {
-                return buffer[2];
-            }
-    }else{
-        int choice;
-        std::cin >> choice;
-        if (std::cin.fail())
-        {
-            std::cin.clear(); // clear the error flag
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        }
-        else
-        {
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            return choice;
-        }
-        return -1;
+    int choice;
+    std::cin >> choice;
+    if (std::cin.fail())
+    {
+        std::cin.clear(); // clear the error flag
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
+    else
+    {
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return choice;
+    }
+    return -1;
 }
 
 string Browser::userInputString()
@@ -219,6 +205,7 @@ string Browser::userInputString()
 
 
 /*========================================== Option 1 in Menu =========================================================*/
+/*                                                    Menu.cpp                                                         */ 
 
 /*=============================================== Option 2 in Menu =========================================================*/
 void Browser::playlist(int& chosenList, int& chosenMusic)
@@ -364,29 +351,15 @@ void Browser::playlist_music(int& chosenList)
 
 
 /*========================================== Option 3 in Menu =========================================================*/
-// void Browser::playmusic(int& chosenList)
-// {
-//     mediaPlayerView.VPlayerMusic_DisplayList(vPlayList, list);
-//     chosenList = mediaPlayerView.VPlayerMusic_InputList(vPlayList, list);
-//     if(chosenList > 0)
-//     {
-//         myPlayer.setList(vPlayList[chosenList - 1]->getPlaylistPointer());
-//         flowID.push(PLAY_MUSIC_PLAYER_ID);
-//         startThread();
-//     }
-//     else
-//     {
-//         /* Exit */
-//         list = 1;
-//         flowID.pop();
-//     }
-// }
+
+
+/*                                                    PlayMusic. cpp                                                    */ 
 
 /*============================== Thread ===============================*/
 
 void Browser::updatePlayerView()
 {
-    size_t current_screen;
+    size_t current_screen
     do
     {
         std::string musicPath;
@@ -414,12 +387,12 @@ void Browser::updatePlayerView()
                 startTime = std::chrono::steady_clock::now() - std::chrono::duration_cast<std::chrono::steady_clock::duration>(timelapse);
             }
             // mediaPlayerView.Time_Volume( list, timelapse.count(), duration, myPlayer);
-            mediaPlayerView.Update_Time_Volume(timelapse.count(), duration, myPlayer.getVolume(),myPlayer);
+            mediaPlayerView.Update_Time_Volume(timelapse.count(), duration, myPlayer);
         }
         catch(const std::exception &e)
         {
             // mediaPlayerView.Time_Volume( list, 0, 0, myPlayer);
-            mediaPlayerView.Update_Time_Volume(0,0,myPlayer.getVolume(),myPlayer);
+            mediaPlayerView.Update_Time_Volume(0,0,myPlayer);
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         current_screen = flowID.top();

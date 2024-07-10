@@ -25,7 +25,7 @@ class PlayMusicView:public PlaylistView
         // int VPlayerMusic_InputMusic(const vector< MediaFile*>& lists_name, size_t& currentPage, int& volume);
         
         void Time_Volume(size_t timelapse, size_t duration, const size_t volume) const;
-        void Update_Time_Volume(size_t timelapse, size_t duration, const size_t volume,MediaPlayer& myPlayer) const;
+        void Update_Time_Volume(size_t timelapse, size_t duration,MediaPlayer& myPlayer) const;
         inline string format_time(size_t total_seconds) const;
 };
 

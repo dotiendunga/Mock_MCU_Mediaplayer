@@ -8,7 +8,6 @@ void Browser::playmusic_plist(int& chosenList)
     UART_Keyboard_Input* pInput;
     mediaPlayerView.VPlayerMusic_DisplayList(vPlayList, list);
     pInput = UART_Keyboard();
-    // chosenList = mediaPlayerView.VPlayerMusic_InputList(vPlayList, list);
     if(pInput == NULL) return;
     if(pInput->source == SOURCE_KEYBROAD)
     {

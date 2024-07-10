@@ -115,6 +115,7 @@ public:
     void setPath();
     void setPathView();
     void PathUsbSelection();
+    int Path_Selection(int& chosenpath);
 
     void loadFile();   
     void FreeAll();
