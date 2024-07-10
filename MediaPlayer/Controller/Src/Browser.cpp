@@ -359,7 +359,7 @@ void Browser::playlist_music(int& chosenList)
 
 void Browser::updatePlayerView()
 {
-    size_t current_screen
+    size_t current_screen;
     do
     {
         std::string musicPath;

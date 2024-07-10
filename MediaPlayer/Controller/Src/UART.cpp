@@ -1,5 +1,7 @@
 #include "UART.hpp"
 
+
+
 UARTInputData::UARTInputData()
 {
     setInterfaceAttribs(fd, B9600);  // cài đặt tốc độ baud 9600, 8n1 (không parity)
@@ -50,6 +52,7 @@ int UARTInputData::ReinitUart() {
             deviceName += entry->d_name;
             // Mở fd mới
             fd = open(deviceName.c_str(), O_RDWR);
+            cout<<fd;
             if (fd == -1) {
                 std::cerr << "Failed to open new_fd: " << strerror(errno) << std::endl;
             } else {
@@ -63,7 +66,7 @@ int UARTInputData::ReinitUart() {
     }
     closedir(dir);
     if (!found) {
-        std::cout << "No UART device found." << std::endl;
+        // std::cerr << "No UART device found." << std::endl;
         return -1;
     }
     cv.notify_all(); // Đánh thức thread để kiểm tra lại port
@@ -210,7 +213,11 @@ string UARTInputData::userInputString()
     }
     return "\0";
 }
+void UARTInputData::sendRequest(uint8_t*request,size_t length)
+{
+        write(fd,request,length);
 
+}
 void UARTInputData::userInputBuffer(uint8_t* buffer)
 {
     fd_set readfds;
@@ -245,11 +252,11 @@ void UARTInputData::userInputBuffer(uint8_t* buffer)
                 if (bytes_read < 0)
                 {
                     std::cout << "Error reading from UART: " << strerror(errno) << std::endl;
-                    return;
+                    break;
                 } else if (bytes_read == 0)
                 {
-                    std::cout << "UART has been closed." << std::endl;
-                    return;
+                    // std::cout << "UART has been closed." << std::endl;
+                    break;
                 }
                 else
                 {

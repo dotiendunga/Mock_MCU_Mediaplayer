@@ -2,9 +2,9 @@
 #define UART_HPP
 
 #include <iostream>
-#include <fcntl.h>
+#include <fcntl.h>// Contains file controls like O_RDWR
 #include <unistd.h>
-#include <termios.h>
+#include <termios.h>// Contains POSIX terminal control definitions
 #include <sys/select.h>
 #include <cstring>
 #include <thread>
@@ -12,9 +12,10 @@
 #include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <errno.h>
+#include <errno.h>// Error integer and strerror() function
 #include <mutex>
 #include <condition_variable>
+#include <unistd.h> // write(), read(), close()
 using namespace std;
 
 #define CRC8_TABLE_SIZE  256
@@ -30,6 +31,7 @@ typedef enum
     BUTTON1_BYTE    = 0x01,
     BUTTON2_BYTE    = 0x02,
     ADC_BYTE        = 0x03, 
+    REQUEST_BYTE    = 0x04,
     ERROR_BYTE      = 0x00
 } UART_TypeData_t;
 
@@ -71,7 +73,7 @@ public:
     SourceInput_t check_source();
     std::string userInputString();
     void userInputBuffer(uint8_t* buffer);
-    int userInputInt();
+    void sendRequest(uint8_t*request,size_t lenght);
 private:
     std::string portname = "/dev/ttyACM0"; // Thay đổi thiết bị UART nếu cần thiết
     int fd = open(portname.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
