@@ -108,6 +108,48 @@ void Browser::setPathView()
         current_screen = flowID.top();
     }while(current_screen  == PATH_USB_ID);
 }
+int Browser::chosenPath()
+{
+    int chosenPath; 
+    UART_Keyboard_Input* pInput;
+    // mediaPlayerView.VPlayerMusic_DisplayList(vPlayList, list);
+    pInput = UART_Keyboard();
+    // Not found data
+    if(pInput == NULL) return -1;
+    if(pInput->source == SOURCE_KEYBROAD)
+    {
+        if(pInput->keyboardData.keyboardType == STRING_TYPE)
+        {
+            // WRONG VALUES 
+            return -1; 
+        }
+        else
+        {
+            chosenPath= pInput->keyboardData.valueNumber;
+            return chosenPath;
+        }
+    }
+    else
+    {
+        switch(pInput->uartData.uartType)
+        {
+        case BUTTON1_BYTE:
+            // Chosen Path
+            chosenPath =pInput->uartData.valueNumber;
+            return chosenPath;
+        case BUTTON2_BYTE:
+            // DONT DO
+            return -1;
+        case ADC_BYTE:
+            // DONT DO
+            return -1;
+        default:
+            // DONT DO
+            return -1;
+        }
+    }
+}
+
 void Browser::PathUsbSelection()
 {
     int option;
@@ -115,7 +157,7 @@ void Browser::PathUsbSelection()
     PathThread.detach();
     do
     {
-        option = userInput();
+        option = chosenPath();
     }
     while(option > (int)devices.size() + 1 || option < 0);
 
@@ -190,6 +232,7 @@ int Browser::userInput()
         return choice;
     }
     return -1;
+
 }
 
 string Browser::userInputString()

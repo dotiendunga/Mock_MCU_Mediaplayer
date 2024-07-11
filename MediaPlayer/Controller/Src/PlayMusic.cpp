@@ -36,7 +36,7 @@ void Browser::playmusic_plist(int& chosenList)
         case BUTTON1_BYTE:
             if(pInput->uartData.valueNumber > 0 && pInput->uartData.valueNumber <= vPlayList.size())
             {
-                chosenList = pInput->keyboardData.valueNumber;
+                chosenList = pInput->uartData.valueNumber;
                 myPlayer.setList(vPlayList[chosenList - 1]->getPlaylistPointer());
                 flowID.push(PLAY_MUSIC_PLAYER_ID);
                 // UPDATE SHOW DISPLAY PLAYER IN PLAYMUSIC

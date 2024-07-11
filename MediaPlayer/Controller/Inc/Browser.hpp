@@ -115,7 +115,7 @@ public:
     void setPath();
     void setPathView();
     void PathUsbSelection();
-    int Path_Selection(int& chosenpath);
+    int chosenPath();
 
     void loadFile();   
     void FreeAll();
@@ -130,7 +130,7 @@ public:
     void Menu_ProcessInput(int MenuInput);
     /*MEDIA*/
     void MediaList();
-    void MediaList_ProcessInput(const char option);
+    // void MediaList_ProcessInput(const char option);
 
     /*META DATA*/
     void metadatalist();
