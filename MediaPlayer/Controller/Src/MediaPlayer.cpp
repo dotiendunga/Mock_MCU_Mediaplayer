@@ -76,7 +76,6 @@ int MediaPlayer::playMusic(/*const char* file*/)
 
 void MediaPlayer:: ResumePause()
 {
-    // Playing != Playing;
     if(Playing == true)
     {
         Mix_PauseMusic();

@@ -98,7 +98,6 @@ void Browser::Plist_ProcessInput(char& UserOption)
                 break;
             default:
                 cout << "Invalid choice. Please enter a valid option." << endl;
-                    // cin.ignore();
         }
 }
 
@@ -118,11 +117,7 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
     {
         if(pInput->keyboardData.keyboardType == STRING_TYPE)
         {
-            Player_ProcessInput(pInput->keyboardData.valueString[0]);
-            buffer[2] = 0x01;
-            buffer[3] = 0x02;
-            myUART.sendRequest(buffer,4);
-            
+            Player_ProcessInput(pInput->keyboardData.valueString[0]);            
         }
         else
         {
@@ -133,7 +128,7 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
                 myPlayer.setIndexInList(chosenMusic);
                 myPlayer.playMusic();
                 buffer[2] = 0x01;
-                buffer[3] = 0x02;
+                buffer[3] = myUART.crc8(buffer, 3);
                 myUART.sendRequest(buffer,4);
             }
         }
@@ -151,7 +146,7 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
                 myPlayer.setIndexInList(chosenMusic);
                 myPlayer.playMusic();
                 buffer[2] = 0x01;
-                buffer[3] = 0x02;
+                buffer[3] = myUART.crc8(buffer, 3);
                 myUART.sendRequest(buffer,4);
             }
             break;
@@ -183,15 +178,9 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
                 break;
             }
             Player_ProcessInput(option);
-            buffer[2] = 0x01;
-            buffer[3] = 0x02;
-            myUART.sendRequest(buffer,4);
             break;
         case ADC_BYTE:
             myPlayer.setVolume(pInput->uartData.valueNumber * 2);
-            buffer[2] = 0x01;
-            buffer[3] = 0x02;
-            myUART.sendRequest(buffer,4);
             break;
         default:
             break;
@@ -201,6 +190,9 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
 
 void Browser::Player_ProcessInput(char option)
 {
+    uint8_t buffer[4];
+    buffer[0] = START_BYTE;
+    buffer[1] = REQUEST_BYTE;
     switch (option)
     {
     case 'E':
@@ -220,6 +212,16 @@ void Browser::Player_ProcessInput(char option)
     case 'R':
     case 'r':
         myPlayer.ResumePause();
+        if(myPlayer.isPlaying())
+        {
+            buffer[2] = 0x01;
+        }
+        else
+        {
+            buffer[2] = 0x00;
+        }
+        buffer[3] = myUART.crc8(buffer, 3);
+        myUART.sendRequest(buffer,4);
         break;
     case '+':
         {
