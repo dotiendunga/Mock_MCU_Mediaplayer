@@ -186,12 +186,34 @@ static int32_t ARM_USART_SetStopBit(const USART_Config_t* usart)
 	return ARM_DRIVER_OK;
 }
 
+static int32_t ARM_USART_SetInterrupt(USART_Config_t* usart)
+{
+	int32_t result = ARM_DRIVER_OK;
+    switch(usart->It)
+	{
+		case USART_INTERRUPT_RX:
+			usart->Instance->CTRL |= LPUART_CTRL_RIE_MASK;
+			break;
+		case USART_INTERRUPT_TX:
+			usart->Instance->CTRL |= LPUART_CTRL_TIE_MASK;
+			break;
+		case USART_INTERRUPT_TX_RX:
+			usart->Instance->CTRL |= LPUART_CTRL_TIE_MASK;
+			usart->Instance->CTRL |= LPUART_CTRL_RIE_MASK;
+			break;
+		default:
+			result = ARM_USART_ERROR_MODE;
+			break;
+	}
+	return result;
+}
 
 static int32_t ARM_USART_Uninitialize(USART_Config_t* usart)
 {
     //Disable UART
 	return ARM_DRIVER_OK;
 }
+
 
 static int32_t ARM_USART_Transmit(const USART_Config_t* usart, const void *data, uint32_t ln)
 {
@@ -249,7 +271,7 @@ static int32_t ARM_USART_Receive(const USART_Config_t* const usart, void *data, 
     }
 
     // Enable Receiver
-    LPUART1->CTRL |= LPUART_CTRL_RE_MASK;
+    usart->Instance->CTRL |= LPUART_CTRL_RE_MASK;
 
     if(usart->Datalength == 8)
 	{
@@ -257,10 +279,10 @@ static int32_t ARM_USART_Receive(const USART_Config_t* const usart, void *data, 
 		for (uint32_t i = 0; i < ln; i++)
 		{
 			// Wait until receive data register full (RDRF = 1)
-			while (!(LPUART1->STAT & LPUART_STAT_RDRF_MASK));
+			while (!(usart->Instance->STAT & LPUART_STAT_RDRF_MASK));
 
 			// Read Data from Rx Buffer
-			data_ptr[i] = LPUART1->DATA;
+			data_ptr[i] = usart->Instance->DATA;
 		}
 	}
 	else
@@ -270,7 +292,7 @@ static int32_t ARM_USART_Receive(const USART_Config_t* const usart, void *data, 
 	}
 
     // Disable Receiver
-    LPUART1->CTRL &= ~LPUART_CTRL_RE_MASK;
+    // usart->Instance->CTRL &= ~LPUART_CTRL_RE_MASK;
     return ARM_DRIVER_OK;
 }
 static int32_t ARM_USART_Receive_IT(const USART_Config_t* usart, void *data, uint32_t ln)
@@ -279,6 +301,11 @@ static int32_t ARM_USART_Receive_IT(const USART_Config_t* usart, void *data, uin
     {
         return ARM_DRIVER_ERROR_PARAMETER;
     }
+	usart->Instance->CTRL &= ~LPUART_CTRL_RIE_MASK;
+
+	ARM_USART_Receive(usart, data, ln);
+
+    usart->Instance->CTRL |= LPUART_CTRL_RIE_MASK; 				// Enable receiving interrupt
 	return ARM_DRIVER_OK;
 }
 
@@ -290,6 +317,8 @@ static int32_t ARM_USART_Init(USART_Config_t* usart)
 	if(ARM_USART_SetParity(usart)) return ARM_USART_ERROR_PARITY;
 	if(ARM_USART_SetShiftDirection(usart)) return ARM_USART_ERROR_MODE;
 	if(ARM_USART_SetStopBit(usart)) return ARM_USART_ERROR_MODE;
+	if(ARM_USART_SetInterrupt(usart)) return ARM_USART_ERROR_MODE;
+	usart->Instance->CTRL |= LPUART_CTRL_RE_MASK;
 	return ARM_DRIVER_OK;
 }
 

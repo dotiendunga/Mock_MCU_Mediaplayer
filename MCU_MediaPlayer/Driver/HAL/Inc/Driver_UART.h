@@ -29,33 +29,41 @@
 //Data bit
 typedef enum
 {
-	USART_7_BIT_DATA	= 7,
-	USART_8_BIT_DATA	= 8,
-	USART_9_BIT_DATA	= 9,
-	USART_10_BIT_DATA	= 10,
+	USART_7_BIT_DATA		= 7,
+	USART_8_BIT_DATA		= 8,
+	USART_9_BIT_DATA		= 9,
+	USART_10_BIT_DATA		= 10,
 } USART_Datalength_t;
 
 // Parity
 typedef enum
 {
-	USART_PARITY_NONE	= 0,
-	USART_PARITY_ODD	= 1,
-	USART_PARITY_EVEN	= 2,
+	USART_PARITY_NONE		= 0,
+	USART_PARITY_ODD		= 1,
+	USART_PARITY_EVEN		= 2,
 } USART_Parity_t;
 
 // First transfer bit
 typedef enum
 {
-	USART_LSB_FIRST = 0,
-	USART_MSB_FIRST = 1,
+	USART_LSB_FIRST 		= 0,
+	USART_MSB_FIRST 		= 1,
 } USART_Direction_t;
 
 // Stop bit
 typedef enum
 {
-	USART_1_STOP_BIT = 1,
-	USART_2_STOP_BIT = 2,
+	USART_1_STOP_BIT 		= 1,
+	USART_2_STOP_BIT 		= 2,
 } USART_Stopbit_t;
+
+// Interrupt
+typedef enum
+{
+	USART_INTERRUPT_RX 		= 1,
+	USART_INTERRUPT_TX 		= 2,
+	USART_INTERRUPT_TX_RX 	= 3
+} USART_Interrupt_t;
 
 
 typedef void (*ARM_USART_SignalEvent_t) (uint32_t event);
@@ -68,6 +76,7 @@ typedef struct
 	USART_Parity_t     	Parity;
 	USART_Stopbit_t     Stopbit;
 	USART_Direction_t   Direct;
+	USART_Interrupt_t	It;
 } USART_Config_t;
 
 typedef struct 
@@ -79,5 +88,7 @@ typedef struct
 	int32_t (*Receive)(const USART_Config_t* usart, void *data, uint32_t ln);
 	int32_t (*Receive_IT)(const USART_Config_t* usart, void *data, uint32_t ln);
 } const ARM_DRIVER_USART;
+
+
 
 #endif /* DRIVER_USART_H_ */

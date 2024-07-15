@@ -9,5 +9,7 @@
 #define S32K144_IT_H_
 
 #include "main.h"
+#include "CRC.h"
+
 
 #endif /* S32K144_IT_H_ */
