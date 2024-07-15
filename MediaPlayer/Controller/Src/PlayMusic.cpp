@@ -8,13 +8,13 @@ void Browser::playmusic_plist(int& chosenList)
     UART_Keyboard_Input* pInput;
     mediaPlayerView.VPlayerMusic_DisplayList(vPlayList, list);
     pInput = UART_Keyboard();
-    // chosenList = mediaPlayerView.VPlayerMusic_InputList(vPlayList, list);
     if(pInput == NULL) return;
     if(pInput->source == SOURCE_KEYBROAD)
     {
         if(pInput->keyboardData.keyboardType == STRING_TYPE)
         {
             Plist_ProcessInput(pInput->keyboardData.valueString[0]);
+
         }
         else
         {
@@ -36,7 +36,7 @@ void Browser::playmusic_plist(int& chosenList)
         case BUTTON1_BYTE:
             if(pInput->uartData.valueNumber > 0 && pInput->uartData.valueNumber <= vPlayList.size())
             {
-                chosenList = pInput->keyboardData.valueNumber;
+                chosenList = pInput->uartData.valueNumber;
                 myPlayer.setList(vPlayList[chosenList - 1]->getPlaylistPointer());
                 flowID.push(PLAY_MUSIC_PLAYER_ID);
                 // UPDATE SHOW DISPLAY PLAYER IN PLAYMUSIC
@@ -107,6 +107,9 @@ void Browser::Plist_ProcessInput(char& UserOption)
 
 void Browser::playmusic_player(int& chosenList, int& chosenMusic)
 {
+    uint8_t buffer[4];
+    buffer[0] = START_BYTE;
+    buffer[1] = REQUEST_BYTE;
     UART_Keyboard_Input* pInput;
     mediaPlayerView.VPlayerMusic_DisplayMusic(vPlayList[chosenList - 1]->getPlaylist(), list, timelapse.count(), duration, myPlayer);
     pInput = UART_Keyboard();
@@ -116,6 +119,10 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
         if(pInput->keyboardData.keyboardType == STRING_TYPE)
         {
             Player_ProcessInput(pInput->keyboardData.valueString[0]);
+            buffer[2] = 0x01;
+            buffer[3] = 0x02;
+            myUART.sendRequest(buffer,4);
+            
         }
         else
         {
@@ -125,6 +132,9 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
                 resetTimer();
                 myPlayer.setIndexInList(chosenMusic);
                 myPlayer.playMusic();
+                buffer[2] = 0x01;
+                buffer[3] = 0x02;
+                myUART.sendRequest(buffer,4);
             }
         }
     }
@@ -140,6 +150,9 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
                 resetTimer();
                 myPlayer.setIndexInList(chosenMusic);
                 myPlayer.playMusic();
+                buffer[2] = 0x01;
+                buffer[3] = 0x02;
+                myUART.sendRequest(buffer,4);
             }
             break;
         case BUTTON2_BYTE:
@@ -170,9 +183,15 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
                 break;
             }
             Player_ProcessInput(option);
+            buffer[2] = 0x01;
+            buffer[3] = 0x02;
+            myUART.sendRequest(buffer,4);
             break;
         case ADC_BYTE:
             myPlayer.setVolume(pInput->uartData.valueNumber * 2);
+            buffer[2] = 0x01;
+            buffer[3] = 0x02;
+            myUART.sendRequest(buffer,4);
             break;
         default:
             break;

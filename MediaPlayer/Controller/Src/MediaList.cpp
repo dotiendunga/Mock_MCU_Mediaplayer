@@ -5,7 +5,6 @@
 /************************************* Media List ***************************************/
 void Browser::MediaList()
 {
-    // choose_song = mediaFileView.check_choice(vPlayList[0]->getPlaylist(), list);
     UART_Keyboard_Input* pInput = nullptr;
     size_t chosentSong = 0;
     mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), list);

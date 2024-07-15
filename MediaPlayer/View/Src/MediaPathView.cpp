@@ -21,6 +21,7 @@ void MediaPathView::display_MediaPath(vector<string>& devices)
         std::cout << i++ << ". "<< device << std::endl;
     }
     cout<<"\n\n"<<endl;
+    cout<< "< BTN1 - Number > - < BT2 - Letter >"<<endl;
     cout<< string(tableWidth ,'=')<<endl;
 }
 void MediaPathView::display_MediaPath()
@@ -47,21 +48,3 @@ std::string MediaPathView::input_path()
     getline(cin, directoryPath);
     return directoryPath;
 }
-
-// int MediaPathView::PathSelection()
-// {
-//     int choice;
-//     cin >> choice;
-//     if (std::cin.fail())
-//     {
-//         std::cin.clear(); // clear the error flag
-//         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-//     }
-//     else
-//     {
-//         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-//         return choice;
-//     }
-//     // INPUT WRONG VALUES
-//     return -1;
-// }
