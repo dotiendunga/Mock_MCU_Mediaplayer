@@ -427,15 +427,10 @@ void Browser::updatePlayerView()
     while(current_screen  == PLAY_MUSIC_PLAYER_ID);
 }
 
-
-
-
-
 /*========================================== Program Flow =====================================================*/
 void Browser::programFlow()
 {
     flowID.push(PATH_USB_ID);
-    // cin.ignore();
     bool flag =true;
     while (flag){
         

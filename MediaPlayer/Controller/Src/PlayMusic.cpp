@@ -134,7 +134,7 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
         switch(pInput->uartData.uartType)
         {
         case BUTTON1_BYTE:
-            if(pInput->uartData.valueNumber > 0 && pInput->uartData.valueNumber <= vPlayList[chosenList - 1]->getPlaylist().size())
+            if(pInput->uartData.valueNumber > 0 && pInput->uartData.valueNumber <= vPlayList[chosenList-1]->getPlaylist().size())
             {
                 chosenMusic = pInput->uartData.valueNumber;
                 resetTimer();

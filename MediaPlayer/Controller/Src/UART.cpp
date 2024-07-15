@@ -2,7 +2,8 @@
 
 UARTInputData::UARTInputData()
 {
-    setInterfaceAttribs(fd, B9600);  // cài đặt tốc độ baud 9600, 8n1 (không parity)
+    init_crc8_table();
+    setInterfaceAttribs(fd, B115200);  // cài đặt tốc độ baud 9600, 8n1 (không parity)
     setBlocking(fd, false);           // cài đặt chế độ non-blocking
     std::thread uartThread(&UARTInputData::check_port, this);
     uartThread.detach(); // Tách thread ra để nó tự quản lý
@@ -255,6 +256,7 @@ void UARTInputData::userInputBuffer(uint8_t* buffer)
                 {
                     if(*buffer != START_BYTE)
                     {
+                        /* Incorrect start byte */
                         break;
                     }
                     else
@@ -262,7 +264,16 @@ void UARTInputData::userInputBuffer(uint8_t* buffer)
                         count++;
                         if (count == 4)
                         {
-                            break;
+                            if(buffer[3] != crc8(buffer, 3))
+                            {
+                                /* Correct data */
+                                break;
+                            }
+                            else
+                            {
+                                /* Incorrect data */
+                                count = 0;
+                            }
                         }
                     }
                 }
