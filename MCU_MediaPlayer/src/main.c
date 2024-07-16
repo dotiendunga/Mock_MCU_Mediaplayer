@@ -18,6 +18,8 @@ USART_Config_t UART1;
 
 volatile uint32_t ADC_value = 0;
 volatile uint8_t Button_Counter = 0;
+volatile bool isPlaying = false;
+uint8_t UART_Rx_Data[4];
 
 /* Init function */
 static void Clock_Setup();
@@ -36,6 +38,7 @@ int main(void)
 	LPIT_Setup();
 	init_crc8_table();
 
+
 	ADC_Handle.Start(ADC0, ADC_CHANNEL_0, 12);
 	while(1)
     {
@@ -44,7 +47,8 @@ int main(void)
 			USART_send_messsage_ADC();
 			ADC_Handle.Start(ADC0, ADC_CHANNEL_0, 12);
 		}
-		Delay_ms(200);
+		IsPlayingMusic();
+		Delay_ms(300);
     }
     return 0;
 }
@@ -81,13 +85,15 @@ void LPIT_Setup()
 void UART_Setup()
 {
 	UART1.Instance = LPUART1;
-	UART1.Baudrate = 9600;
+	UART1.Baudrate = 112500;
 	UART1.Datalength = USART_8_BIT_DATA;
 	UART1.Direct = USART_LSB_FIRST;
 	UART1.Parity = USART_PARITY_NONE;
 	UART1.Stopbit = USART_1_STOP_BIT;
+	UART1.It = USART_INTERRUPT_RX;
 	/* Init uart1 */
 	Driver_UART.Init(&UART1);
+	NVIC_EnableIRQ(LPUART1_RxTx_IRQn);
 }
 
 void ADC_Setup()
@@ -108,10 +114,15 @@ void GPIO_Setup()
 	Driver_GPIO.SetDirection   (RED_LED, ARM_GPIO_OUTPUT);
 	Driver_GPIO.SetOutput      (RED_LED, 1U);
 
-	/* RED led */
+	/* GREEN led */
 	Driver_GPIO.Setup          (GREEN_LED, NULL);
 	Driver_GPIO.SetDirection   (GREEN_LED, ARM_GPIO_OUTPUT);
 	Driver_GPIO.SetOutput      (GREEN_LED, 1U);
+
+	/* BLUE led */
+	Driver_GPIO.Setup          (BLUE_LED, NULL);
+	Driver_GPIO.SetDirection   (BLUE_LED, ARM_GPIO_OUTPUT);
+	Driver_GPIO.SetOutput      (BLUE_LED, 1U);
 
 	/* BTN 1 */
 	Driver_GPIO.Setup          (BTN1, ARM_GPIO_SignalEvent);
@@ -201,6 +212,18 @@ void USART_send_messsage_ADC()
 		// Send message
 		Driver_UART.Transmit(&UART1, &Frame_UART, 4);
 		Driver_GPIO.SetOutput(GREEN_LED, 1U);
+	}
+	else
+	{
+		/* Do something */
+	}
+}
+
+void IsPlayingMusic()
+{
+	if(isPlaying)
+	{
+		Driver_GPIO.ToggleOutput(BLUE_LED);
 	}
 	else
 	{

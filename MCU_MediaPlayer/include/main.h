@@ -45,6 +45,7 @@
 /* App */
 void USART_send_messsage_button(uint8_t Button_type);
 void USART_send_messsage_ADC();
+void IsPlayingMusic();
 
 
 #endif /* MAIN_H_ */

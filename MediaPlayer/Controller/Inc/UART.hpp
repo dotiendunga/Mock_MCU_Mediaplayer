@@ -74,47 +74,45 @@ public:
     std::string userInputString();
     void userInputBuffer(uint8_t* buffer);
     void sendRequest(uint8_t*request,size_t lenght);
+    /*=====================================Checksum BEGIN ===================================*/
+    // Hàm khởi tạo bảng tra cứu CRC-8
+    void init_crc8_table()
+    {
+        uint8_t crc;
+        for (uint16_t i = 0; i < 256; i++) {
+            crc = i;
+            for (uint8_t j = 8; j > 0; j--) {
+                if (crc & 0x80) {
+                    crc = (crc << 1) ^ 0x07;
+                } else {
+                    crc <<= 1;
+                }
+            }
+            crc8_table[i] = crc;
+        }
+    }
+
+    // Hàm tính toán CRC-8
+    uint8_t crc8(const uint8_t *data, size_t length)
+    {
+        uint8_t crc = 0x00;
+        for (size_t i = 0; i < length; i++)
+        {
+            uint8_t byte = data[i];
+            uint8_t lookup_index = (crc ^ byte) & 0xFF;
+            crc = crc8_table[lookup_index];
+        }
+        return crc;
+    }
+    /*=====================================Checksum END ===================================*/
+
 private:
-    std::string portname = "/dev/ttyACM1"; // Thay đổi thiết bị UART nếu cần thiết
+    std::string portname = "/dev/ttyACM0";
     int fd = open(portname.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
-    // static constexpr size_t CRC8_TABLE_SIZE = 256;
-    uint8_t crc8_table[CRC8_TABLE_SIZE]; // Khai báo mảng crc8_table
+    uint8_t crc8_table[CRC8_TABLE_SIZE];
     bool uartRunning;
-    // int fd;
-    // std::string portname;
     std::mutex uartMutex;
     std::condition_variable cv;
-    /*=====================================Checksum BEGIN ===================================*/
-        // Hàm khởi tạo bảng tra cứu CRC-8
-        void init_crc8_table()
-        {
-            uint8_t crc;
-            for (uint16_t i = 0; i < 256; i++) {
-                crc = i;
-                for (uint8_t j = 8; j > 0; j--) {
-                    if (crc & 0x80) {
-                        crc = (crc << 1) ^ 0x07;
-                    } else {
-                        crc <<= 1;
-                    }
-                }
-                crc8_table[i] = crc;
-            }
-        }
-
-        // Hàm tính toán CRC-8
-        uint8_t crc8(const uint8_t *data, size_t length)
-        {
-            uint8_t crc = 0x00;
-            for (size_t i = 0; i < length; i++)
-            {
-                uint8_t byte = data[i];
-                uint8_t lookup_index = (crc ^ byte) & 0xFF;
-                crc = crc8_table[lookup_index];
-            }
-            return crc;
-        }
-        /*=====================================Checksum END ===================================*/
 };
 
 #endif
